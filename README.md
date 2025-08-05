@@ -27,7 +27,54 @@ PH-Switch provides an intuitive interface for converting between Imperial (IP) a
 
 ## Getting Started
 
-_Development setup instructions will be added as the project progresses._
+### Prerequisites
+
+- Node.js (v16 or higher)
+- npm or yarn
+
+### Installation
+
+1. Clone the repository:
+
+   ```bash
+   git clone https://github.com/bldgtyp/ph-switch.git
+   cd ph-switch
+   ```
+
+2. Install dependencies:
+
+   ```bash
+   npm install
+   ```
+
+3. Start the development server:
+
+   ```bash
+   npm start
+   ```
+
+4. Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+
+### Available Scripts
+
+- `npm start` - Runs the app in development mode
+- `npm test` - Launches the test runner
+- `npm run build` - Builds the app for production
+- `npm run lint` - Runs ESLint to check for code issues
+- `npm run lint:fix` - Runs ESLint and automatically fixes issues
+- `npm run format` - Formats code using Prettier
+- `npm run format:check` - Checks if code is formatted correctly
+
+### Project Structure
+
+```
+src/
+├── components/     # React components
+├── data/          # Unit definitions and conversion factors
+├── hooks/         # Custom React hooks
+├── types/         # TypeScript type definitions
+└── utils/         # Utility functions and helpers
+```
 
 ## Contributing
 
