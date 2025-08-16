@@ -83,7 +83,7 @@ describe('UnifiedConverterApp', () => {
       fireEvent.change(input, { target: { value: '10 met' } });
 
       await waitFor(() => {
-        expect(screen.getByText(/meter/i)).toBeInTheDocument();
+        expect(screen.getByText('meter')).toBeInTheDocument();
       });
     });
 
@@ -94,9 +94,16 @@ describe('UnifiedConverterApp', () => {
       fireEvent.change(input, { target: { value: '10 met' } });
 
       await waitFor(() => {
-        const suggestion = screen.getByText(/meter/i);
-        fireEvent.click(suggestion);
-        expect(input).toHaveValue(expect.stringContaining('meter'));
+        // Wait for suggestions to appear
+        expect(screen.getByText('meter')).toBeInTheDocument();
+      });
+
+      // Click the specific "meter" suggestion
+      const meterSuggestion = screen.getByText('meter');
+      fireEvent.click(meterSuggestion);
+
+      await waitFor(() => {
+        expect(input).toHaveValue('10 meter');
       });
     });
   });
@@ -362,7 +369,8 @@ describe('UnifiedConverterApp', () => {
       fireEvent.change(input, { target: { value: '10 meters as feet' } });
 
       await waitFor(() => {
-        expect(screen.getByText(/32\.8/)).toBeInTheDocument();
+        const result = screen.getByTestId('conversion-result');
+        expect(result).toHaveTextContent(/32\.8/);
       });
     });
 
