@@ -11,6 +11,8 @@ interface ConversionInputWithSuggestionsProps {
   onConversion: (results: ConversionLineData[]) => void;
   onError: (errors: ConversionErrorData[]) => void;
   onInputChange?: (value: string) => void;
+  className?: string;
+  isMobile?: boolean;
 }
 
 interface SuggestionState {
@@ -25,7 +27,7 @@ interface SuggestionState {
 
 const ConversionInputWithSuggestions: React.FC<
   ConversionInputWithSuggestionsProps
-> = ({ onConversion, onError, onInputChange }) => {
+> = ({ onConversion, onError, onInputChange, className, isMobile }) => {
   const [inputValue, setInputValue] = useState('');
   const [suggestionState, setSuggestionState] = useState<SuggestionState>({
     visible: false,
@@ -265,7 +267,10 @@ const ConversionInputWithSuggestions: React.FC<
     <div className="conversion-input" style={{ position: 'relative' }}>
       <textarea
         ref={textAreaRef}
-        className="conversion-textarea"
+        className={
+          className ||
+          `conversion-textarea hover-state ${isMobile ? 'mobile-input' : ''}`.trim()
+        }
         value={inputValue}
         onChange={handleInputChange}
         onSelect={handleSelectionChange}

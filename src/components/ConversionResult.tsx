@@ -14,7 +14,7 @@ const ConversionResult: React.FC<ConversionResultProps> = ({
   if (allItems.length === 0) {
     return (
       <div
-        className="conversion-result"
+        className="conversion-result fade-in-animation"
         data-testid="conversion-result"
         style={{
           padding: '16px',
@@ -35,7 +35,7 @@ const ConversionResult: React.FC<ConversionResultProps> = ({
 
   return (
     <div
-      className="conversion-result"
+      className="conversion-result fade-in-animation"
       data-testid="conversion-result"
       style={{
         padding: '16px',

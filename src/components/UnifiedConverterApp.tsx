@@ -304,6 +304,8 @@ export const UnifiedConverterApp: React.FC = () => {
                   onConversion={handleConversion}
                   onError={handleError}
                   onInputChange={handleInputChange}
+                  isMobile={isMobile}
+                  className={inputClasses}
                 />
 
                 {isLoading && (
