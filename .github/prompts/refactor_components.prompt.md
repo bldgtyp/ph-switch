@@ -1,7 +1,7 @@
 ---
 mode: agent
 model: Claude Sonnet 4
-description: Execute the next step in the implementation plan of 'specification.md'.
+description: Execute the next step in the implementation plan of 'refactor.md'.
 ---
 
 Refer to the "Step-by-Step Plan" in `refactor.md`.
