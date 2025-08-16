@@ -380,13 +380,23 @@ describe('UnifiedConverterApp', () => {
     });
 
     it('cleans up event listeners on unmount', () => {
+      const mockMediaQuery = {
+        matches: false,
+        addEventListener: jest.fn(),
+        removeEventListener: jest.fn(),
+      };
+      
+      jest.spyOn(window, 'matchMedia').mockReturnValue(mockMediaQuery as any);
+      
       const { unmount } = render(<UnifiedConverterApp />);
-
-      const removeEventListenerSpy = jest.spyOn(window, 'removeEventListener');
+      
+      // Should have added event listeners
+      expect(mockMediaQuery.addEventListener).toHaveBeenCalled();
+      
       unmount();
 
       // Should clean up media query listeners
-      expect(removeEventListenerSpy).toHaveBeenCalled();
+      expect(mockMediaQuery.removeEventListener).toHaveBeenCalled();
     });
   });
 });
