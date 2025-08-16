@@ -264,10 +264,10 @@ describe('UnifiedConverterApp', () => {
       render(<UnifiedConverterApp />);
 
       const input = screen.getByRole('textbox');
-      
+
       // Check that element has the enhanced-input class for focus styling
       expect(input).toHaveClass('enhanced-input');
-      
+
       // Check that input is focusable (has proper attributes)
       expect(input).toHaveAttribute('id', 'conversion-input');
       expect(input).not.toHaveAttribute('disabled');
@@ -385,14 +385,14 @@ describe('UnifiedConverterApp', () => {
         addEventListener: jest.fn(),
         removeEventListener: jest.fn(),
       };
-      
+
       jest.spyOn(window, 'matchMedia').mockReturnValue(mockMediaQuery as any);
-      
+
       const { unmount } = render(<UnifiedConverterApp />);
-      
+
       // Should have added event listeners
       expect(mockMediaQuery.addEventListener).toHaveBeenCalled();
-      
+
       unmount();
 
       // Should clean up media query listeners
