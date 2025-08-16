@@ -136,7 +136,7 @@ describe('ResponsiveConverterApp', () => {
     it('integrates with ConverterAppWithSuggestions', () => {
       render(<ResponsiveConverterApp />);
 
-      const input = screen.getByRole('textbox');
+      const input = screen.getByRole('textbox') as HTMLTextAreaElement;
       fireEvent.change(input, { target: { value: '10 feet as meters' } });
 
       // Should show conversion results
@@ -146,7 +146,7 @@ describe('ResponsiveConverterApp', () => {
     it('maintains suggestions functionality', () => {
       render(<ResponsiveConverterApp />);
 
-      const input = screen.getByRole('textbox');
+      const input = screen.getByRole('textbox') as HTMLTextAreaElement;
       fireEvent.change(input, { target: { value: 'fe' } });
 
       // The input should show the partial text
