@@ -14,8 +14,15 @@ export const ResponsiveLayout: React.FC<ResponsiveLayoutProps> = ({
     const checkIsMobile = () => {
       // Handle case where matchMedia is not available (e.g., in tests)
       if (typeof window !== 'undefined' && window.matchMedia) {
-        const mediaQuery = window.matchMedia('(max-width: 768px)');
-        setIsMobile(mediaQuery.matches);
+        try {
+          const mediaQuery = window.matchMedia('(max-width: 768px)');
+          if (mediaQuery && typeof mediaQuery.matches !== 'undefined') {
+            setIsMobile(mediaQuery.matches);
+          }
+        } catch (error) {
+          // Fallback for test environments
+          setIsMobile(false);
+        }
       }
     };
 
@@ -24,16 +31,28 @@ export const ResponsiveLayout: React.FC<ResponsiveLayoutProps> = ({
 
     // Listen for changes
     if (typeof window !== 'undefined' && window.matchMedia) {
-      const mediaQuery = window.matchMedia('(max-width: 768px)');
-      const handleChange = (e: MediaQueryListEvent) => {
-        setIsMobile(e.matches);
-      };
+      try {
+        const mediaQuery = window.matchMedia('(max-width: 768px)');
+        if (mediaQuery && typeof mediaQuery.addEventListener === 'function') {
+          const handleChange = (e: MediaQueryListEvent) => {
+            setIsMobile(e.matches);
+          };
 
-      mediaQuery.addEventListener('change', handleChange);
+          mediaQuery.addEventListener('change', handleChange);
 
-      return () => {
-        mediaQuery.removeEventListener('change', handleChange);
-      };
+          return () => {
+            if (
+              mediaQuery &&
+              typeof mediaQuery.removeEventListener === 'function'
+            ) {
+              mediaQuery.removeEventListener('change', handleChange);
+            }
+          };
+        }
+      } catch (error) {
+        // Fallback for test environments
+        return () => {};
+      }
     }
   }, []);
 
