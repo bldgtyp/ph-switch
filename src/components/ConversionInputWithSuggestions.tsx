@@ -266,6 +266,7 @@ const ConversionInputWithSuggestions: React.FC<
   return (
     <div className="conversion-input" style={{ position: 'relative' }}>
       <textarea
+        id="conversion-input"
         ref={textAreaRef}
         className={
           className ||
