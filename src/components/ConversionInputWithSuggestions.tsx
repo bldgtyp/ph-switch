@@ -10,6 +10,7 @@ import { ConversionLineData, ConversionErrorData } from '../types/components';
 interface ConversionInputWithSuggestionsProps {
   onConversion: (results: ConversionLineData[]) => void;
   onError: (errors: ConversionErrorData[]) => void;
+  onInputChange?: (value: string) => void;
 }
 
 interface SuggestionState {
@@ -24,7 +25,7 @@ interface SuggestionState {
 
 const ConversionInputWithSuggestions: React.FC<
   ConversionInputWithSuggestionsProps
-> = ({ onConversion, onError }) => {
+> = ({ onConversion, onError, onInputChange }) => {
   const [inputValue, setInputValue] = useState('');
   const [suggestionState, setSuggestionState] = useState<SuggestionState>({
     visible: false,
@@ -91,6 +92,11 @@ const ConversionInputWithSuggestions: React.FC<
       const newValue = beforeWord + unit + afterWord;
 
       setInputValue(newValue);
+
+      // Notify parent of input change for validation
+      if (onInputChange) {
+        onInputChange(newValue);
+      }
 
       // Hide suggestions
       setSuggestionState((prev) => ({ ...prev, visible: false }));
@@ -217,6 +223,11 @@ const ConversionInputWithSuggestions: React.FC<
 
     setInputValue(value);
 
+    // Notify parent of input change for validation
+    if (onInputChange) {
+      onInputChange(value);
+    }
+
     // Clear existing processing timeout
     if (processingTimeout) {
       clearTimeout(processingTimeout);
@@ -260,6 +271,8 @@ const ConversionInputWithSuggestions: React.FC<
         onSelect={handleSelectionChange}
         onClick={handleSelectionChange}
         onKeyUp={handleSelectionChange}
+        aria-label="conversion input with unit suggestions"
+        aria-describedby="conversion-help"
         placeholder={`13 meters as feet
 5.5 km to miles
 100 cm as inches`}

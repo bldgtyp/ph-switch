@@ -127,6 +127,32 @@ export function parseInput(input: string): ParsedInput {
     };
   }
 
+  // Validate that units exist
+  const sourceUnit = findUnit(sourceUnitStr.trim());
+  const targetUnit = findUnit(targetUnitStr.trim());
+
+  if (!sourceUnit) {
+    return {
+      value,
+      sourceUnit: sourceUnitStr.trim(),
+      targetUnit: targetUnitStr.trim(),
+      keyword: keyword.toLowerCase() as 'as' | 'to',
+      isValid: false,
+      error: `Unknown unit: "${sourceUnitStr.trim()}"`,
+    };
+  }
+
+  if (!targetUnit) {
+    return {
+      value,
+      sourceUnit: sourceUnitStr.trim(),
+      targetUnit: targetUnitStr.trim(),
+      keyword: keyword.toLowerCase() as 'as' | 'to',
+      isValid: false,
+      error: `Unknown unit: "${targetUnitStr.trim()}"`,
+    };
+  }
+
   return {
     value,
     sourceUnit: sourceUnitStr.trim(),
