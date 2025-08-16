@@ -1,0 +1,147 @@
+/* ResponsiveConverterApp.css */
+
+.responsive-converter {
+  display: flex;
+  gap: 16px;
+  width: 100%;
+  transition: all 0.3s ease;
+}
+
+.responsive-converter.mobile-layout {
+  flex-direction: column;
+  gap: 16px;
+}
+
+.responsive-converter.desktop-layout {
+  flex-direction: column; /* Keep as column since we're wrapping existing layout */
+  gap: 24px;
+  max-width: 800px;
+}
+
+.converter-content {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.input-section {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.result-section {
+  width: 100%;
+}
+
+/* Mobile-specific styling */
+.mobile-layout .input-section {
+  gap: 16px;
+}
+
+/* Enhanced touch targets for mobile */
+.mobile-layout .conversion-textarea {
+  min-height: 150px !important;
+  font-size: 16px !important; /* Prevents zoom on iOS */
+  padding: 16px !important;
+  border-radius: 8px;
+  border: 2px solid #ddd;
+  box-sizing: border-box;
+  line-height: 1.6;
+}
+
+.mobile-layout .conversion-textarea:focus {
+  border-color: #007bff;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);
+}
+
+/* Suggestion styling for mobile */
+.mobile-layout .suggestion-item {
+  min-height: 44px !important;
+  padding: 12px 16px !important;
+  font-size: 16px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.mobile-layout .suggestion-item:hover,
+.mobile-layout .suggestion-item:focus {
+  background-color: #f0f0f0;
+  transform: scale(1.01);
+}
+
+/* Desktop-specific styling */
+.desktop-layout .conversion-textarea {
+  min-height: 150px;
+  font-size: 14px;
+  padding: 12px;
+  border-radius: 6px;
+  border: 1px solid #ddd;
+  line-height: 1.5;
+}
+
+.desktop-layout .conversion-textarea:focus {
+  border-color: #007bff;
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+}
+
+.desktop-layout .suggestion-item {
+  min-height: 36px;
+  padding: 8px 12px;
+  font-size: 14px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.desktop-layout .suggestion-item:hover {
+  background-color: #f8f9fa;
+}
+
+/* Accessibility and contrast */
+.responsive-converter .conversion-textarea {
+  color: #333;
+  background-color: #fff;
+}
+
+.responsive-converter .conversion-textarea::placeholder {
+  color: #666;
+}
+
+/* Touch target optimization for all interactive elements */
+@media (max-width: 768px) {
+  .responsive-converter button,
+  .responsive-converter .suggestion-item,
+  .responsive-converter .clickable {
+    min-height: 44px;
+    min-width: 44px;
+  }
+
+  .responsive-converter .conversion-textarea {
+    font-size: 16px; /* Prevents zoom on iOS Safari */
+  }
+
+  /* Increase spacing for touch */
+  .responsive-converter .suggestions-list {
+    gap: 4px;
+  }
+}
+
+/* Ensure good contrast ratios */
+@media (prefers-contrast: high) {
+  .responsive-converter .conversion-textarea {
+    border-color: #000;
+    color: #000;
+  }
+
+  .responsive-converter .suggestion-item:hover {
+    background-color: #000;
+    color: #fff;
+  }
+}
