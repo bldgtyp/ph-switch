@@ -114,6 +114,7 @@
   flex: 1;
   font-weight: 600;
   word-break: break-all;
+  padding: var(--spacing-sm);
 }
 
 .conversion-output__copy-icon {
