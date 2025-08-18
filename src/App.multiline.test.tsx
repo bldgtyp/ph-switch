@@ -37,7 +37,7 @@ describe('App - Multi-line Input System', () => {
     await waitFor(
       () => {
         expect(screen.getByText(/16.4042 feet/)).toBeInTheDocument();
-        expect(screen.getByText(/25.4 centimeters/)).toBeInTheDocument();
+        expect(screen.getByText(/25.4 cm/)).toBeInTheDocument();
         expect(screen.getByText(/1.2427 miles/)).toBeInTheDocument();
       },
       { timeout: 1000 }
@@ -61,7 +61,7 @@ describe('App - Multi-line Input System', () => {
     await waitFor(
       () => {
         expect(screen.getByText(/16.4042 feet/)).toBeInTheDocument();
-        expect(screen.getByText(/25.4 centimeters/)).toBeInTheDocument();
+        expect(screen.getByText(/25.4 cm/)).toBeInTheDocument();
         expect(screen.getByText(/1.2427 miles/)).toBeInTheDocument();
       },
       { timeout: 1000 }
@@ -105,10 +105,10 @@ describe('App - Multi-line Input System', () => {
       () => {
         // Should show successful conversions
         expect(screen.getByText(/16.4042 feet/)).toBeInTheDocument();
-        expect(screen.getByText(/25.4 centimeters/)).toBeInTheDocument();
+        expect(screen.getByText(/25.4 cm/)).toBeInTheDocument();
 
         // Should show error for invalid line
-        expect(screen.getByText(/Invalid format/)).toBeInTheDocument();
+        expect(screen.getByText(/Invalid conversion format/)).toBeInTheDocument();
 
         // Check line alignment using data-line attributes
         const results = screen.getAllByRole('button', { name: /Copy result/ });
@@ -228,7 +228,7 @@ describe('App - Multi-line Input System', () => {
         expect(screen.getByText(/1.2427 miles/)).toBeInTheDocument();
 
         // Error messages
-        expect(screen.getAllByText(/Invalid format|Unknown unit/)).toHaveLength(
+        expect(screen.getAllByText(/Invalid conversion format/)).toHaveLength(
           2
         );
 

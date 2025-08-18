@@ -73,40 +73,11 @@
   color: var(--text-color-disabled);
 }
 
-.conversion-input__indicators {
-  position: absolute;
-  bottom: 8px;
-  right: 12px;
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-small);
-  pointer-events: none;
-}
-
-.conversion-input__line-count {
-  font-size: var(--font-size-small);
-  color: var(--text-color-muted);
-  background: var(--background-color);
-  padding: 2px 6px;
-  border-radius: 4px;
-  border: 1px solid var(--border-color-light);
-}
-
 /* Responsive adjustments */
 @media (max-width: 768px) {
   .conversion-input__textarea {
     font-size: var(--font-size-small);
     padding: var(--spacing-small);
-  }
-
-  .conversion-input__indicators {
-    bottom: 6px;
-    right: 8px;
-  }
-
-  .conversion-input__line-count {
-    font-size: var(--font-size-xs);
-    padding: 1px 4px;
   }
 }
 

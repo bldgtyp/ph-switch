@@ -70,8 +70,6 @@ export const ConversionInput: React.FC<ConversionInputProps> = ({
     }
   };
 
-  const lineCount = value ? value.split('\n').length : 1;
-
   return (
     <div
       className={`conversion-input ${isFocused ? 'focused' : ''} ${disabled ? 'disabled' : ''}`}
@@ -94,13 +92,6 @@ export const ConversionInput: React.FC<ConversionInputProps> = ({
         autoCapitalize="off"
         className="conversion-input__textarea"
       />
-
-      {/* Visual indicators */}
-      <div className="conversion-input__indicators">
-        <span className="conversion-input__line-count">
-          {lineCount} line{lineCount !== 1 ? 's' : ''}
-        </span>
-      </div>
     </div>
   );
 };

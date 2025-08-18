@@ -46,19 +46,6 @@ describe('ConversionInput', () => {
       expect(textarea).toHaveAttribute('aria-describedby', 'help-text');
       expect(textarea).toBeDisabled();
     });
-
-    test('displays correct line count for single line', () => {
-      render(<ConversionInput {...defaultProps} value="5 meters to feet" />);
-
-      expect(screen.getByText('1 line')).toBeInTheDocument();
-    });
-
-    test('displays correct line count for multiple lines', () => {
-      const multiLineValue = '5 meters to feet\n10 inches to cm\n3 km to miles';
-      render(<ConversionInput {...defaultProps} value={multiLineValue} />);
-
-      expect(screen.getByText('3 lines')).toBeInTheDocument();
-    });
   });
 
   describe('User Interactions', () => {
@@ -197,14 +184,9 @@ describe('ConversionInput', () => {
       const textarea = screen.getByRole('textbox');
       expect(textarea).toHaveClass('conversion-input__textarea');
 
-      // Check that indicators are present
-      const indicators = document.querySelector(
-        '.conversion-input__indicators'
-      );
-      expect(indicators).toBeInTheDocument();
-
-      const lineCount = document.querySelector('.conversion-input__line-count');
-      expect(lineCount).toBeInTheDocument();
+      // Check that the component renders properly
+      const container = document.querySelector('.conversion-input');
+      expect(container).toBeInTheDocument();
     });
   });
 
@@ -240,7 +222,6 @@ describe('ConversionInput', () => {
 
       const textarea = screen.getByRole('textbox');
       expect(textarea).toHaveValue('');
-      expect(screen.getByText('1 line')).toBeInTheDocument();
     });
   });
 });
