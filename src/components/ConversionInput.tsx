@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import './ConversionInput.css';
 import AutoSuggest from './AutoSuggest';
 import {
@@ -148,7 +148,6 @@ export const ConversionInput: React.FC<ConversionInputProps> = ({
           ta,
           ta.selectionStart || ta.value.length
         );
-        const rect = ta.getBoundingClientRect();
         setSuggestStyle({
           top: top - ta.scrollTop + 6, // small offset
           left: left - ta.scrollLeft,
