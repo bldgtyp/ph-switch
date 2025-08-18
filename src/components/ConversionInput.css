@@ -33,7 +33,7 @@
   resize: none;
   font-family: var(--font-family-mono);
   font-size: var(--font-size-base);
-  line-height: var(--line-height-base);
+  line-height: 40px;
   color: var(--text-color);
   background: transparent;
   white-space: pre-wrap;
