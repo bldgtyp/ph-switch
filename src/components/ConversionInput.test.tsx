@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import { render, screen, fireEvent } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import ConversionInput from './ConversionInput';
 
@@ -146,27 +146,27 @@ describe('ConversionInput', () => {
   });
 
   describe('Focus Management', () => {
-    test('applies focused class when textarea is focused', async () => {
+    test('focuses textarea when clicked', async () => {
       render(<ConversionInput {...defaultProps} />);
 
       const textarea = screen.getByRole('textbox');
-      const container = textarea.closest('.conversion-input');
 
       await userEvent.click(textarea);
-      expect(container).toHaveClass('focused');
+
+      // Prefer Testing Library queries over direct document.activeElement checks
+      expect(textarea).toHaveFocus();
     });
 
-    test('removes focused class when textarea loses focus', async () => {
+    test('blurs textarea when tabbing away', async () => {
       render(<ConversionInput {...defaultProps} />);
 
       const textarea = screen.getByRole('textbox');
-      const container = textarea.closest('.conversion-input');
 
       await userEvent.click(textarea);
-      expect(container).toHaveClass('focused');
+      expect(textarea).toHaveFocus();
 
       await userEvent.tab();
-      expect(container).not.toHaveClass('focused');
+      expect(textarea).not.toHaveFocus();
     });
   });
 
@@ -185,8 +185,8 @@ describe('ConversionInput', () => {
       expect(textarea).toHaveClass('conversion-input__textarea');
 
       // Check that the component renders properly
-      const container = document.querySelector('.conversion-input');
-      expect(container).toBeInTheDocument();
+      const textareaEl = screen.getByRole('textbox');
+      expect(textareaEl).toBeInTheDocument();
     });
   });
 

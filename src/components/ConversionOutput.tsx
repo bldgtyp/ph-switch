@@ -54,7 +54,9 @@ export const ConversionOutput: React.FC<ConversionOutputProps> = ({
         // Call optional callback
         onCopy?.(text, resultId);
       } catch (error) {
-        console.warn('Failed to copy to clipboard:', error);
+        if (process.env.NODE_ENV !== 'test') {
+          console.warn('Failed to copy to clipboard:', error);
+        }
         // Fallback: select text for manual copy
         selectTextFallback(text);
 
@@ -93,8 +95,12 @@ export const ConversionOutput: React.FC<ConversionOutputProps> = ({
         }
       }, 100);
     } catch (error) {
-      console.warn('Text selection fallback failed:', error);
-      document.body.removeChild(textarea);
+      if (process.env.NODE_ENV !== 'test') {
+        console.warn('Text selection fallback failed:', error);
+      }
+      if (document.body.contains(textarea)) {
+        document.body.removeChild(textarea);
+      }
     }
   };
 

@@ -5,6 +5,7 @@ import Ajv from 'ajv';
 import schema from '../config/schema.json';
 import lengthConfig from '../config/length.json';
 import areaConfig from '../config/area.json';
+import volumeConfig from '../config/volume.json';
 import {
   UnitCategory,
   ConfigurationLoadResult,
@@ -110,6 +111,17 @@ export async function loadAllConfigurations(): Promise<ConfigurationLoadResult> 
       };
     }
 
+    // Load volume configuration
+    const volumeCategory = loadUnitCategory(volumeConfig, 'volume');
+    if (volumeCategory) {
+      categories.volume = volumeCategory;
+    } else {
+      return {
+        success: false,
+        error: 'Failed to load volume unit configuration',
+      };
+    }
+
     // Validate that we have at least one category
     if (Object.keys(categories).length === 0) {
       return {
@@ -118,10 +130,12 @@ export async function loadAllConfigurations(): Promise<ConfigurationLoadResult> 
       };
     }
 
-    console.log(
-      `Successfully loaded ${Object.keys(categories).length} unit categories:`,
-      Object.keys(categories)
-    );
+    if (process.env.NODE_ENV !== 'test') {
+      console.log(
+        `Successfully loaded ${Object.keys(categories).length} unit categories:`,
+        Object.keys(categories)
+      );
+    }
 
     return {
       success: true,

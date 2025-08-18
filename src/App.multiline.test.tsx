@@ -34,14 +34,9 @@ describe('App - Multi-line Input System', () => {
     await userEvent.type(input, multiLineInput);
 
     // Wait for debounced processing
-    await waitFor(
-      () => {
-        expect(screen.getByText(/16.4042 feet/)).toBeInTheDocument();
-        expect(screen.getByText(/25.4 cm/)).toBeInTheDocument();
-        expect(screen.getByText(/1.2427 miles/)).toBeInTheDocument();
-      },
-      { timeout: 1000 }
-    );
+    await screen.findByText(/16.4042 feet/, undefined, { timeout: 1000 });
+    await screen.findByText(/25.4 cm/, undefined, { timeout: 1000 });
+    await screen.findByText(/1.2427 miles/, undefined, { timeout: 1000 });
   });
 
   test('handles empty lines and maintains proper line alignment', async () => {
@@ -58,14 +53,9 @@ describe('App - Multi-line Input System', () => {
     await userEvent.type(input, inputWithEmptyLines);
 
     // Wait for debounced processing
-    await waitFor(
-      () => {
-        expect(screen.getByText(/16.4042 feet/)).toBeInTheDocument();
-        expect(screen.getByText(/25.4 cm/)).toBeInTheDocument();
-        expect(screen.getByText(/1.2427 miles/)).toBeInTheDocument();
-      },
-      { timeout: 1000 }
-    );
+    await screen.findByText(/16.4042 feet/, undefined, { timeout: 1000 });
+    await screen.findByText(/25.4 cm/, undefined, { timeout: 1000 });
+    await screen.findByText(/1.2427 miles/, undefined, { timeout: 1000 });
   });
 
   test('shows processing state during conversion', async () => {
@@ -101,23 +91,17 @@ describe('App - Multi-line Input System', () => {
     await userEvent.clear(input);
     await userEvent.type(input, mixedInput);
 
-    await waitFor(
-      () => {
-        // Should show successful conversions
-        expect(screen.getByText(/16.4042 feet/)).toBeInTheDocument();
-        expect(screen.getByText(/25.4 cm/)).toBeInTheDocument();
+    await screen.findByText(/16.4042 feet/, undefined, { timeout: 1000 });
+    await screen.findByText(/25.4 cm/, undefined, { timeout: 1000 });
+    await screen.findByText(/Invalid conversion format/, undefined, {
+      timeout: 1000,
+    });
 
-        // Should show error for invalid line
-        expect(
-          screen.getByText(/Invalid conversion format/)
-        ).toBeInTheDocument();
-
-        // Check line alignment using data-line attributes
-        const results = screen.getAllByRole('button', { name: /Copy result/ });
-        expect(results).toHaveLength(2); // Two successful conversions
-      },
-      { timeout: 1000 }
-    );
+    // Check line alignment using data-line attributes
+    const results = await screen.findAllByRole('button', {
+      name: /Copy result/,
+    });
+    expect(results).toHaveLength(2); // Two successful conversions
   });
 
   test('updates results in real-time as user types', async () => {
@@ -134,9 +118,7 @@ describe('App - Multi-line Input System', () => {
 
     // Should not show conversion results for incomplete input
     await waitFor(
-      () => {
-        expect(screen.queryByText(/16\.404/)).not.toBeInTheDocument();
-      },
+      () => expect(screen.queryByText(/16\.404/)).not.toBeInTheDocument(),
       { timeout: 500 }
     );
 
@@ -144,12 +126,7 @@ describe('App - Multi-line Input System', () => {
     await userEvent.type(input, ' to feet');
 
     // Should show results for complete input
-    await waitFor(
-      () => {
-        expect(screen.getByText(/16.4042 feet/)).toBeInTheDocument();
-      },
-      { timeout: 1000 }
-    );
+    await screen.findByText(/16.4042 feet/, undefined, { timeout: 1000 });
   });
 
   test('handles rapid input changes with debouncing', async () => {
@@ -200,14 +177,9 @@ describe('App - Multi-line Input System', () => {
     // Then clear it
     await userEvent.clear(input);
 
-    await waitFor(
-      () => {
-        expect(
-          screen.getByText(/Results will appear here as you type/)
-        ).toBeInTheDocument();
-      },
-      { timeout: 1000 }
-    );
+    await screen.findByText(/Results will appear here as you type/, undefined, {
+      timeout: 1000,
+    });
   });
 
   test('handles multiple lines with different error types', async () => {
@@ -223,18 +195,9 @@ describe('App - Multi-line Input System', () => {
     await userEvent.clear(input);
     await userEvent.type(input, inputWithErrors);
 
-    await waitFor(
-      () => {
-        // Successful conversions
-        expect(screen.getByText(/16.4042 feet/)).toBeInTheDocument();
-        expect(screen.getByText(/1.2427 miles/)).toBeInTheDocument();
-
-        // Error messages
-        expect(screen.getAllByText(/Invalid conversion format/)).toHaveLength(
-          2
-        );
-      },
-      { timeout: 1000 }
-    );
+    await screen.findByText(/16.4042 feet/, undefined, { timeout: 1000 });
+    await screen.findByText(/1.2427 miles/, undefined, { timeout: 1000 });
+    const errors = await screen.findAllByText(/Invalid conversion format/);
+    expect(errors).toHaveLength(2);
   });
 });

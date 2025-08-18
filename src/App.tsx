@@ -21,9 +21,6 @@ function App() {
   const [processingError, setProcessingError] = useState<string | null>(null);
   const [isProcessing, setIsProcessing] = useState(false);
   const [isConfigurationLoaded, setIsConfigurationLoaded] = useState(false);
-  const [configurationError, setConfigurationError] = useState<string | null>(
-    null
-  );
 
   // Initialize configuration system on app startup
   useEffect(() => {
@@ -34,11 +31,11 @@ function App() {
           setIsConfigurationLoaded(true);
           console.log('App initialized successfully');
         } else {
-          setConfigurationError('Failed to load unit configurations');
+          setProcessingError('Failed to load unit configurations');
         }
       } catch (error) {
         console.error('App initialization failed:', error);
-        setConfigurationError(
+        setProcessingError(
           error instanceof Error
             ? error.message
             : 'Configuration loading failed'

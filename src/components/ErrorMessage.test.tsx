@@ -234,11 +234,11 @@ describe('ErrorMessage', () => {
 
       // Focus first suggestion
       firstSuggestion.focus();
-      expect(document.activeElement).toBe(firstSuggestion);
+      expect(firstSuggestion).toHaveFocus();
 
       // Tab to second suggestion
       await userEvent.tab();
-      expect(document.activeElement).toBe(secondSuggestion);
+      expect(secondSuggestion).toHaveFocus();
     });
   });
 

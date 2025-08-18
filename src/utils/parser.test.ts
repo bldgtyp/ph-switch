@@ -94,106 +94,95 @@ describe('Natural Language Parser', () => {
     it('should parse basic conversion format', () => {
       const result = parseConversionInput('5 meters to feet');
       expect(isSuccessfulParse(result)).toBe(true);
-      if (isSuccessfulParse(result)) {
-        expect(result.value).toBe(5);
-        expect(result.sourceUnit).toBe('meters');
-        expect(result.targetUnit).toBe('feet');
-      }
+      const success = result as any;
+      expect(success.value).toBe(5);
+      expect(success.sourceUnit).toBe('meters');
+      expect(success.targetUnit).toBe('feet');
     });
 
     it('should parse "as" keyword format', () => {
       const result = parseConversionInput('2.5 inches as millimeters');
       expect(isSuccessfulParse(result)).toBe(true);
-      if (isSuccessfulParse(result)) {
-        expect(result.value).toBe(2.5);
-        expect(result.sourceUnit).toBe('inches');
-        expect(result.targetUnit).toBe('millimeters');
-      }
+      const success = result as any;
+      expect(success.value).toBe(2.5);
+      expect(success.sourceUnit).toBe('inches');
+      expect(success.targetUnit).toBe('millimeters');
     });
 
     it('should parse abbreviations', () => {
       const result = parseConversionInput('10 ft to m');
       expect(isSuccessfulParse(result)).toBe(true);
-      if (isSuccessfulParse(result)) {
-        expect(result.value).toBe(10);
-        expect(result.sourceUnit).toBe('ft');
-        expect(result.targetUnit).toBe('m');
-      }
+      const success = result as any;
+      expect(success.value).toBe(10);
+      expect(success.sourceUnit).toBe('ft');
+      expect(success.targetUnit).toBe('m');
     });
 
     it('should parse scientific notation', () => {
       const result = parseConversionInput('1.5e3 mm to meters');
       expect(isSuccessfulParse(result)).toBe(true);
-      if (isSuccessfulParse(result)) {
-        expect(result.value).toBe(1500);
-        expect(result.sourceUnit).toBe('mm');
-        expect(result.targetUnit).toBe('meters');
-      }
+      const success = result as any;
+      expect(success.value).toBe(1500);
+      expect(success.sourceUnit).toBe('mm');
+      expect(success.targetUnit).toBe('meters');
     });
 
     it('should parse fractions', () => {
       const result = parseConversionInput('1/2 inch to mm');
       expect(isSuccessfulParse(result)).toBe(true);
-      if (isSuccessfulParse(result)) {
-        expect(result.value).toBe(0.5);
-        expect(result.sourceUnit).toBe('inch');
-        expect(result.targetUnit).toBe('mm');
-      }
+      const success = result as any;
+      expect(success.value).toBe(0.5);
+      expect(success.sourceUnit).toBe('inch');
+      expect(success.targetUnit).toBe('mm');
     });
 
     it('should parse mixed numbers', () => {
       const result = parseConversionInput('1 1/2 feet to inches');
       expect(isSuccessfulParse(result)).toBe(true);
-      if (isSuccessfulParse(result)) {
-        expect(result.value).toBe(1.5);
-        expect(result.sourceUnit).toBe('feet');
-        expect(result.targetUnit).toBe('inches');
-      }
+      const success = result as any;
+      expect(success.value).toBe(1.5);
+      expect(success.sourceUnit).toBe('feet');
+      expect(success.targetUnit).toBe('inches');
     });
 
     it('should reject empty input', () => {
       const result = parseConversionInput('');
       expect(isSuccessfulParse(result)).toBe(false);
-      if (!isSuccessfulParse(result)) {
-        expect(result.type).toBe('INVALID_FORMAT');
-        expect(result.message).toContain('empty');
-      }
+      const err = result as any;
+      expect(err.type).toBe('INVALID_FORMAT');
+      expect(err.message).toContain('empty');
     });
 
     it('should reject invalid format', () => {
       const result = parseConversionInput('5 meters');
       expect(isSuccessfulParse(result)).toBe(false);
-      if (!isSuccessfulParse(result)) {
-        expect(result.type).toBe('INVALID_FORMAT');
-        expect(result.suggestions).toBeDefined();
-      }
+      const err = result as any;
+      expect(err.type).toBe('INVALID_FORMAT');
+      expect(err.suggestions).toBeDefined();
     });
 
     it('should reject same source and target units', () => {
       const result = parseConversionInput('5 meter to meter');
       expect(isSuccessfulParse(result)).toBe(false);
-      if (!isSuccessfulParse(result)) {
-        expect(result.type).toBe('INVALID_FORMAT');
-        expect(result.message).toContain('same');
-      }
+      const err = result as any;
+      expect(err.type).toBe('INVALID_FORMAT');
+      expect(err.message).toContain('same');
     });
 
     it('should reject invalid numbers', () => {
       const result = parseConversionInput('abc meters to feet');
       expect(isSuccessfulParse(result)).toBe(false);
-      if (!isSuccessfulParse(result)) {
-        expect(result.type).toBe('INVALID_FORMAT');
-        expect(result.message).toContain('conversion format'); // Updated to match actual error
-      }
+      const err = result as any;
+      expect(err.type).toBe('INVALID_FORMAT');
+      expect(err.message).toContain('conversion format'); // Updated to match actual error
     });
 
     it('should handle case insensitive input', () => {
       const result = parseConversionInput('5 METERS TO FEET');
       expect(isSuccessfulParse(result)).toBe(true);
-      if (isSuccessfulParse(result)) {
-        expect(result.sourceUnit).toBe('meters');
-        expect(result.targetUnit).toBe('feet');
-      }
+      const success = result as any;
+      expect(success.sourceUnit).toBe('meters');
+      expect(success.targetUnit).toBe('feet');
     });
   });
 
@@ -224,27 +213,24 @@ describe('Natural Language Parser', () => {
     it('should successfully parse and validate correct input', () => {
       const result = parseAndValidateInput('5 meters to feet');
       expect(isSuccessfulParse(result)).toBe(true);
-      if (isSuccessfulParse(result)) {
-        expect(result.value).toBe(5);
-        expect(result.sourceUnit).toBe('meters');
-        expect(result.targetUnit).toBe('feet');
-      }
+      const success = result as any;
+      expect(success.value).toBe(5);
+      expect(success.sourceUnit).toBe('meters');
+      expect(success.targetUnit).toBe('feet');
     });
 
     it('should return parsing error for invalid format', () => {
       const result = parseAndValidateInput('invalid input');
       expect(isSuccessfulParse(result)).toBe(false);
-      if (!isSuccessfulParse(result)) {
-        expect(result.type).toBe('INVALID_FORMAT');
-      }
+      const err = result as any;
+      expect(err.type).toBe('INVALID_FORMAT');
     });
 
     it('should return validation error for unknown units', () => {
       const result = parseAndValidateInput('5 meters to unknownunit');
       expect(isSuccessfulParse(result)).toBe(false);
-      if (!isSuccessfulParse(result)) {
-        expect(result.type).toBe('UNKNOWN_UNIT');
-      }
+      const err = result as any;
+      expect(err.type).toBe('UNKNOWN_UNIT');
     });
 
     it('should handle complex valid inputs', () => {
@@ -343,42 +329,37 @@ invalid line
     it('should handle very large numbers', () => {
       const result = parseConversionInput('999999999 meters to feet');
       expect(isSuccessfulParse(result)).toBe(true);
-      if (isSuccessfulParse(result)) {
-        expect(result.value).toBe(999999999);
-      }
+      const success = result as any;
+      expect(success.value).toBe(999999999);
     });
 
     it('should handle very small numbers', () => {
       const result = parseConversionInput('0.0000001 meters to millimeters');
       expect(isSuccessfulParse(result)).toBe(true);
-      if (isSuccessfulParse(result)) {
-        expect(result.value).toBe(0.0000001);
-      }
+      const success = result as any;
+      expect(success.value).toBe(0.0000001);
     });
 
     it('should handle zero values', () => {
       const result = parseConversionInput('0 meters to feet');
       expect(isSuccessfulParse(result)).toBe(true);
-      if (isSuccessfulParse(result)) {
-        expect(result.value).toBe(0);
-      }
+      const success = result as any;
+      expect(success.value).toBe(0);
     });
 
     it('should handle units with special characters', () => {
       const result = parseConversionInput('5 um to mm');
       expect(isSuccessfulParse(result)).toBe(true);
-      if (isSuccessfulParse(result)) {
-        expect(result.sourceUnit).toBe('um'); // normalized
-      }
+      const success = result as any;
+      expect(success.sourceUnit).toBe('um'); // normalized
     });
 
     it('should preserve original input for reference', () => {
       const originalInput = '5 Meters TO Feet';
       const result = parseConversionInput(originalInput);
       expect(isSuccessfulParse(result)).toBe(true);
-      if (isSuccessfulParse(result)) {
-        expect(result.originalInput).toBe(originalInput);
-      }
+      const success = result as any;
+      expect(success.originalInput).toBe(originalInput);
     });
 
     it('should handle extra whitespace gracefully', () => {
@@ -389,11 +370,10 @@ invalid line
     it('should provide helpful error messages', () => {
       const result = parseConversionInput('5 meters');
       expect(isSuccessfulParse(result)).toBe(false);
-      if (!isSuccessfulParse(result)) {
-        expect(result.suggestions).toBeDefined();
-        expect(result.suggestions!.length).toBeGreaterThan(0);
-        expect(result.context).toContain('format');
-      }
+      const err = result as any;
+      expect(err.suggestions).toBeDefined();
+      expect(err.suggestions!.length).toBeGreaterThan(0);
+      expect(err.context).toContain('format');
     });
   });
 });

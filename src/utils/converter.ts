@@ -12,12 +12,7 @@ import {
   createUnknownUnitError,
   enhanceErrorWithSuggestions,
 } from './errorHandler';
-import type {
-  ConversionResult,
-  ErrorDetails,
-  UnitCategory,
-  ParsedInput,
-} from '../types';
+import type { ConversionResult, ErrorDetails, UnitCategory } from '../types';
 
 // Configure Decimal.js for high precision calculations
 Decimal.config({
@@ -29,20 +24,6 @@ Decimal.config({
   minE: -9e15, // Minimum exponent
   modulo: Decimal.ROUND_HALF_UP,
 });
-
-/**
- * Interface for internal conversion calculation
- */
-interface ConversionCalculation {
-  inputValue: Decimal;
-  sourceUnit: string;
-  targetUnit: string;
-  sourceFactor: Decimal;
-  targetFactor: Decimal;
-  baseValue: Decimal;
-  result: Decimal;
-  category: string;
-}
 
 /**
  * Validates that the conversion system is ready
@@ -190,25 +171,7 @@ function formatResult(result: Decimal, targetUnit: string): string {
 /**
  * Creates a detailed conversion calculation object for debugging/logging
  */
-function createCalculationDetails(
-  inputValue: number,
-  sourceUnit: string,
-  targetUnit: string,
-  sourceInfo: { category: string; unitKey: string; conversionFactor: number },
-  targetInfo: { category: string; unitKey: string; conversionFactor: number },
-  result: Decimal
-): ConversionCalculation {
-  return {
-    inputValue: new Decimal(inputValue),
-    sourceUnit,
-    targetUnit,
-    sourceFactor: new Decimal(sourceInfo.conversionFactor),
-    targetFactor: new Decimal(targetInfo.conversionFactor),
-    baseValue: new Decimal(inputValue).mul(sourceInfo.conversionFactor),
-    result,
-    category: sourceInfo.category,
-  };
-}
+// createCalculationDetails removed because it's unused; re-add if detailed debug is needed
 
 /**
  * Main conversion function that converts a value from one unit to another
@@ -286,15 +249,7 @@ export function convertUnits(
     // Format result for display
     const formattedResult = formatResult(result, targetUnit);
 
-    // Create calculation details for potential debugging
-    const calculationDetails = createCalculationDetails(
-      inputValue,
-      sourceUnit,
-      targetUnit,
-      sourceInfo,
-      targetInfo,
-      result
-    );
+    // (calculation details are available via createCalculationDetails if needed)
 
     return {
       success: true,

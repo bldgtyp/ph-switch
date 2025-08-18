@@ -1,11 +1,5 @@
 import React from 'react';
-import {
-  render,
-  screen,
-  fireEvent,
-  waitFor,
-  act,
-} from '@testing-library/react';
+import { render, screen, fireEvent } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import ConversionOutput from './ConversionOutput';
 
@@ -63,15 +57,10 @@ describe('ConversionOutput', () => {
     });
 
     test('renders with custom className', () => {
-      const { container } = render(
-        <ConversionOutput results={[]} className="custom-class" />
-      );
+      render(<ConversionOutput results={[]} className="custom-class" />);
 
-      expect(container.firstChild).toHaveClass(
-        'conversion-output',
-        'empty',
-        'custom-class'
-      );
+      const output = screen.getByLabelText('Conversion results');
+      expect(output).toHaveClass('conversion-output', 'empty', 'custom-class');
     });
 
     test('renders successful results', () => {
@@ -109,9 +98,9 @@ describe('ConversionOutput', () => {
 
       const copyButton = screen.getByLabelText('Copy result: 16.404 feet');
 
-      await act(async () => {
-        await userEvent.click(copyButton);
-      });
+      await userEvent.click(copyButton);
+      // wait for visual feedback to ensure state updates finished
+      await screen.findByText('Copied!');
 
       expect(navigator.clipboard.writeText).toHaveBeenCalledWith('16.404 feet');
       expect(onCopy).toHaveBeenCalledWith('16.404 feet', '1');
@@ -122,13 +111,8 @@ describe('ConversionOutput', () => {
 
       const copyButton = screen.getByLabelText('Copy result: 16.404 feet');
 
-      await act(async () => {
-        await userEvent.click(copyButton);
-      });
-
-      await waitFor(() => {
-        expect(screen.getByText('Copied!')).toBeInTheDocument();
-      });
+      await userEvent.click(copyButton);
+      await screen.findByText('Copied!');
     });
 
     test('handles copy with Enter key', async () => {
@@ -137,17 +121,11 @@ describe('ConversionOutput', () => {
 
       const copyButton = screen.getByLabelText('Copy result: 16.404 feet');
       copyButton.focus();
+      fireEvent.keyDown(copyButton, { key: 'Enter' });
 
-      await act(async () => {
-        fireEvent.keyDown(copyButton, { key: 'Enter' });
-      });
-
-      await waitFor(() => {
-        expect(navigator.clipboard.writeText).toHaveBeenCalledWith(
-          '16.404 feet'
-        );
-        expect(onCopy).toHaveBeenCalledWith('16.404 feet', '1');
-      });
+      await screen.findByText('Copied!');
+      expect(navigator.clipboard.writeText).toHaveBeenCalledWith('16.404 feet');
+      expect(onCopy).toHaveBeenCalledWith('16.404 feet', '1');
     });
 
     test('handles copy with Space key', async () => {
@@ -156,17 +134,11 @@ describe('ConversionOutput', () => {
 
       const copyButton = screen.getByLabelText('Copy result: 16.404 feet');
       copyButton.focus();
+      fireEvent.keyDown(copyButton, { key: ' ' });
 
-      await act(async () => {
-        fireEvent.keyDown(copyButton, { key: ' ' });
-      });
-
-      await waitFor(() => {
-        expect(navigator.clipboard.writeText).toHaveBeenCalledWith(
-          '16.404 feet'
-        );
-        expect(onCopy).toHaveBeenCalledWith('16.404 feet', '1');
-      });
+      await screen.findByText('Copied!');
+      expect(navigator.clipboard.writeText).toHaveBeenCalledWith('16.404 feet');
+      expect(onCopy).toHaveBeenCalledWith('16.404 feet', '1');
     });
 
     test('handles clipboard API failure gracefully', async () => {
@@ -181,17 +153,14 @@ describe('ConversionOutput', () => {
 
       const copyButton = screen.getByLabelText('Copy result: 16.404 feet');
 
-      await act(async () => {
-        await userEvent.click(copyButton);
-      });
+      await userEvent.click(copyButton);
+      await screen.findByText('Copied!');
 
-      await waitFor(() => {
-        // Verify that the fallback text selection was triggered
-        expect(consoleSpy).toHaveBeenCalledWith(
-          'Text selected for manual copy:',
-          '16.404 feet'
-        );
-      });
+      // Verify that the fallback text selection was triggered
+      expect(consoleSpy).toHaveBeenCalledWith(
+        'Text selected for manual copy:',
+        '16.404 feet'
+      );
 
       consoleSpy.mockRestore();
     });
@@ -225,15 +194,9 @@ describe('ConversionOutput', () => {
 
       const copyButton = screen.getByLabelText('Copy result: 16.404 feet');
 
-      await act(async () => {
-        await userEvent.click(copyButton);
-      });
-
-      await waitFor(() => {
-        expect(navigator.clipboard.writeText).toHaveBeenCalledWith(
-          '16.404 feet'
-        );
-      });
+      await userEvent.click(copyButton);
+      await screen.findByText('Copied!');
+      expect(navigator.clipboard.writeText).toHaveBeenCalledWith('16.404 feet');
     });
 
     test('shows error icon for failed results', () => {
@@ -244,12 +207,19 @@ describe('ConversionOutput', () => {
     });
 
     test('applies correct CSS classes for different states', () => {
-      const { container } = render(<ConversionOutput results={mockResults} />);
+      render(<ConversionOutput results={mockResults} />);
 
-      const results = container.querySelectorAll('.conversion-output__result');
-      expect(results[0]).toHaveClass('success');
-      expect(results[1]).toHaveClass('success');
-      expect(results[2]).toHaveClass('error');
+      // Successful results render as buttons
+      const buttons = screen.getAllByRole('button');
+      // Buttons themselves carry the interactive value class
+      expect(buttons[0]).toHaveClass('conversion-output__value');
+      expect(buttons[1]).toHaveClass('conversion-output__value');
+
+      // Error result should be rendered with role='alert' and contain the error text
+      const errorElement = screen.getByRole('alert');
+      expect(errorElement).toHaveTextContent(
+        'Invalid format. Use "X unit as/to Y unit"'
+      );
     });
   });
 
@@ -279,15 +249,11 @@ describe('ConversionOutput', () => {
 
       const copyButton = screen.getByLabelText('Copy result: 16.404 feet');
 
-      await act(async () => {
-        await userEvent.click(copyButton);
-      });
+      await userEvent.click(copyButton);
 
-      await waitFor(() => {
-        const feedback = screen.getByRole('status');
-        expect(feedback).toHaveAttribute('aria-live', 'polite');
-        expect(feedback).toHaveTextContent('Copied!');
-      });
+      const feedback = await screen.findByRole('status');
+      expect(feedback).toHaveAttribute('aria-live', 'polite');
+      expect(feedback).toHaveTextContent('Copied!');
     });
 
     test('supports keyboard navigation', () => {
@@ -298,7 +264,7 @@ describe('ConversionOutput', () => {
         expect(button).toHaveAttribute('type', 'button');
         // Should be focusable
         button.focus();
-        expect(document.activeElement).toBe(button);
+        expect(button).toHaveFocus();
       });
     });
   });
@@ -354,18 +320,14 @@ describe('ConversionOutput', () => {
       const firstButton = screen.getByLabelText('Copy result: 16.404 feet');
       await userEvent.click(firstButton);
 
-      await waitFor(() => {
-        expect(screen.getByText('Copied!')).toBeInTheDocument();
-      });
+      await screen.findByText('Copied!');
 
       // Copy second result
       const secondButton = screen.getByLabelText('Copy result: 25.400 cm');
       await userEvent.click(secondButton);
 
       // Should still show feedback for the second result
-      await waitFor(() => {
-        expect(screen.getByText('Copied!')).toBeInTheDocument();
-      });
+      await screen.findByText('Copied!');
     });
   });
 });

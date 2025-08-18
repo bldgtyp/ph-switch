@@ -8,7 +8,7 @@ import {
   getPrecisionInfo,
 } from './converter';
 import { initializeConfigurations, resetConfigurations } from '../config';
-import { Decimal } from 'decimal.js';
+// Decimal import removed - not needed in tests
 
 // Setup and teardown for configuration system
 beforeAll(async () => {
@@ -135,19 +135,17 @@ describe('Converter', () => {
         const result = convertUnits(1, 'badunit', 'foot');
         expect(result.success).toBe(false);
         expect(result.error).toBeDefined();
-        if (typeof result.error === 'object') {
-          expect(result.error.type).toBe('UNKNOWN_UNIT');
-          expect(result.error.suggestions).toBeDefined();
-        }
+        const err = result.error as any;
+        expect(err.type).toBe('UNKNOWN_UNIT');
+        expect(err.suggestions).toBeDefined();
       });
 
       it('should handle unknown target unit', () => {
         const result = convertUnits(1, 'meter', 'badunit');
         expect(result.success).toBe(false);
         expect(result.error).toBeDefined();
-        if (typeof result.error === 'object') {
-          expect(result.error.type).toBe('UNKNOWN_UNIT');
-        }
+        const err = result.error as any;
+        expect(err.type).toBe('UNKNOWN_UNIT');
       });
 
       it('should handle cross-category conversion', () => {
@@ -160,10 +158,9 @@ describe('Converter', () => {
       it('should provide fuzzy matching suggestions', () => {
         const result = convertUnits(1, 'mter', 'foot'); // Typo for "meter"
         expect(result.success).toBe(false);
-        if (typeof result.error === 'object') {
-          expect(result.error.suggestions).toBeDefined();
-          expect(result.error.suggestions!.length).toBeGreaterThan(0);
-        }
+        const err = result.error as any;
+        expect(err.suggestions).toBeDefined();
+        expect(err.suggestions!.length).toBeGreaterThan(0);
       });
     });
 
@@ -365,12 +362,14 @@ describe('Converter', () => {
         Number.MAX_SAFE_INTEGER,
       ];
 
-      boundaries.forEach((value) => {
-        if (isFinite(value) && !isNaN(value)) {
-          const result = convertUnits(value, 'meter', 'foot');
-          expect(result.success).toBe(true);
-        }
-      });
+      const finiteBoundaries = boundaries.filter(
+        (v) => isFinite(v) && !isNaN(v)
+      );
+
+      for (const value of finiteBoundaries) {
+        const result = convertUnits(value, 'meter', 'foot');
+        expect(result.success).toBe(true);
+      }
     });
   });
 });

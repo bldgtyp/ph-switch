@@ -6,14 +6,14 @@ jest.mock('./AutoSuggest.css', () => ({}));
 
 describe('AutoSuggest', () => {
   test('renders null when not visible', () => {
-    const { container } = render(
+    render(
       <AutoSuggest
         suggestions={['meter']}
         onSelect={() => {}}
         visible={false}
       />
     );
-    expect(container.firstChild).toBeNull();
+    expect(screen.queryByRole('listbox')).toBeNull();
   });
 
   test('renders suggestions and handles click', () => {

@@ -239,8 +239,8 @@ export function validateErrorHandling(): boolean {
       }
     }
 
-    // Test fuzzy matching
-    const suggestions = findSimilarUnits('mter', 3); // Should suggest "meter"
+    // Test fuzzy matching (result intentionally unused in validation)
+    findSimilarUnits('mter', 3);
 
     return true;
   } catch (error) {
