@@ -517,7 +517,11 @@ export function getStorageStats(): {
 
   return {
     totalEntries: container.entries.length,
-    totalSize: container.totalSize || calculateStorageSize(container),
+    // Use stored totalSize when present (including 0). Only calculate size if undefined.
+    totalSize:
+      typeof container.totalSize === 'number'
+        ? container.totalSize
+        : calculateStorageSize(container),
     oldestEntry: timestamps.length > 0 ? Math.min(...timestamps) : undefined,
     newestEntry: timestamps.length > 0 ? Math.max(...timestamps) : undefined,
     version: container.version,

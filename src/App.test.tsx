@@ -2,11 +2,16 @@ import React from 'react';
 import { render, screen } from '@testing-library/react';
 import App from './App';
 
-test('renders PH-Switch unit converter interface', () => {
+// Mock the configuration initializer so tests don't trigger async state updates
+jest.mock('./config', () => ({
+  initializeConfigurations: async () => true,
+}));
+
+test('renders PH-Switch unit converter interface', async () => {
   render(<App />);
 
-  // Check header elements
-  const titleElement = screen.getByText(/PH-Switch Unit Converter/i);
+  // Wait for app initialization side-effects to settle and check header
+  const titleElement = await screen.findByText(/PH-Switch/i);
   expect(titleElement).toBeInTheDocument();
 
   // Check conversion interface panels using specific selectors

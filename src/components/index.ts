@@ -10,6 +10,6 @@ export { default as ErrorMessage } from './ErrorMessage';
 // export { default as ErrorMessage } from './ErrorMessage'; ✓ Complete
 
 // Phase 3 components
-// export { default as AutoSuggest } from './AutoSuggest';
+export { default as AutoSuggest } from './AutoSuggest';
 
 export {}; // Prevent empty file errors

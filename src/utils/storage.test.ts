@@ -402,6 +402,10 @@ describe('Storage', () => {
 
   describe('getStorageStats', () => {
     it('should return stats for empty storage', () => {
+      // Ensure storage is empty before measuring stats
+      // Use public API to clear so STORAGE_KEY is removed
+      clearAllHistory();
+
       const stats = getStorageStats();
       expect(stats.totalEntries).toBe(0);
       expect(stats.totalSize).toBe(0);
