@@ -54,13 +54,13 @@ const ErrorMessage: React.FC<ErrorMessageProps> = ({
         </span>
         <span className="error-message__text">{message}</span>
       </div>
-      
+
       {suggestions.length > 0 && (
         <div className="error-message__suggestions">
           <span className="error-message__suggestions-label">
             Did you mean:
           </span>
-          <ul className="error-message__suggestions-list" role="list">
+          <ul className="error-message__suggestions-list">
             {suggestions.map((suggestion, index) => (
               <li key={index} className="error-message__suggestion-item">
                 {onSuggestionClick ? (
@@ -68,7 +68,9 @@ const ErrorMessage: React.FC<ErrorMessageProps> = ({
                     type="button"
                     className="error-message__suggestion-button"
                     onClick={() => handleSuggestionClick(suggestion)}
-                    onKeyDown={(event) => handleSuggestionKeyDown(event, suggestion)}
+                    onKeyDown={(event) =>
+                      handleSuggestionKeyDown(event, suggestion)
+                    }
                     aria-label={`Use suggestion: ${suggestion}`}
                   >
                     {suggestion}

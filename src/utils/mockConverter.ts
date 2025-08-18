@@ -96,31 +96,31 @@ const UNIT_ALIASES: Record<string, string> = {
   metre: 'meter',
   metres: 'meter',
   meters: 'meter',
-  
+
   // Foot aliases
   feet: 'foot',
   ft: 'foot',
-  
+
   // Inch aliases
   inches: 'inch',
   in: 'inch',
-  
+
   // Centimeter aliases
   centimeters: 'centimeter',
   cm: 'centimeter',
-  
+
   // Millimeter aliases
   millimeters: 'millimeter',
   mm: 'millimeter',
-  
+
   // Kilometer aliases
   kilometers: 'kilometer',
   km: 'kilometer',
-  
+
   // Yard aliases
   yards: 'yard',
   yd: 'yard',
-  
+
   // Mile aliases
   miles: 'mile',
   mi: 'mile',
@@ -158,17 +158,19 @@ function formatNumber(value: number): string {
 
 // Get unit suggestions for unknown units
 function getUnitSuggestions(unknownUnit: string): string[] {
-  const allUnits = Object.keys(UNIT_ALIASES).concat(Object.keys(MOCK_CONVERSIONS));
+  const allUnits = Object.keys(UNIT_ALIASES).concat(
+    Object.keys(MOCK_CONVERSIONS)
+  );
   const suggestions: string[] = [];
   const unknown = unknownUnit.toLowerCase();
-  
+
   // Exact prefix match
   for (const unit of allUnits) {
     if (unit.toLowerCase().startsWith(unknown)) {
       suggestions.push(unit);
     }
   }
-  
+
   // If no prefix matches, try contains
   if (suggestions.length === 0) {
     for (const unit of allUnits) {
@@ -177,7 +179,7 @@ function getUnitSuggestions(unknownUnit: string): string[] {
       }
     }
   }
-  
+
   // If still no matches, find units starting with same first letter
   if (suggestions.length === 0) {
     for (const unit of allUnits) {
@@ -186,7 +188,7 @@ function getUnitSuggestions(unknownUnit: string): string[] {
       }
     }
   }
-  
+
   return Array.from(new Set(suggestions)).slice(0, 3); // Remove duplicates and return max 3
 }
 
@@ -205,7 +207,7 @@ export function mockConvert(
   // Normalize units
   const normalizedFromUnit = normalizeUnit(fromUnit);
   const normalizedToUnit = normalizeUnit(toUnit);
-  
+
   // Check if source unit exists
   if (!MOCK_CONVERSIONS[normalizedFromUnit]) {
     return {
@@ -217,7 +219,7 @@ export function mockConvert(
       },
     };
   }
-  
+
   // Check if target unit exists for the source unit
   if (!MOCK_CONVERSIONS[normalizedFromUnit][normalizedToUnit]) {
     return {
@@ -229,11 +231,12 @@ export function mockConvert(
       },
     };
   }
-  
+
   // Perform conversion
-  const conversionFactor = MOCK_CONVERSIONS[normalizedFromUnit][normalizedToUnit];
+  const conversionFactor =
+    MOCK_CONVERSIONS[normalizedFromUnit][normalizedToUnit];
   const rawValue = value * conversionFactor;
-  
+
   return {
     success: true,
     value: formatNumber(rawValue),
@@ -252,23 +255,23 @@ export function mockParseInput(input: string): {
   error?: MockConversionError;
 } {
   const trimmedInput = input.trim();
-  
+
   if (!trimmedInput) {
     return { success: false };
   }
-  
+
   // Match patterns like "5 meters to feet" or "10 ft as inches"
   const patterns = [
     /^([0-9]*\.?[0-9]+)\s+(\w+)\s+(?:to|as)\s+(\w+)$/i,
     /^([0-9]*\.?[0-9]+)\s*(\w+)\s+(?:to|as)\s+(\w+)$/i,
   ];
-  
+
   for (const pattern of patterns) {
     const match = trimmedInput.match(pattern);
     if (match) {
       const [, valueStr, fromUnit, toUnit] = match;
       const value = parseFloat(valueStr);
-      
+
       if (isNaN(value)) {
         return {
           success: false,
@@ -278,7 +281,7 @@ export function mockParseInput(input: string): {
           },
         };
       }
-      
+
       return {
         success: true,
         value,
@@ -287,7 +290,7 @@ export function mockParseInput(input: string): {
       };
     }
   }
-  
+
   // Check if it might be an invalid number case
   const numberPattern = /^([a-zA-Z]+)\s+(\w+)\s+(?:to|as)\s+(\w+)$/i;
   const numberMatch = trimmedInput.match(numberPattern);
@@ -300,12 +303,13 @@ export function mockParseInput(input: string): {
       },
     };
   }
-  
+
   return {
     success: false,
     error: {
       type: MockConversionErrorType.INVALID_FORMAT,
-      message: 'Invalid format. Use "X unit as/to Y unit" (e.g., "5 meters to feet")',
+      message:
+        'Invalid format. Use "X unit as/to Y unit" (e.g., "5 meters to feet")',
     },
   };
 }
@@ -313,16 +317,16 @@ export function mockParseInput(input: string): {
 // Main mock conversion function that combines parsing and conversion
 export function mockConvertInput(input: string): MockConversionResult {
   const parseResult = mockParseInput(input);
-  
+
   if (!parseResult.success) {
     return {
       success: false,
       error: parseResult.error,
     };
   }
-  
+
   const { value, fromUnit, toUnit } = parseResult;
-  
+
   if (value === undefined || !fromUnit || !toUnit) {
     return {
       success: false,
@@ -332,7 +336,7 @@ export function mockConvertInput(input: string): MockConversionResult {
       },
     };
   }
-  
+
   return mockConvert(value, fromUnit, toUnit);
 }
 

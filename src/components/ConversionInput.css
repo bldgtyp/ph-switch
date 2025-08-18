@@ -6,8 +6,9 @@
   border: 2px solid var(--border-color);
   border-radius: var(--border-radius);
   background-color: var(--background-color);
-  transition: border-color var(--transition-duration) ease,
-              box-shadow var(--transition-duration) ease;
+  transition:
+    border-color var(--transition-duration) ease,
+    box-shadow var(--transition-duration) ease;
   overflow: hidden;
 }
 
@@ -38,7 +39,7 @@
   white-space: pre-wrap;
   word-wrap: break-word;
   overflow-y: auto;
-  
+
   /* Custom scrollbar */
   scrollbar-width: thin;
   scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
@@ -97,12 +98,12 @@
     font-size: var(--font-size-small);
     padding: var(--spacing-small);
   }
-  
+
   .conversion-input__indicators {
     bottom: 6px;
     right: 8px;
   }
-  
+
   .conversion-input__line-count {
     font-size: var(--font-size-xs);
     padding: 1px 4px;
@@ -114,7 +115,7 @@
   .conversion-input {
     border-width: 3px;
   }
-  
+
   .conversion-input.focused {
     border-color: var(--primary-color);
     box-shadow: 0 0 0 4px var(--primary-color);

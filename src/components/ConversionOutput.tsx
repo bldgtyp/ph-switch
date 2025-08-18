@@ -30,32 +30,35 @@ export const ConversionOutput: React.FC<ConversionOutputProps> = ({
   const [copiedId, setCopiedId] = useState<string | null>(null);
   const [copyTimeout, setCopyTimeout] = useState<NodeJS.Timeout | null>(null);
 
-  const handleCopy = useCallback(async (text: string, resultId: string) => {
-    try {
-      await navigator.clipboard.writeText(text);
-      
-      // Visual feedback for successful copy
-      setCopiedId(resultId);
-      
-      // Clear previous timeout
-      if (copyTimeout) {
-        clearTimeout(copyTimeout);
+  const handleCopy = useCallback(
+    async (text: string, resultId: string) => {
+      try {
+        await navigator.clipboard.writeText(text);
+
+        // Visual feedback for successful copy
+        setCopiedId(resultId);
+
+        // Clear previous timeout
+        if (copyTimeout) {
+          clearTimeout(copyTimeout);
+        }
+
+        // Auto-clear copy feedback after 2 seconds
+        const timeout = setTimeout(() => {
+          setCopiedId(null);
+        }, 2000);
+        setCopyTimeout(timeout);
+
+        // Call optional callback
+        onCopy?.(text, resultId);
+      } catch (error) {
+        console.warn('Failed to copy to clipboard:', error);
+        // Fallback: select text for manual copy
+        selectTextFallback(text);
       }
-      
-      // Auto-clear copy feedback after 2 seconds
-      const timeout = setTimeout(() => {
-        setCopiedId(null);
-      }, 2000);
-      setCopyTimeout(timeout);
-      
-      // Call optional callback
-      onCopy?.(text, resultId);
-    } catch (error) {
-      console.warn('Failed to copy to clipboard:', error);
-      // Fallback: select text for manual copy
-      selectTextFallback(text);
-    }
-  }, [onCopy, copyTimeout]);
+    },
+    [onCopy, copyTimeout]
+  );
 
   const selectTextFallback = (text: string) => {
     // Create temporary textarea for fallback copy
@@ -73,12 +76,15 @@ export const ConversionOutput: React.FC<ConversionOutputProps> = ({
     document.body.removeChild(textarea);
   };
 
-  const handleKeyDown = useCallback((event: React.KeyboardEvent, text: string, resultId: string) => {
-    if (event.key === 'Enter' || event.key === ' ') {
-      event.preventDefault();
-      handleCopy(text, resultId);
-    }
-  }, [handleCopy]);
+  const handleKeyDown = useCallback(
+    (event: React.KeyboardEvent, text: string, resultId: string) => {
+      if (event.key === 'Enter' || event.key === ' ') {
+        event.preventDefault();
+        handleCopy(text, resultId);
+      }
+    },
+    [handleCopy]
+  );
 
   // Cleanup timeout on unmount
   React.useEffect(() => {
@@ -91,7 +97,10 @@ export const ConversionOutput: React.FC<ConversionOutputProps> = ({
 
   if (results.length === 0) {
     return (
-      <div className={`conversion-output empty ${className}`} aria-label={ariaLabel}>
+      <div
+        className={`conversion-output empty ${className}`}
+        aria-label={ariaLabel}
+      >
         <div className="conversion-output__placeholder">
           <span className="conversion-output__placeholder-text">
             Results will appear here as you type...
@@ -121,16 +130,20 @@ export const ConversionOutput: React.FC<ConversionOutputProps> = ({
                 title="Click to copy to clipboard"
                 type="button"
               >
-                <span className="conversion-output__text">
-                  {result.output}
-                </span>
-                <span className="conversion-output__copy-icon" aria-hidden="true">
+                <span className="conversion-output__text">{result.output}</span>
+                <span
+                  className="conversion-output__copy-icon"
+                  aria-hidden="true"
+                >
                   {copiedId === result.id ? '✓' : '📋'}
                 </span>
               </button>
             ) : (
               <div className="conversion-output__error" role="alert">
-                <span className="conversion-output__error-icon" aria-hidden="true">
+                <span
+                  className="conversion-output__error-icon"
+                  aria-hidden="true"
+                >
                   ⚠️
                 </span>
                 <span className="conversion-output__error-text">
@@ -138,20 +151,25 @@ export const ConversionOutput: React.FC<ConversionOutputProps> = ({
                 </span>
               </div>
             )}
-            
+
             {copiedId === result.id && (
-              <div className="conversion-output__copy-feedback" role="status" aria-live="polite">
+              <div
+                className="conversion-output__copy-feedback"
+                role="status"
+                aria-live="polite"
+              >
                 Copied!
               </div>
             )}
           </div>
         ))}
       </div>
-      
+
       {/* Summary info */}
       <div className="conversion-output__summary">
         <span className="conversion-output__count">
-          {results.filter(r => r.success).length} of {results.length} converted
+          {results.filter((r) => r.success).length} of {results.length}{' '}
+          converted
         </span>
       </div>
     </div>

@@ -62,9 +62,7 @@ describe('Mock Converter', () => {
     test('should provide unit suggestions for similar units', () => {
       const result = mockConvert(1, 'mtr', 'foot');
       expect(result.success).toBe(false);
-      expect(result.error?.suggestions).toEqual(
-        expect.arrayContaining(['m'])
-      );
+      expect(result.error?.suggestions).toEqual(expect.arrayContaining(['m']));
       expect(result.error?.suggestions).toHaveLength(3);
     });
   });

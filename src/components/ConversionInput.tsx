@@ -36,12 +36,15 @@ export const ConversionInput: React.FC<ConversionInputProps> = ({
     if (textarea) {
       // Reset height to auto to get the correct scrollHeight
       textarea.style.height = 'auto';
-      
+
       // Set height based on scrollHeight with minimum height
       const minHeight = 60; // 3 lines approximately
       const maxHeight = 300; // Prevent excessive height
-      const newHeight = Math.max(minHeight, Math.min(maxHeight, textarea.scrollHeight));
-      
+      const newHeight = Math.max(
+        minHeight,
+        Math.min(maxHeight, textarea.scrollHeight)
+      );
+
       textarea.style.height = `${newHeight}px`;
     }
   }, [value]);
@@ -70,7 +73,9 @@ export const ConversionInput: React.FC<ConversionInputProps> = ({
   const lineCount = value ? value.split('\n').length : 1;
 
   return (
-    <div className={`conversion-input ${isFocused ? 'focused' : ''} ${disabled ? 'disabled' : ''}`}>
+    <div
+      className={`conversion-input ${isFocused ? 'focused' : ''} ${disabled ? 'disabled' : ''}`}
+    >
       <textarea
         ref={textareaRef}
         value={value}
@@ -89,7 +94,7 @@ export const ConversionInput: React.FC<ConversionInputProps> = ({
         autoCapitalize="off"
         className="conversion-input__textarea"
       />
-      
+
       {/* Visual indicators */}
       <div className="conversion-input__indicators">
         <span className="conversion-input__line-count">

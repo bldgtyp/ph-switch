@@ -6,7 +6,7 @@ export { default as ErrorMessage } from './ErrorMessage';
 
 // Phase 1 components
 // export { default as ConversionInput } from './ConversionInput'; ✓ Complete
-// export { default as ConversionOutput } from './ConversionOutput'; ✓ Complete  
+// export { default as ConversionOutput } from './ConversionOutput'; ✓ Complete
 // export { default as ErrorMessage } from './ErrorMessage'; ✓ Complete
 
 // Phase 3 components

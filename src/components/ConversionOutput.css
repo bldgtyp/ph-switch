@@ -31,7 +31,7 @@
   padding: var(--spacing-small);
   max-height: 300px;
   overflow-y: auto;
-  
+
   /* Custom scrollbar */
   scrollbar-width: thin;
   scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
@@ -199,15 +199,15 @@
     padding: var(--spacing-small);
     font-size: var(--font-size-small);
   }
-  
+
   .conversion-output__error {
     padding: var(--spacing-small);
   }
-  
+
   .conversion-output__error-text {
     font-size: var(--font-size-xs);
   }
-  
+
   .conversion-output__copy-feedback {
     right: var(--spacing-small);
     font-size: 10px;
@@ -219,11 +219,11 @@
   .conversion-output__result.success {
     border-width: 2px;
   }
-  
+
   .conversion-output__result.error {
     border-width: 2px;
   }
-  
+
   .conversion-output__value:focus {
     outline-width: 3px;
   }
@@ -234,11 +234,11 @@
   .conversion-output__result {
     transition: none;
   }
-  
+
   .conversion-output__copy-icon {
     transition: none;
   }
-  
+
   .conversion-output__copy-feedback {
     animation: none;
     opacity: 1;
@@ -250,11 +250,11 @@
   .conversion-output__copy-icon {
     display: none;
   }
-  
+
   .conversion-output__copy-feedback {
     display: none;
   }
-  
+
   .conversion-output__value {
     cursor: default;
   }
