@@ -78,7 +78,7 @@ Based on PRD: `prd-ph-unit-converter.md`
   - [x] 2.6 Write unit tests for mock converter functionality
 
 - [ ] 3.0 React UI Components
-  - [ ] 3.1 Create ConversionInput component with multi-line textarea
+  - [x] 3.1 Create ConversionInput component with multi-line textarea
   - [ ] 3.2 Create ConversionOutput component with formatted results display
   - [ ] 3.3 Create ErrorMessage component for parsing failure feedback
   - [ ] 3.4 Implement click-to-copy functionality for conversion results

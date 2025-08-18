@@ -1,4 +1,5 @@
-// Component exports for organized imports
+// Component exports for PH-Switch Unit Converter
+export { default as ConversionInput } from './ConversionInput';
 // This file will be updated as components are created
 
 // Phase 1 components
