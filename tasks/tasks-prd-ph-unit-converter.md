@@ -64,7 +64,7 @@ Based on PRD: `prd-ph-unit-converter.md`
 
 - [ ] 1.0 Project Setup and Foundation
 
-  - [ ] 1.1 Initialize React application using Create React App with TypeScript template
+  - [x] 1.1 Initialize React application using Create React App with TypeScript template
   - [ ] 1.2 Configure ESLint and Prettier for code formatting and quality
   - [ ] 1.3 Set up project folder structure (components, utils, styles directories)
   - [ ] 1.4 Install minimal dependencies (no external UI libraries - custom CSS only)
