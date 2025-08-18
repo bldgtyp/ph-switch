@@ -22,8 +22,16 @@ export interface ConversionResult {
   formattedValue?: string;
   sourceUnit?: string;
   targetUnit?: string;
-  error?: string;
+  error?: string | ErrorDetails;
   suggestions?: string[];
+  calculation?: {
+    inputValue: number;
+    sourceUnit: string;
+    targetUnit: string;
+    outputValue: number;
+    precision: string;
+    category: string;
+  };
 }
 
 export interface ParsedInput {

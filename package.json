@@ -81,6 +81,7 @@
   },
   "devDependencies": {
     "@types/ajv": "^0.0.5",
+    "@types/fast-levenshtein": "^0.0.4",
     "@types/lodash.debounce": "^4.0.9",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-prettier": "^5.5.4",
