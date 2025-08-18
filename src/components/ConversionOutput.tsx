@@ -14,6 +14,7 @@ interface ConversionOutputProps {
   onCopy?: (text: string, resultId: string) => void;
   className?: string;
   'aria-label'?: string;
+  isProcessing?: boolean;
 }
 
 /**
@@ -26,6 +27,7 @@ export const ConversionOutput: React.FC<ConversionOutputProps> = ({
   onCopy,
   className = '',
   'aria-label': ariaLabel = 'Conversion results',
+  isProcessing = false,
 }) => {
   const [copiedId, setCopiedId] = useState<string | null>(null);
   const [copyTimeout, setCopyTimeout] = useState<NodeJS.Timeout | null>(null);
@@ -55,25 +57,45 @@ export const ConversionOutput: React.FC<ConversionOutputProps> = ({
         console.warn('Failed to copy to clipboard:', error);
         // Fallback: select text for manual copy
         selectTextFallback(text);
+
+        // Show brief feedback that manual copy is needed
+        setCopiedId(resultId);
+        const timeout = setTimeout(() => {
+          setCopiedId(null);
+        }, 1000);
+        setCopyTimeout(timeout);
       }
     },
     [onCopy, copyTimeout]
   );
 
   const selectTextFallback = (text: string) => {
-    // Create temporary textarea for fallback copy
+    // Create temporary textarea for fallback text selection
     const textarea = document.createElement('textarea');
     textarea.value = text;
     textarea.style.position = 'absolute';
     textarea.style.left = '-9999px';
+    textarea.style.top = '-9999px';
+    textarea.setAttribute('readonly', '');
     document.body.appendChild(textarea);
-    textarea.select();
+
     try {
-      document.execCommand('copy');
+      textarea.select();
+      textarea.setSelectionRange(0, 99999); // For mobile devices
+
+      // Show user that text is selected for manual copy
+      console.info('Text selected for manual copy:', text);
+
+      // Remove the element after a brief delay to allow selection
+      setTimeout(() => {
+        if (document.body.contains(textarea)) {
+          document.body.removeChild(textarea);
+        }
+      }, 100);
     } catch (error) {
-      console.warn('Fallback copy also failed:', error);
+      console.warn('Text selection fallback failed:', error);
+      document.body.removeChild(textarea);
     }
-    document.body.removeChild(textarea);
   };
 
   const handleKeyDown = useCallback(
@@ -103,8 +125,15 @@ export const ConversionOutput: React.FC<ConversionOutputProps> = ({
       >
         <div className="conversion-output__placeholder">
           <span className="conversion-output__placeholder-text">
-            Results will appear here as you type...
+            {isProcessing
+              ? 'Processing...'
+              : 'Results will appear here as you type...'}
           </span>
+          {isProcessing && (
+            <span className="conversion-output__spinner" aria-hidden="true">
+              ⟳
+            </span>
+          )}
         </div>
       </div>
     );
@@ -113,64 +142,89 @@ export const ConversionOutput: React.FC<ConversionOutputProps> = ({
   return (
     <div className={`conversion-output ${className}`} aria-label={ariaLabel}>
       <div className="conversion-output__results">
-        {results.map((result, index) => (
-          <div
-            key={result.id}
-            className={`conversion-output__result ${result.success ? 'success' : 'error'} ${
-              copiedId === result.id ? 'copied' : ''
-            }`}
-            data-line={index + 1}
-          >
-            {result.success && result.output ? (
-              <button
-                className="conversion-output__value"
-                onClick={() => handleCopy(result.output!, result.id)}
-                onKeyDown={(e) => handleKeyDown(e, result.output!, result.id)}
-                aria-label={`Copy result: ${result.output}`}
-                title="Click to copy to clipboard"
-                type="button"
-              >
-                <span className="conversion-output__text">{result.output}</span>
-                <span
-                  className="conversion-output__copy-icon"
-                  aria-hidden="true"
-                >
-                  {copiedId === result.id ? '✓' : '📋'}
-                </span>
-              </button>
-            ) : (
-              <div className="conversion-output__error" role="alert">
-                <span
-                  className="conversion-output__error-icon"
-                  aria-hidden="true"
-                >
-                  ⚠️
-                </span>
-                <span className="conversion-output__error-text">
-                  {result.error || 'Conversion failed'}
-                </span>
-              </div>
-            )}
-
-            {copiedId === result.id && (
+        {results.map((result, index) => {
+          // Handle empty lines for proper alignment
+          if (!result.input && result.success) {
+            return (
               <div
-                className="conversion-output__copy-feedback"
-                role="status"
-                aria-live="polite"
+                key={result.id}
+                className="conversion-output__result empty-line"
+                data-line={index + 1}
               >
-                Copied!
+                <div className="conversion-output__empty-line">&nbsp;</div>
               </div>
-            )}
-          </div>
-        ))}
+            );
+          }
+
+          return (
+            <div
+              key={result.id}
+              className={`conversion-output__result ${result.success ? 'success' : 'error'} ${
+                copiedId === result.id ? 'copied' : ''
+              }`}
+              data-line={index + 1}
+            >
+              {result.success && result.output ? (
+                <button
+                  className="conversion-output__value"
+                  onClick={() => handleCopy(result.output!, result.id)}
+                  onKeyDown={(e) => handleKeyDown(e, result.output!, result.id)}
+                  aria-label={`Copy result: ${result.output}`}
+                  title="Click to copy to clipboard"
+                  type="button"
+                >
+                  <span className="conversion-output__text">
+                    {result.output}
+                  </span>
+                  <span
+                    className="conversion-output__copy-icon"
+                    aria-hidden="true"
+                  >
+                    {copiedId === result.id ? '✓' : '📋'}
+                  </span>
+                </button>
+              ) : (
+                <div className="conversion-output__error" role="alert">
+                  <span
+                    className="conversion-output__error-icon"
+                    aria-hidden="true"
+                  >
+                    ⚠️
+                  </span>
+                  <span className="conversion-output__error-text">
+                    {result.error || 'Conversion failed'}
+                  </span>
+                </div>
+              )}
+
+              {copiedId === result.id && (
+                <div
+                  className="conversion-output__copy-feedback"
+                  role="status"
+                  aria-live="polite"
+                >
+                  Copied!
+                </div>
+              )}
+            </div>
+          );
+        })}
       </div>
 
       {/* Summary info */}
       <div className="conversion-output__summary">
         <span className="conversion-output__count">
-          {results.filter((r) => r.success).length} of {results.length}{' '}
-          converted
+          {results.filter((r) => r.success && r.input).length} of{' '}
+          {results.filter((r) => r.input).length} converted
         </span>
+        {isProcessing && (
+          <span className="conversion-output__processing">
+            <span className="conversion-output__spinner" aria-hidden="true">
+              ⟳
+            </span>
+            Processing...
+          </span>
+        )}
       </div>
     </div>
   );

@@ -229,19 +229,57 @@
   }
 }
 
+/* Empty line styling for proper alignment */
+.conversion-output__result.empty-line {
+  min-height: var(--result-min-height, 2.5rem);
+  display: flex;
+  align-items: center;
+}
+
+.conversion-output__empty-line {
+  width: 100%;
+  height: 1.5rem;
+  opacity: 0.3;
+  border-left: 2px solid transparent;
+}
+
+/* Processing states */
+.conversion-output__spinner {
+  display: inline-block;
+  animation: spin 1s linear infinite;
+  margin-left: var(--spacing-xs, 0.5rem);
+  font-size: var(--font-size-sm, 0.875rem);
+}
+
+.conversion-output__processing {
+  display: flex;
+  align-items: center;
+  font-size: var(--font-size-sm, 0.875rem);
+  color: var(--color-text-secondary, #6b7280);
+  margin-left: var(--spacing-md, 1rem);
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 /* Reduced motion support */
 @media (prefers-reduced-motion: reduce) {
   .conversion-output__result {
     transition: none;
   }
 
-  .conversion-output__copy-icon {
-    transition: none;
+  .conversion-output__value:hover {
+    transform: none;
   }
 
-  .conversion-output__copy-feedback {
+  .conversion-output__spinner {
     animation: none;
-    opacity: 1;
   }
 }
 

@@ -93,13 +93,13 @@ Based on PRD: `prd-ph-unit-converter.md`
   - [x] 4.5 Create header with application title and minimal branding
   - [x] 4.6 Ensure clean, professional appearance suitable for engineers
 
-- [ ] 5.0 Multi-line Input System
-  - [ ] 5.1 Implement line-by-line conversion processing
-  - [ ] 5.2 Add real-time conversion updates as user types (with debouncing)
-  - [ ] 5.3 Handle textarea auto-expansion for multiple lines
-  - [ ] 5.4 Maintain cursor position during real-time updates
-  - [ ] 5.5 Display individual results aligned with corresponding input lines
-  - [ ] 5.6 Test multi-line functionality with various input combinations
+- [x] 5.0 Multi-line Input System
+  - [x] 5.1 Implement line-by-line conversion processing
+  - [x] 5.2 Add real-time conversion updates as user types (with debouncing)
+  - [x] 5.3 Handle textarea auto-expansion for multiple lines
+  - [x] 5.4 Maintain cursor position during real-time updates
+  - [x] 5.5 Display individual results aligned with corresponding input lines
+  - [x] 5.6 Test multi-line functionality with various input combinations
 
 - [ ] 6.0 Desktop-First Responsive Design
   - [ ] 6.1 Create CSS custom properties for consistent theming

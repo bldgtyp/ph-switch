@@ -13,20 +13,16 @@ description: Guidelines for managing task lists in markdown files to track progr
   3. Run the tests to verify the implementation works as expected
   4. Include test results in your response
 - **Task Completion Protocol:**
-
   1. When you finish a **sub‑task**, immediately mark it as completed by changing `[ ]` to `[x]`.
   2. If **all** subtasks underneath a parent task are now `[x]`, follow this sequence:
-
   - **First**: Run the full test suite (`pytest`, `npm test`, `bin/rails test`, etc.)
   - **If any tests fail**: Fix failing test before proceeding.
   - **Clean up**: Remove any temporary files and temporary code before committing
-
   3. Once all the subtasks are marked completed and all tests are passing, mark the **parent task** as completed.
   4. **IF** the change involved modifications to the frontend or UI, review the design for consistency and usability:
-
   - **Identify what changed**: Review the modified components/pages
   - **Navigate to affected pages**: Use `mcp__playwright__browser_navigate` to visit each changed view
-  - **Verify design compliance**: Compare against /context/design-principles.md and /context/style-guide.md
+  - **Verify design compliance**: Compare against `/context/design-principles.md` and `/context/style-guide.md`
   - **Validate feature implementation**: Ensure the change fulfills the user's specific request
   - **Check acceptance criteria**: Review any provided context files or requirements
   - **Capture evidence**: Take full page screenshot at desktop viewport (1440px) of each changed view
@@ -38,7 +34,6 @@ description: Guidelines for managing task lists in markdown files to track progr
 ## Task List Maintenance
 
 1. **Update the task list as you work:**
-
    - Mark tasks and subtasks as completed (`[x]`) per the protocol above.
    - Add new tasks as they emerge.
 

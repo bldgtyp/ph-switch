@@ -177,9 +177,8 @@ describe('ConversionOutput', () => {
         new Error('Clipboard failed')
       );
 
-      // Mock document.execCommand for fallback
-      const originalExecCommand = document.execCommand;
-      document.execCommand = jest.fn().mockReturnValue(true);
+      // Mock console.info to verify fallback behavior
+      const consoleSpy = jest.spyOn(console, 'info').mockImplementation();
 
       render(<ConversionOutput results={mockResults} />);
 
@@ -190,11 +189,18 @@ describe('ConversionOutput', () => {
       });
 
       await waitFor(() => {
-        expect(document.execCommand).toHaveBeenCalledWith('copy');
+        // Verify that the fallback text selection was triggered
+        expect(consoleSpy).toHaveBeenCalledWith(
+          'Text selected for manual copy:',
+          '16.404 feet'
+        );
+        // Verify that the button still shows copied state briefly
+        expect(
+          copyButton.querySelector('.conversion-output__copy-icon')
+        ).toHaveTextContent('✓');
       });
 
-      // Restore original
-      document.execCommand = originalExecCommand;
+      consoleSpy.mockRestore();
     });
   });
 

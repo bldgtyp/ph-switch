@@ -1,4 +1,5 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useMemo } from 'react';
+import debounce from 'lodash.debounce';
 import './styles/App.css';
 import { ConversionInput, ConversionOutput, ErrorMessage } from './components';
 import { mockConvertInput, MockConversionResult } from './utils/mockConverter';
@@ -15,6 +16,7 @@ function App() {
   const [inputValue, setInputValue] = useState('');
   const [results, setResults] = useState<ConversionResult[]>([]);
   const [processingError, setProcessingError] = useState<string | null>(null);
+  const [isProcessing, setIsProcessing] = useState(false);
 
   const convertMockToConversionResult = (
     mockResult: MockConversionResult,
@@ -38,26 +40,40 @@ function App() {
     }
   };
 
-  const handleInputChange = useCallback((value: string) => {
-    setInputValue(value);
+  const processConversions = useCallback((value: string) => {
     setProcessingError(null);
+    setIsProcessing(true);
 
     if (!value.trim()) {
       setResults([]);
+      setIsProcessing(false);
       return;
     }
 
     try {
-      // Process each line separately
-      const lines = value.split('\n').filter((line) => line.trim());
+      // Process each line separately, including empty lines for alignment
+      const lines = value.split('\n');
       const conversionResults: ConversionResult[] = [];
 
       lines.forEach((line, index) => {
+        const trimmedLine = line.trim();
+
+        if (!trimmedLine) {
+          // Empty line - add placeholder for alignment
+          conversionResults.push({
+            id: `empty-${index}`,
+            input: '',
+            output: '',
+            success: true,
+          });
+          return;
+        }
+
         try {
-          const mockResult = mockConvertInput(line.trim());
+          const mockResult = mockConvertInput(trimmedLine);
           const result = convertMockToConversionResult(
             mockResult,
-            line.trim(),
+            trimmedLine,
             index
           );
           conversionResults.push(result);
@@ -65,7 +81,7 @@ function App() {
           // Add error result for this line
           conversionResults.push({
             id: `parse-error-${index}`,
-            input: line.trim(),
+            input: trimmedLine,
             error: error instanceof Error ? error.message : 'Parse error',
             success: false,
           });
@@ -78,8 +94,24 @@ function App() {
         error instanceof Error ? error.message : 'Conversion failed'
       );
       setResults([]);
+    } finally {
+      setIsProcessing(false);
     }
   }, []);
+
+  // Debounced conversion processing for real-time updates
+  const debouncedProcessConversions = useMemo(
+    () => debounce(processConversions, 300),
+    [processConversions]
+  );
+
+  const handleInputChange = useCallback(
+    (value: string) => {
+      setInputValue(value);
+      debouncedProcessConversions(value);
+    },
+    [debouncedProcessConversions]
+  );
 
   const handleSuggestionClick = useCallback((suggestion: string) => {
     // For now, just log the suggestion - will be enhanced in Phase 2
@@ -144,6 +176,7 @@ function App() {
               ) : (
                 <ConversionOutput
                   results={results}
+                  isProcessing={isProcessing}
                   aria-label="Conversion results - click to copy values"
                 />
               )}
