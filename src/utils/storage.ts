@@ -155,7 +155,9 @@ function loadFromStorage(): StorageResult {
 
     // Validate storage structure
     if (!parsed || typeof parsed !== 'object') {
-      console.warn('Invalid storage data structure, resetting');
+      if (process.env.NODE_ENV !== 'test') {
+        console.warn('Invalid storage data structure, resetting');
+      }
       return {
         success: true,
         data: createDefaultContainer(),
@@ -164,9 +166,11 @@ function loadFromStorage(): StorageResult {
 
     // Check version compatibility
     if (parsed.version !== STORAGE_VERSION) {
-      console.warn(
-        `Storage version mismatch (${parsed.version} vs ${STORAGE_VERSION}), resetting`
-      );
+      if (process.env.NODE_ENV !== 'test') {
+        console.warn(
+          `Storage version mismatch (${parsed.version} vs ${STORAGE_VERSION}), resetting`
+        );
+      }
       return {
         success: true,
         data: createDefaultContainer(),
@@ -186,7 +190,9 @@ function loadFromStorage(): StorageResult {
       data: container,
     };
   } catch (error) {
-    console.error('Failed to load from storage:', error);
+    if (process.env.NODE_ENV !== 'test') {
+      console.error('Failed to load from storage:', error);
+    }
     return {
       success: false,
       error: error instanceof Error ? error.message : 'Unknown storage error',
@@ -206,7 +212,9 @@ function saveToStorage(container: StorageContainer): StorageResult {
 
     // Check storage size limits
     if (container.totalSize > MAX_STORAGE_SIZE) {
-      console.warn('Storage size exceeds limit, cleaning up old entries');
+      if (process.env.NODE_ENV !== 'test') {
+        console.warn('Storage size exceeds limit, cleaning up old entries');
+      }
       const cleaned = cleanupOldEntries(container, MAX_STORAGE_SIZE * 0.8); // Clean to 80% of limit
       return saveToStorage(cleaned.data!);
     }
@@ -219,7 +227,9 @@ function saveToStorage(container: StorageContainer): StorageResult {
       data: container,
     };
   } catch (error) {
-    console.error('Failed to save to storage:', error);
+    if (process.env.NODE_ENV !== 'test') {
+      console.error('Failed to save to storage:', error);
+    }
 
     // Handle quota exceeded error
     if (error instanceof Error && error.name === 'QuotaExceededError') {

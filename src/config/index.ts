@@ -32,14 +32,20 @@ export async function initializeConfigurations(): Promise<boolean> {
       if (result.success && result.categories) {
         globalConfigurations = result.categories;
         globalAliases = getAllUnitAliases(result.categories);
-        console.log('Configuration system initialized successfully');
+        if (process.env.NODE_ENV !== 'test') {
+          console.log('Configuration system initialized successfully');
+        }
       } else {
-        console.error('Failed to initialize configurations:', result.error);
+        if (process.env.NODE_ENV !== 'test') {
+          console.error('Failed to initialize configurations:', result.error);
+        }
         globalConfigurations = null;
         globalAliases = null;
       }
     } catch (error) {
-      console.error('Error during configuration initialization:', error);
+      if (process.env.NODE_ENV !== 'test') {
+        console.error('Error during configuration initialization:', error);
+      }
       globalConfigurations = null;
       globalAliases = null;
     }
