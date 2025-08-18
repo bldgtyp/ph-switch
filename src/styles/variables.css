@@ -13,6 +13,9 @@
   --text-secondary: #757575;
   --border-color: #e0e0e0;
   --border-color-focused: #1976d2;
+  --color-text: #1f2328;
+  --color-text-secondary: #6b7280;
+  --text-color-muted: #848a95;
 
   /* Typography */
   --font-family:

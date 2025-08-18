@@ -205,8 +205,12 @@ describe('ConversionOutput', () => {
       expect(copyButtons).toHaveLength(2); // Only successful results have copy buttons
 
       // Verify buttons have proper aria-labels for copy functionality
-      expect(screen.getByLabelText('Copy result: 16.404 feet')).toBeInTheDocument();
-      expect(screen.getByLabelText('Copy result: 25.400 cm')).toBeInTheDocument();
+      expect(
+        screen.getByLabelText('Copy result: 16.404 feet')
+      ).toBeInTheDocument();
+      expect(
+        screen.getByLabelText('Copy result: 25.400 cm')
+      ).toBeInTheDocument();
     });
 
     test('copy functionality works correctly', async () => {
@@ -226,7 +230,9 @@ describe('ConversionOutput', () => {
       });
 
       await waitFor(() => {
-        expect(navigator.clipboard.writeText).toHaveBeenCalledWith('16.404 feet');
+        expect(navigator.clipboard.writeText).toHaveBeenCalledWith(
+          '16.404 feet'
+        );
       });
     });
 

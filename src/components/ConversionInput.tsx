@@ -22,7 +22,7 @@ export const ConversionInput: React.FC<ConversionInputProps> = ({
   onChange,
   onFocus,
   onBlur,
-  placeholder = 'Enter conversions like "5 meters to feet" (one per line)',
+  placeholder = 'Enter the values to convert like "5 meters to feet"',
   disabled = false,
   'aria-label': ariaLabel = 'Conversion input',
   'aria-describedby': ariaDescribedBy,

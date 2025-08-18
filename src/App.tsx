@@ -190,9 +190,9 @@ function App() {
     <div className="app">
       <header className="app-header">
         <div className="app-header__content">
-          <h1 className="app-title">PH-Switch Unit Converter</h1>
+          <h1 className="app-title">PH-Switch</h1>
           <p className="app-subtitle">
-            Fast conversions for Passive House engineering
+            Fast unit switching for Passive-House designers.
           </p>
         </div>
       </header>
@@ -203,14 +203,14 @@ function App() {
             <div className="conversion-panel__header">
               <h2 className="conversion-panel__title">Input</h2>
               <p className="conversion-panel__description">
-                Enter conversions like "5 meters to feet"
+                Enter the values to convert such as "5 meters to feet"
               </p>
             </div>
             <div className="conversion-panel__content">
               <ConversionInput
                 value={inputValue}
                 onChange={handleInputChange}
-                placeholder="Enter conversions, one per line:&#10;5 meters to feet&#10;10 inches as cm&#10;2.5 miles to km"
+                placeholder="5 meters to feet&#10;10 inches as cm"
                 aria-label="Unit conversion input - enter conversions like '5 meters to feet'"
               />
             </div>
@@ -256,8 +256,7 @@ function App() {
       <footer className="app-footer">
         <div className="app-footer__content">
           <p className="app-footer__text">
-            Made for Passive House professionals • No data collection • Works
-            offline
+            Made for Passive Housers • No data collected • Works offline
           </p>
         </div>
       </footer>

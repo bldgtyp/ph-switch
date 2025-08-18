@@ -108,7 +108,9 @@ describe('App - Multi-line Input System', () => {
         expect(screen.getByText(/25.4 cm/)).toBeInTheDocument();
 
         // Should show error for invalid line
-        expect(screen.getByText(/Invalid conversion format/)).toBeInTheDocument();
+        expect(
+          screen.getByText(/Invalid conversion format/)
+        ).toBeInTheDocument();
 
         // Check line alignment using data-line attributes
         const results = screen.getAllByRole('button', { name: /Copy result/ });
