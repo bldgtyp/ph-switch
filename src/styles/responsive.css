@@ -1,0 +1,120 @@
+/* Responsive design breakpoints and mobile styles */
+
+/* Desktop-first approach - default styles are for desktop */
+/* Breakpoints: Desktop (1200px+), Tablet (768px-1199px), Mobile (<768px) */
+
+/* Tablet styles (768px - 1199px) */
+@media (max-width: 1199px) and (min-width: 768px) {
+  :root {
+    --panel-width: 50%;
+    --spacing-xl: 24px;
+    --spacing-xxl: 32px;
+  }
+
+  .app-container {
+    padding: var(--spacing-lg);
+  }
+
+  .conversion-panels {
+    gap: var(--spacing-lg);
+  }
+
+  .panel {
+    min-height: 300px;
+  }
+}
+
+/* Mobile styles (below 768px) */
+@media (max-width: 767px) {
+  :root {
+    --panel-width: 100%;
+    --spacing-md: 12px;
+    --spacing-lg: 16px;
+    --spacing-xl: 20px;
+    --spacing-xxl: 24px;
+    --font-size-medium: 0.9rem;
+    --font-size-large: 1rem;
+  }
+
+  .app-container {
+    padding: var(--spacing-md);
+  }
+
+  .conversion-panels {
+    flex-direction: column;
+    gap: var(--spacing-md);
+  }
+
+  .panel {
+    min-height: 200px;
+    width: 100%;
+  }
+
+  .app-header {
+    text-align: center;
+    margin-bottom: var(--spacing-lg);
+  }
+
+  .app-title {
+    font-size: var(--font-size-large);
+  }
+
+  /* Ensure touch-friendly targets (44px minimum) */
+  button,
+  .clickable,
+  .copy-button {
+    min-height: 44px;
+    min-width: 44px;
+    padding: var(--spacing-sm) var(--spacing-md);
+  }
+
+  /* Optimize textarea for mobile */
+  textarea {
+    font-size: 16px; /* Prevents zoom on iOS */
+    line-height: 1.4;
+  }
+}
+
+/* Large desktop styles (1400px+) */
+@media (min-width: 1400px) {
+  :root {
+    --max-width: 1400px;
+    --spacing-xxl: 64px;
+  }
+
+  .app-container {
+    padding: var(--spacing-xxl) var(--spacing-lg);
+  }
+}
+
+/* High DPI / Retina display optimizations */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  /* Ensure crisp borders and text */
+  * {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+}
+
+/* Reduced motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Dark mode support (for future implementation) */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background-color: #121212;
+    --surface-color: #1e1e1e;
+    --text-primary: #ffffff;
+    --text-secondary: #b0b0b0;
+    --border-color: #333333;
+    --primary-color: #64b5f6;
+  }
+}
