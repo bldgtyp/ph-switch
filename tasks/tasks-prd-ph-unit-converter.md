@@ -69,13 +69,13 @@ Based on PRD: `prd-ph-unit-converter.md`
   - [x] 1.4 Install minimal dependencies (no external UI libraries - custom CSS only)
   - [x] 1.5 Configure package.json scripts for development and production builds
 
-- [ ] 2.0 Mock Conversion Engine (For UI Testing)
-  - [ ] 2.1 Create mockConverter.js with simple hardcoded conversion logic
-  - [ ] 2.2 Implement basic parsing for "X unit as/to Y unit" format
-  - [ ] 2.3 Add mock support for length units (meter, foot, inch, cm, mm, km, yard, mile)
-  - [ ] 2.4 Format mock results to 3 decimal places with comma thousands separators
-  - [ ] 2.5 Include mock error handling for invalid input patterns
-  - [ ] 2.6 Write unit tests for mock converter functionality
+- [x] 2.0 Mock Conversion Engine (For UI Testing)
+  - [x] 2.1 Create mockConverter.js with simple hardcoded conversion logic
+  - [x] 2.2 Implement basic parsing for "X unit as/to Y unit" format
+  - [x] 2.3 Add mock support for length units (meter, foot, inch, cm, mm, km, yard, mile)
+  - [x] 2.4 Format mock results to 3 decimal places with comma thousands separators
+  - [x] 2.5 Include mock error handling for invalid input patterns
+  - [x] 2.6 Write unit tests for mock converter functionality
 
 - [ ] 3.0 React UI Components
   - [ ] 3.1 Create ConversionInput component with multi-line textarea

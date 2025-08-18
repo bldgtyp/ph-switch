@@ -2,7 +2,7 @@
 // This file will be updated as utilities are created
 
 // Phase 1 utilities
-// export { default as mockConverter } from './mockConverter';
+export { default as mockConverter } from './mockConverter';
 
 // Phase 2 utilities
 // export { default as configLoader } from './configLoader';
@@ -15,5 +15,3 @@
 // export { default as performance } from './performance';
 // export { default as cache } from './cache';
 // export { default as accessibility } from './accessibility';
-
-export {}; // Prevent empty file errors
