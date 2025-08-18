@@ -4,6 +4,7 @@
 import Ajv from 'ajv';
 import schema from '../config/schema.json';
 import lengthConfig from '../config/length.json';
+import areaConfig from '../config/area.json';
 import {
   UnitCategory,
   ConfigurationLoadResult,
@@ -95,6 +96,17 @@ export async function loadAllConfigurations(): Promise<ConfigurationLoadResult> 
       return {
         success: false,
         error: 'Failed to load length unit configuration',
+      };
+    }
+
+    // Load area configuration
+    const areaCategory = loadUnitCategory(areaConfig, 'area');
+    if (areaCategory) {
+      categories.area = areaCategory;
+    } else {
+      return {
+        success: false,
+        error: 'Failed to load area unit configuration',
       };
     }
 

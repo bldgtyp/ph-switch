@@ -1,6 +1,10 @@
 // Core conversion engine with precision handling using decimal.js
 import { Decimal } from 'decimal.js';
-import { getCategory, isConfigurationReady } from '../config';
+import {
+  getCategory,
+  isConfigurationReady,
+  getAvailableCategories,
+} from '../config';
 import { parseConversionInput } from './parser';
 import {
   createCalculationError,
@@ -93,8 +97,8 @@ function findUnit(unitName: string): {
 } | null {
   const normalizedUnit = unitName.toLowerCase().trim();
 
-  // Get all available categories
-  const categories = ['length']; // Start with length, will be expanded
+  // Get all available categories from configuration
+  const categories = getAvailableCategories();
 
   for (const category of categories) {
     try {
