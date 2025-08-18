@@ -231,9 +231,6 @@ describe('App - Multi-line Input System', () => {
         expect(screen.getAllByText(/Invalid conversion format/)).toHaveLength(
           2
         );
-
-        // Summary should show correct counts
-        expect(screen.getByText(/2 of 4 converted/)).toBeInTheDocument();
       },
       { timeout: 1000 }
     );

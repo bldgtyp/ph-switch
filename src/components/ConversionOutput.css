@@ -181,19 +181,6 @@
   }
 }
 
-.conversion-output__summary {
-  padding: var(--spacing-small) var(--spacing-medium);
-  border-top: 1px solid var(--border-color-light);
-  background-color: var(--background-color-secondary);
-  text-align: center;
-}
-
-.conversion-output__count {
-  font-size: var(--font-size-small);
-  color: var(--text-color-muted);
-  font-weight: 500;
-}
-
 /* Responsive adjustments */
 @media (max-width: 768px) {
   .conversion-output__value {

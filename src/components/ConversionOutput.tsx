@@ -210,22 +210,6 @@ export const ConversionOutput: React.FC<ConversionOutputProps> = ({
           );
         })}
       </div>
-
-      {/* Summary info */}
-      <div className="conversion-output__summary">
-        <span className="conversion-output__count">
-          {results.filter((r) => r.success && r.input).length} of{' '}
-          {results.filter((r) => r.input).length} converted
-        </span>
-        {isProcessing && (
-          <span className="conversion-output__processing">
-            <span className="conversion-output__spinner" aria-hidden="true">
-              ⟳
-            </span>
-            Processing...
-          </span>
-        )}
-      </div>
     </div>
   );
 };

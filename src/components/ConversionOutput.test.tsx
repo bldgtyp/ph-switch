@@ -80,7 +80,6 @@ describe('ConversionOutput', () => {
 
       expect(screen.getByText('16.404 feet')).toBeInTheDocument();
       expect(screen.getByText('25.400 cm')).toBeInTheDocument();
-      expect(screen.getByText('2 of 2 converted')).toBeInTheDocument();
     });
 
     test('renders error results', () => {
@@ -90,7 +89,6 @@ describe('ConversionOutput', () => {
       expect(
         screen.getByText('Invalid format. Use "X unit as/to Y unit"')
       ).toBeInTheDocument();
-      expect(screen.getByText('0 of 1 converted')).toBeInTheDocument();
     });
 
     test('renders mixed results', () => {
@@ -101,7 +99,6 @@ describe('ConversionOutput', () => {
       expect(
         screen.getByText('Invalid format. Use "X unit as/to Y unit"')
       ).toBeInTheDocument();
-      expect(screen.getByText('2 of 3 converted')).toBeInTheDocument();
     });
   });
 
