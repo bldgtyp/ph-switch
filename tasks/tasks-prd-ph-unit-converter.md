@@ -101,21 +101,21 @@ Based on PRD: `prd-ph-unit-converter.md`
   - [x] 5.5 Display individual results aligned with corresponding input lines
   - [x] 5.6 Test multi-line functionality with various input combinations
 
-- [ ] 6.0 Desktop-First Responsive Design
-  - [ ] 6.1 Create CSS custom properties for consistent theming
-  - [ ] 6.2 Implement desktop layout (1200px+ screens) as primary design
-  - [ ] 6.3 Add tablet responsiveness (768px - 1199px) with adjusted spacing
-  - [ ] 6.4 Implement mobile layout (below 768px) with stacked panels if needed
-  - [ ] 6.5 Ensure touch-friendly interaction targets for mobile devices
-  - [ ] 6.6 Test responsiveness across different screen sizes and orientations
+- [x] 6.0 Desktop-First Responsive Design
+  - [x] 6.1 Create CSS custom properties for consistent theming
+  - [x] 6.2 Implement desktop layout (1200px+ screens) as primary design
+  - [x] 6.3 Add tablet responsiveness (768px - 1199px) with adjusted spacing
+  - [x] 6.4 Implement mobile layout (below 768px) with stacked panels if needed
+  - [x] 6.5 Ensure touch-friendly interaction targets for mobile devices
+  - [x] 6.6 Test responsiveness across different screen sizes and orientations
 
-- [ ] 7.0 Basic Error Display and Visual Feedback
-  - [ ] 7.1 Implement visual indicators for successful conversions
-  - [ ] 7.2 Add error styling for invalid input lines
-  - [ ] 7.3 Create loading states for conversion processing
-  - [ ] 7.4 Add hover and focus states for interactive elements
-  - [ ] 7.5 Implement basic error messages for unparseable input
-  - [ ] 7.6 Test error scenarios and user feedback mechanisms
+- [x] 7.0 Basic Error Display and Visual Feedback
+  - [x] 7.1 Implement visual indicators for successful conversions
+  - [x] 7.2 Add error styling for invalid input lines
+  - [x] 7.3 Create loading states for conversion processing
+  - [x] 7.4 Add hover and focus states for interactive elements
+  - [x] 7.5 Implement basic error messages for unparseable input
+  - [x] 7.6 Test error scenarios and user feedback mechanisms
 
 ### Phase 2: Functional Implementation (Replace Mocks)
 

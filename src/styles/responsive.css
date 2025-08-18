@@ -62,16 +62,27 @@
   /* Ensure touch-friendly targets (44px minimum) */
   button,
   .clickable,
-  .copy-button {
-    min-height: 44px;
-    min-width: 44px;
+  .copy-button,
+  .conversion-output__value {
+    min-height: var(--touch-target-min);
+    min-width: var(--touch-target-min);
     padding: var(--spacing-sm) var(--spacing-md);
+    touch-action: manipulation; /* Prevents double-tap zoom */
   }
 
   /* Optimize textarea for mobile */
   textarea {
     font-size: 16px; /* Prevents zoom on iOS */
     line-height: 1.4;
+    min-height: var(--input-height-mobile);
+    padding: var(--spacing-md);
+    border-radius: var(--border-radius);
+  }
+  
+  /* Improve tap targets for conversion results */
+  .conversion-output__result button {
+    padding: var(--spacing-md);
+    margin: var(--spacing-xs) 0;
   }
 }
 
@@ -116,5 +127,43 @@
     --text-secondary: #b0b0b0;
     --border-color: #333333;
     --primary-color: #64b5f6;
+  }
+}
+
+/* Landscape mobile optimization */
+@media (max-width: 767px) and (orientation: landscape) {
+  .app-header {
+    padding: var(--spacing-sm) 0;
+  }
+  
+  .app-main {
+    padding: var(--spacing-sm) var(--spacing-md);
+  }
+  
+  .conversion-panel__content {
+    min-height: 120px;
+    padding: var(--spacing-sm) var(--spacing-md);
+  }
+}
+
+/* Very small screens (320px and below) */
+@media (max-width: 320px) {
+  :root {
+    --spacing-xs: 2px;
+    --spacing-sm: 4px;
+    --spacing-md: 8px;
+    --spacing-lg: 12px;
+  }
+  
+  .conversion-panel__header {
+    padding: var(--spacing-xs) var(--spacing-sm);
+  }
+  
+  .conversion-panel__content {
+    padding: var(--spacing-sm);
+  }
+  
+  .app-title {
+    font-size: var(--font-size-large);
   }
 }

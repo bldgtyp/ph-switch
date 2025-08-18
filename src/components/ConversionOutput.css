@@ -297,3 +297,75 @@
     cursor: default;
   }
 }
+
+/* Enhanced visual feedback states */
+.conversion-output__result.success .conversion-output__value:hover {
+  background-color: var(--success-background-light, rgba(76, 175, 80, 0.05));
+  transform: translateX(2px);
+}
+
+.conversion-output__result.error:hover {
+  background-color: var(--error-background-light, rgba(244, 67, 54, 0.05));
+}
+
+.conversion-output__value:active {
+  transform: scale(0.98);
+}
+
+/* Status indicators */
+.conversion-output__status-indicator {
+  position: absolute;
+  top: var(--spacing-sm);
+  left: var(--spacing-sm);
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.conversion-output__result.success .conversion-output__status-indicator {
+  background-color: var(--success-color);
+  box-shadow: 0 0 4px rgba(76, 175, 80, 0.4);
+}
+
+.conversion-output__result.error .conversion-output__status-indicator {
+  background-color: var(--error-color);
+  box-shadow: 0 0 4px rgba(244, 67, 54, 0.4);
+}
+
+/* Pulse animation for processing */
+.conversion-output.processing {
+  position: relative;
+}
+
+.conversion-output.processing::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, 
+    transparent, 
+    var(--primary-color), 
+    transparent
+  );
+  animation: processingBar 2s ease-in-out infinite;
+}
+
+@keyframes processingBar {
+  0% { transform: translateX(-100%); }
+  50% { transform: translateX(100%); }
+  100% { transform: translateX(100%); }
+}
+
+/* Success feedback animation */
+.conversion-output__result.success {
+  animation: successPulse 0.3s ease-out;
+}
+
+@keyframes successPulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.02); }
+  100% { transform: scale(1); }
+}

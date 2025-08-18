@@ -134,3 +134,41 @@
   outline: 2px solid var(--focus-outline-color);
   outline-offset: -2px;
 }
+
+/* Input validation states */
+.conversion-input.processing {
+  border-color: var(--primary-color-light);
+  background-color: var(--color-surface, #f9fafb);
+}
+
+.conversion-input.has-errors {
+  border-color: var(--error-color);
+}
+
+.conversion-input.has-success {
+  border-color: var(--success-color);
+}
+
+/* Loading indicator for input */
+.conversion-input__loading {
+  position: absolute;
+  top: 50%;
+  right: var(--spacing-md);
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+.conversion-input__loading-spinner {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  border: 2px solid var(--border-color);
+  border-top: 2px solid var(--primary-color);
+  border-radius: 50%;
+  animation: inputSpin 1s linear infinite;
+}
+
+@keyframes inputSpin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
