@@ -8,6 +8,7 @@
   background-color: var(--background-color);
   position: relative;
   overflow: hidden;
+  contain: layout style;
 }
 
 .conversion-output.empty {
@@ -31,6 +32,7 @@
   padding: var(--spacing-small);
   max-height: 300px;
   overflow-y: auto;
+  overflow-x: hidden;
 
   /* Custom scrollbar */
   scrollbar-width: thin;
@@ -79,7 +81,6 @@
 .conversion-output__result.copied {
   background-color: var(--primary-color-light);
   border-color: var(--primary-color);
-  transform: scale(1.02);
 }
 
 .conversion-output__value {
@@ -106,7 +107,7 @@
 
 .conversion-output__value:focus {
   outline: 2px solid var(--focus-outline-color);
-  outline-offset: -2px;
+  outline-offset: 1px;
   background-color: var(--focus-background);
 }
 
@@ -137,36 +138,39 @@
 }
 
 .conversion-output__copy-feedback {
-  position: absolute;
+  position: fixed;
   top: 50%;
-  right: var(--spacing-medium);
-  transform: translateY(-50%);
+  left: 50%;
+  transform: translate(-50%, -50%);
   background: var(--success-color);
   color: white;
-  padding: 2px 8px;
-  border-radius: 4px;
-  font-size: var(--font-size-xs);
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: var(--font-size-sm);
   font-weight: 600;
   pointer-events: none;
+  white-space: nowrap;
+  z-index: 9999;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   animation: copyFeedback 2s ease-out forwards;
 }
 
 @keyframes copyFeedback {
   0% {
     opacity: 0;
-    transform: translateY(-50%) scale(0.8);
+    transform: translate(-50%, -50%) scale(0.8);
   }
   20% {
     opacity: 1;
-    transform: translateY(-50%) scale(1);
+    transform: translate(-50%, -50%) scale(1);
   }
   80% {
     opacity: 1;
-    transform: translateY(-50%) scale(1);
+    transform: translate(-50%, -50%) scale(1);
   }
   100% {
     opacity: 0;
-    transform: translateY(-50%) scale(0.8);
+    transform: translate(-50%, -50%) scale(0.8);
   }
 }
 
@@ -186,8 +190,8 @@
   }
 
   .conversion-output__copy-feedback {
-    right: var(--spacing-small);
-    font-size: 10px;
+    font-size: 12px;
+    padding: 4px 10px;
   }
 }
 
@@ -274,15 +278,10 @@
 /* Enhanced visual feedback states */
 .conversion-output__result.success .conversion-output__value:hover {
   background-color: var(--success-background-light, rgba(76, 175, 80, 0.05));
-  transform: translateX(2px);
 }
 
 .conversion-output__result.error:hover {
   background-color: var(--error-background-light, rgba(244, 67, 54, 0.05));
-}
-
-.conversion-output__value:active {
-  transform: scale(0.98);
 }
 
 /* Status indicators */

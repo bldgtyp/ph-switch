@@ -190,20 +190,21 @@ export const ConversionOutput: React.FC<ConversionOutputProps> = ({
                   </span>
                 </div>
               )}
-
-              {copiedId === result.id && (
-                <div
-                  className="conversion-output__copy-feedback"
-                  role="status"
-                  aria-live="polite"
-                >
-                  Copied!
-                </div>
-              )}
             </div>
           );
         })}
       </div>
+
+      {/* Global feedback positioned relative to main container */}
+      {copiedId && (
+        <div
+          className="conversion-output__copy-feedback"
+          role="status"
+          aria-live="polite"
+        >
+          Copied!
+        </div>
+      )}
     </div>
   );
 };
