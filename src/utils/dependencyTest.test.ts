@@ -1,4 +1,9 @@
-import { testDebounce, testAjv, testClipboardAPI, testNumberFormatting } from './dependencyTest';
+import {
+  testDebounce,
+  testAjv,
+  testClipboardAPI,
+  testNumberFormatting,
+} from './dependencyTest';
 
 describe('Minimal Dependencies Test', () => {
   test('lodash.debounce should work correctly', () => {
