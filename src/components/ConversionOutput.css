@@ -117,17 +117,6 @@
   padding: var(--spacing-sm);
 }
 
-.conversion-output__copy-icon {
-  flex-shrink: 0;
-  font-size: var(--font-size-small);
-  opacity: 0.7;
-  transition: opacity var(--transition-duration) ease;
-}
-
-.conversion-output__value:hover .conversion-output__copy-icon {
-  opacity: 1;
-}
-
 .conversion-output__error {
   padding: var(--spacing-medium);
   display: flex;
@@ -273,10 +262,6 @@
 
 /* Print styles */
 @media print {
-  .conversion-output__copy-icon {
-    display: none;
-  }
-
   .conversion-output__copy-feedback {
     display: none;
   }

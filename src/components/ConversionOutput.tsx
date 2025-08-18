@@ -176,12 +176,6 @@ export const ConversionOutput: React.FC<ConversionOutputProps> = ({
                   <span className="conversion-output__text">
                     {result.output}
                   </span>
-                  <span
-                    className="conversion-output__copy-icon"
-                    aria-hidden="true"
-                  >
-                    {copiedId === result.id ? '✓' : '📋'}
-                  </span>
                 </button>
               ) : (
                 <div className="conversion-output__error" role="alert">

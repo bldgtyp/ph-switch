@@ -191,10 +191,6 @@ describe('ConversionOutput', () => {
           'Text selected for manual copy:',
           '16.404 feet'
         );
-        // Verify that the button still shows copied state briefly
-        expect(
-          copyButton.querySelector('.conversion-output__copy-icon')
-        ).toHaveTextContent('✓');
       });
 
       consoleSpy.mockRestore();
@@ -202,18 +198,25 @@ describe('ConversionOutput', () => {
   });
 
   describe('Visual States', () => {
-    test('shows copy icon for successful results', () => {
+    test('shows copy buttons for successful results', () => {
       render(<ConversionOutput results={mockResults} />);
 
       const copyButtons = screen.getAllByRole('button');
       expect(copyButtons).toHaveLength(2); // Only successful results have copy buttons
 
-      copyButtons.forEach((button) => {
-        expect(button).toHaveTextContent('📋');
-      });
+      // Verify buttons have proper aria-labels for copy functionality
+      expect(screen.getByLabelText('Copy result: 16.404 feet')).toBeInTheDocument();
+      expect(screen.getByLabelText('Copy result: 25.400 cm')).toBeInTheDocument();
     });
 
-    test('shows check mark after copy', async () => {
+    test('copy functionality works correctly', async () => {
+      // Mock the clipboard API
+      Object.assign(navigator, {
+        clipboard: {
+          writeText: jest.fn().mockResolvedValue(undefined),
+        },
+      });
+
       render(<ConversionOutput results={mockResults} />);
 
       const copyButton = screen.getByLabelText('Copy result: 16.404 feet');
@@ -223,7 +226,7 @@ describe('ConversionOutput', () => {
       });
 
       await waitFor(() => {
-        expect(copyButton).toHaveTextContent('✓');
+        expect(navigator.clipboard.writeText).toHaveBeenCalledWith('16.404 feet');
       });
     });
 
