@@ -5,7 +5,7 @@ import {
   validateConversionSystem,
   getConversionFactors,
   validateConversion,
-  getPrecisionInfo
+  getPrecisionInfo,
 } from './converter';
 import { initializeConfigurations, resetConfigurations } from '../config';
 import { Decimal } from 'decimal.js';
@@ -214,7 +214,7 @@ describe('Converter', () => {
         '5 m to ft',
         '10 meters as feet',
         '2.5 metre to foot',
-        '100 cm to inches'
+        '100 cm to inches',
       ];
 
       for (const input of testCases) {
@@ -328,31 +328,31 @@ describe('Converter', () => {
       // Convert meter -> foot -> inch -> centimeter
       const step1 = convertUnits(1, 'meter', 'foot');
       expect(step1.success).toBe(true);
-      
+
       const step2 = convertUnits(step1.value!, 'foot', 'inch');
       expect(step2.success).toBe(true);
-      
+
       const step3 = convertUnits(step2.value!, 'inch', 'centimeter');
       expect(step3.success).toBe(true);
-      
+
       // Should be close to 100 cm (1 meter)
       expect(step3.value!).toBeCloseTo(100, 1);
     });
 
     it('should maintain precision through multiple conversions', () => {
       const original = 1.23456789;
-      
+
       // Convert and back
       const step1 = convertUnits(original, 'meter', 'foot');
       const step2 = convertUnits(step1.value!, 'foot', 'meter');
-      
+
       expect(step2.value!).toBeCloseTo(original, 6);
     });
 
     it('should handle extreme precision requirements', () => {
       const preciseValue = 1.123456789012345;
       const result = convertUnits(preciseValue, 'meter', 'millimeter');
-      
+
       expect(result.success).toBe(true);
       expect(result.value!).toBeCloseTo(preciseValue * 1000, 10);
     });
@@ -362,10 +362,10 @@ describe('Converter', () => {
         Number.MIN_SAFE_INTEGER,
         -1e-10,
         1e-10,
-        Number.MAX_SAFE_INTEGER
+        Number.MAX_SAFE_INTEGER,
       ];
-      
-      boundaries.forEach(value => {
+
+      boundaries.forEach((value) => {
         if (isFinite(value) && !isNaN(value)) {
           const result = convertUnits(value, 'meter', 'foot');
           expect(result.success).toBe(true);

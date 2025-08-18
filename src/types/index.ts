@@ -53,7 +53,11 @@ export interface ConversionHistory {
 }
 
 export interface ErrorDetails {
-  type: 'INVALID_FORMAT' | 'UNKNOWN_UNIT' | 'CALCULATION_ERROR' | 'CONFIGURATION_ERROR';
+  type:
+    | 'INVALID_FORMAT'
+    | 'UNKNOWN_UNIT'
+    | 'CALCULATION_ERROR'
+    | 'CONFIGURATION_ERROR';
   message: string;
   context?: string;
   suggestions?: string[];

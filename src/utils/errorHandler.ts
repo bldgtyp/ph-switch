@@ -12,7 +12,7 @@ import { getAliases } from '../config';
 function calculateSimilarity(str1: string, str2: string): number {
   const maxLength = Math.max(str1.length, str2.length);
   if (maxLength === 0) return 1; // Both strings are empty
-  
+
   const distance = levenshtein.get(str1, str2);
   return (maxLength - distance) / maxLength;
 }
@@ -21,28 +21,31 @@ function calculateSimilarity(str1: string, str2: string): number {
  * Find similar units using fuzzy string matching
  * Returns array of suggestions sorted by similarity
  */
-export function findSimilarUnits(query: string, maxSuggestions: number = 5): string[] {
+export function findSimilarUnits(
+  query: string,
+  maxSuggestions: number = 5
+): string[] {
   const aliases = getAliases();
   if (!aliases) return [];
-  
+
   const normalizedQuery = query.toLowerCase().trim();
   const suggestions: Array<{ alias: string; score: number }> = [];
-  
+
   // Calculate similarity for each alias
   for (const alias in aliases) {
     const score = calculateSimilarity(normalizedQuery, alias);
-    
+
     // Only include suggestions with reasonable similarity
     if (score > 0.3) {
       suggestions.push({ alias, score });
     }
   }
-  
+
   // Sort by similarity score (highest first) and take top results
   return suggestions
     .sort((a, b) => b.score - a.score)
     .slice(0, maxSuggestions)
-    .map(s => s.alias);
+    .map((s) => s.alias);
 }
 
 /**
@@ -52,40 +55,48 @@ export function enhanceErrorWithSuggestions(error: ErrorDetails): ErrorDetails {
   if (error.type !== 'UNKNOWN_UNIT') {
     return error; // Only enhance unknown unit errors
   }
-  
+
   // Extract unit from error message
   const unitMatch = error.message.match(/"([^"]+)"/);
   if (!unitMatch) {
     return error; // No unit found in message
   }
-  
+
   const unknownUnit = unitMatch[1];
   const suggestions = findSimilarUnits(unknownUnit, 3);
-  
+
   return {
     ...error,
-    suggestions: suggestions.length > 0 ? suggestions.map(s => `Did you mean "${s}"?`) : [
-      'Check the spelling of your unit',
-      'Try using a common abbreviation (e.g., "m" for meter)',
-      'Verify the unit is supported in this category'
-    ]
+    suggestions:
+      suggestions.length > 0
+        ? suggestions.map((s) => `Did you mean "${s}"?`)
+        : [
+            'Check the spelling of your unit',
+            'Try using a common abbreviation (e.g., "m" for meter)',
+            'Verify the unit is supported in this category',
+          ],
   };
 }
 
 /**
  * Create a detailed error for invalid format with helpful examples
  */
-export function createFormatError(input: string, context?: string): ErrorDetails {
+export function createFormatError(
+  input: string,
+  context?: string
+): ErrorDetails {
   return {
     type: 'INVALID_FORMAT',
     message: 'Invalid conversion format',
-    context: context || 'Please use the format: "NUMBER UNIT to UNIT" or "NUMBER UNIT as UNIT"',
+    context:
+      context ||
+      'Please use the format: "NUMBER UNIT to UNIT" or "NUMBER UNIT as UNIT"',
     suggestions: [
       'Try: "5 meters to feet"',
       'Try: "2.5 inches as mm"',
       'Try: "1/2 foot to centimeters"',
-      'Try: "1.5e3 mm to meters"'
-    ]
+      'Try: "1.5e3 mm to meters"',
+    ],
   };
 }
 
@@ -101,29 +112,37 @@ export function createNumberError(valueStr: string): ErrorDetails {
       'Decimals: 5.5, 123.45, 0.001',
       'Scientific notation: 1.5e3, 2E-4',
       'Fractions: 1/2, 3/4, 5/8',
-      'Mixed numbers: 1 1/2, 2 3/4'
-    ]
+      'Mixed numbers: 1 1/2, 2 3/4',
+    ],
   };
 }
 
 /**
  * Create a detailed error for unknown units with suggestions
  */
-export function createUnknownUnitError(unit: string, isSource: boolean = true): ErrorDetails {
+export function createUnknownUnitError(
+  unit: string,
+  isSource: boolean = true
+): ErrorDetails {
   const baseError: ErrorDetails = {
     type: 'UNKNOWN_UNIT',
     message: `Unknown ${isSource ? 'source' : 'target'} unit: "${unit}"`,
     context: `The unit "${unit}" was not found in the configuration. Check spelling or try a different alias.`,
-    suggestions: []
+    suggestions: [],
   };
-  
+
   return enhanceErrorWithSuggestions(baseError);
 }
 
 /**
  * Create a detailed error for cross-category conversions
  */
-export function createCategoryError(sourceUnit: string, targetUnit: string, sourceCategory: string, targetCategory: string): ErrorDetails {
+export function createCategoryError(
+  sourceUnit: string,
+  targetUnit: string,
+  sourceCategory: string,
+  targetCategory: string
+): ErrorDetails {
   return {
     type: 'INVALID_FORMAT',
     message: 'Cannot convert between different unit categories',
@@ -131,15 +150,18 @@ export function createCategoryError(sourceUnit: string, targetUnit: string, sour
     suggestions: [
       `Try converting ${sourceUnit} to another ${sourceCategory} unit`,
       `Try converting a ${targetCategory} unit to ${targetUnit}`,
-      'Check that both units are from the same measurement category'
-    ]
+      'Check that both units are from the same measurement category',
+    ],
   };
 }
 
 /**
  * Create a detailed error for calculation failures
  */
-export function createCalculationError(message: string, context?: string): ErrorDetails {
+export function createCalculationError(
+  message: string,
+  context?: string
+): ErrorDetails {
   return {
     type: 'CALCULATION_ERROR',
     message,
@@ -147,8 +169,8 @@ export function createCalculationError(message: string, context?: string): Error
     suggestions: [
       'Check that the input value is within a reasonable range',
       'Verify that both units are valid for conversion',
-      'Try using a different numerical format'
-    ]
+      'Try using a different numerical format',
+    ],
   };
 }
 
@@ -157,18 +179,18 @@ export function createCalculationError(message: string, context?: string): Error
  */
 export function formatErrorMessage(error: ErrorDetails): string {
   let message = error.message;
-  
+
   if (error.context) {
     message += `\n\n${error.context}`;
   }
-  
+
   if (error.suggestions && error.suggestions.length > 0) {
     message += '\n\nSuggestions:';
-    error.suggestions.forEach(suggestion => {
+    error.suggestions.forEach((suggestion) => {
       message += `\n• ${suggestion}`;
     });
   }
-  
+
   return message;
 }
 
@@ -178,9 +200,9 @@ export function formatErrorMessage(error: ErrorDetails): string {
 export function getAvailableUnits(): Record<string, string[]> {
   const aliases = getAliases();
   if (!aliases) return {};
-  
+
   const unitsByCategory: Record<string, Set<string>> = {};
-  
+
   // Group aliases by category
   for (const [alias, info] of Object.entries(aliases)) {
     if (!unitsByCategory[info.category]) {
@@ -188,13 +210,13 @@ export function getAvailableUnits(): Record<string, string[]> {
     }
     unitsByCategory[info.category].add(alias);
   }
-  
+
   // Convert sets to sorted arrays
   const result: Record<string, string[]> = {};
   for (const [category, aliasSet] of Object.entries(unitsByCategory)) {
     result[category] = Array.from(aliasSet).sort();
   }
-  
+
   return result;
 }
 
@@ -208,7 +230,7 @@ export function validateErrorHandling(): boolean {
     const numberError = createNumberError('abc');
     const unitError = createUnknownUnitError('badunit');
     const calcError = createCalculationError('test error');
-    
+
     // Check that all required fields are present
     const errors = [formatError, numberError, unitError, calcError];
     for (const error of errors) {
@@ -216,10 +238,10 @@ export function validateErrorHandling(): boolean {
         return false;
       }
     }
-    
+
     // Test fuzzy matching
     const suggestions = findSimilarUnits('mter', 3); // Should suggest "meter"
-    
+
     return true;
   } catch (error) {
     console.error('Error handling validation failed:', error);

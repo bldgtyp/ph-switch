@@ -44,56 +44,65 @@ interface StorageResult {
  */
 function validateHistoryEntry(entry: any): ValidationResult {
   const errors: string[] = [];
-  
+
   if (!entry || typeof entry !== 'object') {
     errors.push('Entry must be an object');
     return { valid: false, errors };
   }
-  
+
   // Required fields
-  const requiredFields = ['id', 'timestamp', 'input', 'output', 'sourceUnit', 'targetUnit', 'value', 'result'];
+  const requiredFields = [
+    'id',
+    'timestamp',
+    'input',
+    'output',
+    'sourceUnit',
+    'targetUnit',
+    'value',
+    'result',
+  ];
   for (const field of requiredFields) {
     if (!(field in entry)) {
       errors.push(`Missing required field: ${field}`);
     }
   }
-  
+
   // Type validations
   if (typeof entry.id !== 'string' || entry.id.length === 0) {
     errors.push('ID must be a non-empty string');
   }
-  
+
   if (typeof entry.timestamp !== 'number' || entry.timestamp <= 0) {
     errors.push('Timestamp must be a positive number');
   }
-  
+
   if (typeof entry.input !== 'string' || entry.input.length === 0) {
     errors.push('Input must be a non-empty string');
   }
-  
+
   if (typeof entry.output !== 'string' || entry.output.length === 0) {
     errors.push('Output must be a non-empty string');
   }
-  
+
   if (typeof entry.sourceUnit !== 'string' || entry.sourceUnit.length === 0) {
     errors.push('Source unit must be a non-empty string');
   }
-  
+
   if (typeof entry.targetUnit !== 'string' || entry.targetUnit.length === 0) {
     errors.push('Target unit must be a non-empty string');
   }
-  
+
   if (typeof entry.value !== 'number' || !isFinite(entry.value)) {
     errors.push('Value must be a finite number');
   }
-  
+
   if (typeof entry.result !== 'number' || !isFinite(entry.result)) {
     errors.push('Result must be a finite number');
   }
-  
+
   return {
     valid: errors.length === 0,
-    errors: errors.length > 0 ? errors : undefined
+    errors: errors.length > 0 ? errors : undefined,
   };
 }
 
@@ -125,7 +134,7 @@ function createDefaultContainer(): StorageContainer {
     version: STORAGE_VERSION,
     lastModified: Date.now(),
     entries: [],
-    totalSize: 0
+    totalSize: 0,
   };
 }
 
@@ -138,49 +147,50 @@ function loadFromStorage(): StorageResult {
     if (!stored) {
       return {
         success: true,
-        data: createDefaultContainer()
+        data: createDefaultContainer(),
       };
     }
-    
+
     const parsed = JSON.parse(stored);
-    
+
     // Validate storage structure
     if (!parsed || typeof parsed !== 'object') {
       console.warn('Invalid storage data structure, resetting');
       return {
         success: true,
-        data: createDefaultContainer()
+        data: createDefaultContainer(),
       };
     }
-    
+
     // Check version compatibility
     if (parsed.version !== STORAGE_VERSION) {
-      console.warn(`Storage version mismatch (${parsed.version} vs ${STORAGE_VERSION}), resetting`);
+      console.warn(
+        `Storage version mismatch (${parsed.version} vs ${STORAGE_VERSION}), resetting`
+      );
       return {
         success: true,
-        data: createDefaultContainer()
+        data: createDefaultContainer(),
       };
     }
-    
+
     // Ensure required fields exist
     const container: StorageContainer = {
       version: parsed.version || STORAGE_VERSION,
       lastModified: parsed.lastModified || Date.now(),
       entries: Array.isArray(parsed.entries) ? parsed.entries : [],
-      totalSize: parsed.totalSize || 0
+      totalSize: parsed.totalSize || 0,
     };
-    
+
     return {
       success: true,
-      data: container
+      data: container,
     };
-    
   } catch (error) {
     console.error('Failed to load from storage:', error);
     return {
       success: false,
       error: error instanceof Error ? error.message : 'Unknown storage error',
-      data: createDefaultContainer()
+      data: createDefaultContainer(),
     };
   }
 }
@@ -193,30 +203,32 @@ function saveToStorage(container: StorageContainer): StorageResult {
     // Update metadata
     container.lastModified = Date.now();
     container.totalSize = calculateStorageSize(container);
-    
+
     // Check storage size limits
     if (container.totalSize > MAX_STORAGE_SIZE) {
       console.warn('Storage size exceeds limit, cleaning up old entries');
       const cleaned = cleanupOldEntries(container, MAX_STORAGE_SIZE * 0.8); // Clean to 80% of limit
       return saveToStorage(cleaned.data!);
     }
-    
+
     const serialized = JSON.stringify(container);
     localStorage.setItem(STORAGE_KEY, serialized);
-    
+
     return {
       success: true,
-      data: container
+      data: container,
     };
-    
   } catch (error) {
     console.error('Failed to save to storage:', error);
-    
+
     // Handle quota exceeded error
     if (error instanceof Error && error.name === 'QuotaExceededError') {
       const loadResult = loadFromStorage();
       if (loadResult.success && loadResult.data) {
-        const cleaned = cleanupOldEntries(loadResult.data, MAX_STORAGE_SIZE * 0.5);
+        const cleaned = cleanupOldEntries(
+          loadResult.data,
+          MAX_STORAGE_SIZE * 0.5
+        );
         if (cleaned.success && cleaned.data) {
           // Try to save the cleaned data without recursion
           try {
@@ -225,22 +237,22 @@ function saveToStorage(container: StorageContainer): StorageResult {
             return {
               success: true,
               data: cleaned.data,
-              entriesRemoved: cleaned.entriesRemoved
+              entriesRemoved: cleaned.entriesRemoved,
             };
           } catch (secondError) {
             // If it still fails, give up and return error
             return {
               success: false,
-              error: 'Storage quota exceeded and cleanup failed'
+              error: 'Storage quota exceeded and cleanup failed',
             };
           }
         }
       }
     }
-    
+
     return {
       success: false,
-      error: error instanceof Error ? error.message : 'Unknown storage error'
+      error: error instanceof Error ? error.message : 'Unknown storage error',
     };
   }
 }
@@ -248,32 +260,40 @@ function saveToStorage(container: StorageContainer): StorageResult {
 /**
  * Removes oldest entries to reduce storage size
  */
-function cleanupOldEntries(container: StorageContainer, targetSize: number): StorageResult {
-  const sortedEntries = [...container.entries].sort((a, b) => a.timestamp - b.timestamp);
+function cleanupOldEntries(
+  container: StorageContainer,
+  targetSize: number
+): StorageResult {
+  const sortedEntries = [...container.entries].sort(
+    (a, b) => a.timestamp - b.timestamp
+  );
   const keptEntries: StoredConversionHistory[] = [];
   let currentSize = 0;
-  
+
   // Keep newest entries within size limit
   for (let i = sortedEntries.length - 1; i >= 0; i--) {
     const entry = sortedEntries[i];
     const entrySize = calculateStorageSize(entry);
-    
-    if (currentSize + entrySize <= targetSize && keptEntries.length < MAX_HISTORY_ENTRIES) {
+
+    if (
+      currentSize + entrySize <= targetSize &&
+      keptEntries.length < MAX_HISTORY_ENTRIES
+    ) {
       keptEntries.unshift(entry);
       currentSize += entrySize;
     }
   }
-  
+
   const newContainer: StorageContainer = {
     ...container,
     entries: keptEntries,
-    totalSize: currentSize
+    totalSize: currentSize,
   };
-  
+
   return {
     success: true,
     data: newContainer,
-    entriesRemoved: container.entries.length - keptEntries.length
+    entriesRemoved: container.entries.length - keptEntries.length,
   };
 }
 
@@ -294,9 +314,9 @@ export function saveConversion(
   if (!loadResult.success || !loadResult.data) {
     return loadResult;
   }
-  
+
   const container = loadResult.data;
-  
+
   // Create new history entry
   const entry: StoredConversionHistory = {
     id: generateEntryId(),
@@ -310,26 +330,26 @@ export function saveConversion(
     version: STORAGE_VERSION,
     category,
     precision: 6, // Default precision
-    formattedResult
+    formattedResult,
   };
-  
+
   // Validate entry
   const validation = validateHistoryEntry(entry);
   if (!validation.valid) {
     return {
       success: false,
-      error: `Invalid history entry: ${validation.errors?.join(', ')}`
+      error: `Invalid history entry: ${validation.errors?.join(', ')}`,
     };
   }
-  
+
   // Add entry to beginning of array (newest first)
   container.entries.unshift(entry);
-  
+
   // Enforce max entries limit
   if (container.entries.length > MAX_HISTORY_ENTRIES) {
     container.entries = container.entries.slice(0, MAX_HISTORY_ENTRIES);
   }
-  
+
   // Save updated container
   return saveToStorage(container);
 }
@@ -342,50 +362,56 @@ export function getConversionHistory(limit?: number): StorageResult {
   if (!loadResult.success || !loadResult.data) {
     return loadResult;
   }
-  
+
   const container = loadResult.data;
-  
+
   // Apply limit if specified
   if (limit && limit > 0) {
     container.entries = container.entries.slice(0, limit);
   }
-  
+
   return {
     success: true,
-    data: container
+    data: container,
   };
 }
 
 /**
  * Searches conversion history
  */
-export function searchHistory(query: string, limit: number = 20): StorageResult {
+export function searchHistory(
+  query: string,
+  limit: number = 20
+): StorageResult {
   const loadResult = loadFromStorage();
   if (!loadResult.success || !loadResult.data) {
     return loadResult;
   }
-  
+
   const container = loadResult.data;
   const queryLower = query.toLowerCase().trim();
-  
+
   if (queryLower === '') {
     return getConversionHistory(limit);
   }
-  
+
   // Search in input, output, and units
-  const filteredEntries = container.entries.filter(entry => 
-    entry.input.toLowerCase().includes(queryLower) ||
-    entry.output.toLowerCase().includes(queryLower) ||
-    entry.sourceUnit.toLowerCase().includes(queryLower) ||
-    entry.targetUnit.toLowerCase().includes(queryLower)
-  ).slice(0, limit);
-  
+  const filteredEntries = container.entries
+    .filter(
+      (entry) =>
+        entry.input.toLowerCase().includes(queryLower) ||
+        entry.output.toLowerCase().includes(queryLower) ||
+        entry.sourceUnit.toLowerCase().includes(queryLower) ||
+        entry.targetUnit.toLowerCase().includes(queryLower)
+    )
+    .slice(0, limit);
+
   return {
     success: true,
     data: {
       ...container,
-      entries: filteredEntries
-    }
+      entries: filteredEntries,
+    },
   };
 }
 
@@ -397,19 +423,19 @@ export function removeConversion(id: string): StorageResult {
   if (!loadResult.success || !loadResult.data) {
     return loadResult;
   }
-  
+
   const container = loadResult.data;
   const originalLength = container.entries.length;
-  
-  container.entries = container.entries.filter(entry => entry.id !== id);
-  
+
+  container.entries = container.entries.filter((entry) => entry.id !== id);
+
   if (container.entries.length === originalLength) {
     return {
       success: false,
-      error: `Conversion with ID ${id} not found`
+      error: `Conversion with ID ${id} not found`,
     };
   }
-  
+
   return saveToStorage(container);
 }
 
@@ -421,12 +447,12 @@ export function clearAllHistory(): StorageResult {
     localStorage.removeItem(STORAGE_KEY);
     return {
       success: true,
-      data: createDefaultContainer()
+      data: createDefaultContainer(),
     };
   } catch (error) {
     return {
       success: false,
-      error: error instanceof Error ? error.message : 'Failed to clear history'
+      error: error instanceof Error ? error.message : 'Failed to clear history',
     };
   }
 }
@@ -434,30 +460,35 @@ export function clearAllHistory(): StorageResult {
 /**
  * Exports history as JSON
  */
-export function exportHistory(): { success: boolean; data?: string; error?: string } {
+export function exportHistory(): {
+  success: boolean;
+  data?: string;
+  error?: string;
+} {
   const loadResult = loadFromStorage();
   if (!loadResult.success || !loadResult.data) {
     return {
       success: false,
-      error: loadResult.error || 'Failed to load history'
+      error: loadResult.error || 'Failed to load history',
     };
   }
-  
+
   try {
     const exportData = {
       exported: new Date().toISOString(),
       version: STORAGE_VERSION,
-      entries: loadResult.data.entries
+      entries: loadResult.data.entries,
     };
-    
+
     return {
       success: true,
-      data: JSON.stringify(exportData, null, 2)
+      data: JSON.stringify(exportData, null, 2),
     };
   } catch (error) {
     return {
       success: false,
-      error: error instanceof Error ? error.message : 'Failed to export history'
+      error:
+        error instanceof Error ? error.message : 'Failed to export history',
     };
   }
 }
@@ -477,19 +508,19 @@ export function getStorageStats(): {
     return {
       totalEntries: 0,
       totalSize: 0,
-      version: STORAGE_VERSION
+      version: STORAGE_VERSION,
     };
   }
-  
+
   const container = loadResult.data;
-  const timestamps = container.entries.map(e => e.timestamp);
-  
+  const timestamps = container.entries.map((e) => e.timestamp);
+
   return {
     totalEntries: container.entries.length,
     totalSize: container.totalSize || calculateStorageSize(container),
     oldestEntry: timestamps.length > 0 ? Math.min(...timestamps) : undefined,
     newestEntry: timestamps.length > 0 ? Math.max(...timestamps) : undefined,
-    version: container.version
+    version: container.version,
   };
 }
 
@@ -501,32 +532,33 @@ export function validateStorage(): ValidationResult {
     // Test write capability
     const testKey = `${STORAGE_KEY}_test`;
     const testData = { test: true, timestamp: Date.now() };
-    
+
     localStorage.setItem(testKey, JSON.stringify(testData));
     const retrieved = localStorage.getItem(testKey);
     localStorage.removeItem(testKey);
-    
+
     if (!retrieved) {
       return {
         valid: false,
-        errors: ['localStorage write/read test failed']
+        errors: ['localStorage write/read test failed'],
       };
     }
-    
+
     const parsed = JSON.parse(retrieved);
     if (parsed.test !== true) {
       return {
         valid: false,
-        errors: ['localStorage data integrity test failed']
+        errors: ['localStorage data integrity test failed'],
       };
     }
-    
+
     return { valid: true };
-    
   } catch (error) {
     return {
       valid: false,
-      errors: [error instanceof Error ? error.message : 'Storage validation failed']
+      errors: [
+        error instanceof Error ? error.message : 'Storage validation failed',
+      ],
     };
   }
 }

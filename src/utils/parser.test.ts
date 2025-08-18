@@ -7,7 +7,7 @@ import {
   parseAndValidateInput,
   parseMultilineInput,
   isSuccessfulParse,
-  extractUnitReferences
+  extractUnitReferences,
 } from './parser';
 import { initializeConfigurations, resetConfigurations } from '../config';
 
@@ -252,10 +252,10 @@ describe('Natural Language Parser', () => {
         '1.5e3 millimeters to meters',
         '1/2 inch to centimeters',
         '2 3/4 feet to inches',
-        '100 km to miles'
+        '100 km to miles',
       ];
 
-      testCases.forEach(testCase => {
+      testCases.forEach((testCase) => {
         const result = parseAndValidateInput(testCase);
         expect(isSuccessfulParse(result)).toBe(true);
       });
@@ -267,11 +267,11 @@ describe('Natural Language Parser', () => {
       const input = `5 meters to feet
 2.5 inches to cm
 1 km to miles`;
-      
+
       const results = parseMultilineInput(input);
       expect(results).toHaveLength(3);
-      
-      results.forEach(result => {
+
+      results.forEach((result) => {
         expect(isSuccessfulParse(result)).toBe(true);
       });
     });
@@ -280,10 +280,10 @@ describe('Natural Language Parser', () => {
       const input = `5 meters to feet
 invalid line
 2.5 inches to cm`;
-      
+
       const results = parseMultilineInput(input);
       expect(results).toHaveLength(3);
-      
+
       expect(isSuccessfulParse(results[0])).toBe(true);
       expect(isSuccessfulParse(results[1])).toBe(false);
       expect(isSuccessfulParse(results[2])).toBe(true);
@@ -293,10 +293,10 @@ invalid line
       const input = `5 meters to feet
 
 2.5 inches to cm`;
-      
+
       const results = parseMultilineInput(input);
       expect(results).toHaveLength(3);
-      
+
       expect(isSuccessfulParse(results[0])).toBe(true);
       expect(isSuccessfulParse(results[1])).toBe(false);
       expect(isSuccessfulParse(results[2])).toBe(true);

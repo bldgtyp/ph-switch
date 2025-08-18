@@ -7,13 +7,13 @@ import {
   clearAllHistory,
   exportHistory,
   getStorageStats,
-  validateStorage
+  validateStorage,
 } from './storage';
 
 // Mock localStorage for testing
 const localStorageMock = (() => {
   let store: Record<string, string> = {};
-  
+
   return {
     getItem: (key: string) => store[key] || null,
     setItem: (key: string, value: string) => {
@@ -28,14 +28,14 @@ const localStorageMock = (() => {
     get length() {
       return Object.keys(store).length;
     },
-    key: (index: number) => Object.keys(store)[index] || null
+    key: (index: number) => Object.keys(store)[index] || null,
   };
 })();
 
 // Replace global localStorage with our mock
 Object.defineProperty(window, 'localStorage', {
   value: localStorageMock,
-  writable: true
+  writable: true,
 });
 
 describe('Storage', () => {
@@ -61,7 +61,7 @@ describe('Storage', () => {
         1,
         3.281
       );
-      
+
       expect(result.success).toBe(true);
       expect(result.data?.entries).toHaveLength(1);
       expect(result.data?.entries[0].input).toBe('1 meter to feet');
@@ -69,12 +69,26 @@ describe('Storage', () => {
     });
 
     it('should generate unique IDs for each conversion', () => {
-      const result1 = saveConversion('1 m to ft', '3.281 ft', 'meter', 'foot', 1, 3.281);
-      const result2 = saveConversion('2 m to ft', '6.562 ft', 'meter', 'foot', 2, 6.562);
-      
+      const result1 = saveConversion(
+        '1 m to ft',
+        '3.281 ft',
+        'meter',
+        'foot',
+        1,
+        3.281
+      );
+      const result2 = saveConversion(
+        '2 m to ft',
+        '6.562 ft',
+        'meter',
+        'foot',
+        2,
+        6.562
+      );
+
       expect(result1.success).toBe(true);
       expect(result2.success).toBe(true);
-      
+
       const history = getConversionHistory();
       expect(history.data?.entries).toHaveLength(2);
       expect(history.data?.entries[0].id).not.toBe(history.data?.entries[1].id);
@@ -82,15 +96,31 @@ describe('Storage', () => {
 
     it('should maintain chronological order (newest first)', () => {
       const time1 = Date.now();
-      const result1 = saveConversion('1 m to ft', '3.281 ft', 'meter', 'foot', 1, 3.281);
-      
+      const result1 = saveConversion(
+        '1 m to ft',
+        '3.281 ft',
+        'meter',
+        'foot',
+        1,
+        3.281
+      );
+
       // Wait a small amount to ensure different timestamps
       setTimeout(() => {
-        const result2 = saveConversion('2 m to ft', '6.562 ft', 'meter', 'foot', 2, 6.562);
-        
+        const result2 = saveConversion(
+          '2 m to ft',
+          '6.562 ft',
+          'meter',
+          'foot',
+          2,
+          6.562
+        );
+
         const history = getConversionHistory();
         expect(history.data?.entries).toHaveLength(2);
-        expect(history.data?.entries[0].timestamp).toBeGreaterThan(history.data?.entries[1].timestamp!);
+        expect(history.data?.entries[0].timestamp).toBeGreaterThan(
+          history.data?.entries[1].timestamp!
+        );
       }, 10);
     });
 
@@ -103,7 +133,7 @@ describe('Storage', () => {
         1,
         3.281
       );
-      
+
       expect(result.success).toBe(true);
       expect(result.data?.entries[0].input).toBe('1 meter to feet');
       expect(result.data?.entries[0].output).toBe('3.281 feet');
@@ -122,7 +152,7 @@ describe('Storage', () => {
         'length',
         '3.281'
       );
-      
+
       expect(result.success).toBe(true);
       const entry = result.data?.entries[0];
       expect(entry?.category).toBe('length');
@@ -143,7 +173,7 @@ describe('Storage', () => {
           i * 3.281
         );
       }
-      
+
       const history = getConversionHistory();
       expect(history.data?.entries.length).toBeLessThanOrEqual(100);
     });
@@ -186,16 +216,37 @@ describe('Storage', () => {
 
   describe('searchHistory', () => {
     beforeEach(() => {
-      saveConversion('1 meter to feet', '3.281 feet', 'meter', 'foot', 1, 3.281);
-      saveConversion('2 centimeters to inches', '0.787 inches', 'centimeter', 'inch', 2, 0.787);
-      saveConversion('5 feet to meters', '1.524 meters', 'foot', 'meter', 5, 1.524);
+      saveConversion(
+        '1 meter to feet',
+        '3.281 feet',
+        'meter',
+        'foot',
+        1,
+        3.281
+      );
+      saveConversion(
+        '2 centimeters to inches',
+        '0.787 inches',
+        'centimeter',
+        'inch',
+        2,
+        0.787
+      );
+      saveConversion(
+        '5 feet to meters',
+        '1.524 meters',
+        'foot',
+        'meter',
+        5,
+        1.524
+      );
     });
 
     it('should search in input text', () => {
       const result = searchHistory('meter');
       expect(result.success).toBe(true);
       expect(result.data?.entries.length).toBeGreaterThanOrEqual(1); // Should find at least "meter to feet" or "feet to meters"
-      
+
       // More specific test
       const meterResult = searchHistory('meter to feet');
       expect(meterResult.success).toBe(true);
@@ -243,7 +294,14 @@ describe('Storage', () => {
     let conversionId: string;
 
     beforeEach(() => {
-      const result = saveConversion('1 m to ft', '3.281 ft', 'meter', 'foot', 1, 3.281);
+      const result = saveConversion(
+        '1 m to ft',
+        '3.281 ft',
+        'meter',
+        'foot',
+        1,
+        3.281
+      );
       conversionId = result.data?.entries[0].id!;
       saveConversion('2 m to ft', '6.562 ft', 'meter', 'foot', 2, 6.562);
     });
@@ -251,7 +309,7 @@ describe('Storage', () => {
     it('should remove existing conversion', () => {
       const result = removeConversion(conversionId);
       expect(result.success).toBe(true);
-      
+
       const history = getConversionHistory();
       expect(history.data?.entries).toHaveLength(1);
       expect(history.data?.entries[0].input).toBe('2 m to ft');
@@ -265,10 +323,12 @@ describe('Storage', () => {
 
     it('should not affect other conversions', () => {
       const historyBefore = getConversionHistory();
-      const otherEntry = historyBefore.data?.entries.find(e => e.id !== conversionId);
-      
+      const otherEntry = historyBefore.data?.entries.find(
+        (e) => e.id !== conversionId
+      );
+
       removeConversion(conversionId);
-      
+
       const historyAfter = getConversionHistory();
       expect(historyAfter.data?.entries).toHaveLength(1);
       expect(historyAfter.data?.entries[0].id).toBe(otherEntry?.id);
@@ -284,7 +344,7 @@ describe('Storage', () => {
     it('should remove all history', () => {
       const result = clearAllHistory();
       expect(result.success).toBe(true);
-      
+
       const history = getConversionHistory();
       expect(history.data?.entries).toHaveLength(0);
     });
@@ -308,7 +368,7 @@ describe('Storage', () => {
       const result = exportHistory();
       expect(result.success).toBe(true);
       expect(result.data).toBeDefined();
-      
+
       const parsed = JSON.parse(result.data!);
       expect(parsed.entries).toHaveLength(2);
       expect(parsed.version).toBeDefined();
@@ -318,7 +378,7 @@ describe('Storage', () => {
     it('should include all entry data', () => {
       const result = exportHistory();
       const parsed = JSON.parse(result.data!);
-      
+
       const entry = parsed.entries[0];
       expect(entry.id).toBeDefined();
       expect(entry.input).toBeDefined();
@@ -334,7 +394,7 @@ describe('Storage', () => {
       clearAllHistory();
       const result = exportHistory();
       expect(result.success).toBe(true);
-      
+
       const parsed = JSON.parse(result.data!);
       expect(parsed.entries).toHaveLength(0);
     });
@@ -353,11 +413,11 @@ describe('Storage', () => {
     it('should return accurate stats with data', () => {
       const time1 = Date.now();
       saveConversion('1 m to ft', '3.281 ft', 'meter', 'foot', 1, 3.281);
-      
+
       setTimeout(() => {
         const time2 = Date.now();
         saveConversion('2 m to ft', '6.562 ft', 'meter', 'foot', 2, 6.562);
-        
+
         const stats = getStorageStats();
         expect(stats.totalEntries).toBe(2);
         expect(stats.totalSize).toBeGreaterThan(0);
@@ -386,11 +446,11 @@ describe('Storage', () => {
         }
         return originalSetItem(key, value);
       };
-      
+
       const result = saveConversion('test', 'test', 'meter', 'foot', 1, 1);
       expect(result.success).toBe(false);
       expect(result.error).toContain('Storage quota exceeded');
-      
+
       // Restore original method
       localStorageMock.setItem = originalSetItem;
     });
@@ -405,7 +465,7 @@ describe('Storage', () => {
         NaN, // invalid value
         Infinity // invalid result
       );
-      
+
       expect(result.success).toBe(false);
       expect(result.error).toContain('Invalid history entry');
     });
@@ -413,7 +473,7 @@ describe('Storage', () => {
     it('should handle storage corruption gracefully', () => {
       // Reset any previous mocks
       localStorageMock.clear();
-      
+
       // Corrupt the storage
       const originalGetItem = localStorageMock.getItem;
       localStorageMock.getItem = (key: string) => {
@@ -422,11 +482,11 @@ describe('Storage', () => {
         }
         return originalGetItem(key);
       };
-      
+
       const result = getConversionHistory();
       expect(result.success).toBe(false);
       expect(result.data?.entries).toHaveLength(0);
-      
+
       // Restore original method
       localStorageMock.getItem = originalGetItem;
     });
@@ -434,12 +494,12 @@ describe('Storage', () => {
     it('should handle version mismatches', () => {
       // Reset any previous mocks
       localStorageMock.clear();
-      
+
       // Set up storage with wrong version
       const oldData = {
         version: '0.1',
         entries: [{ id: 'test', input: 'test' }],
-        lastModified: Date.now()
+        lastModified: Date.now(),
       };
       const originalGetItem = localStorageMock.getItem;
       localStorageMock.getItem = (key: string) => {
@@ -448,11 +508,11 @@ describe('Storage', () => {
         }
         return originalGetItem(key);
       };
-      
+
       const result = getConversionHistory();
       expect(result.success).toBe(true);
       expect(result.data?.entries).toHaveLength(0); // Should reset
-      
+
       // Restore original method
       localStorageMock.getItem = originalGetItem;
     });
@@ -462,9 +522,16 @@ describe('Storage', () => {
     it('should enforce entry limits', () => {
       // Add many entries
       for (let i = 0; i < 105; i++) {
-        saveConversion(`${i} m to ft`, `${i * 3.281} ft`, 'meter', 'foot', i, i * 3.281);
+        saveConversion(
+          `${i} m to ft`,
+          `${i * 3.281} ft`,
+          'meter',
+          'foot',
+          i,
+          i * 3.281
+        );
       }
-      
+
       const history = getConversionHistory();
       expect(history.data?.entries.length).toBeLessThanOrEqual(100);
     });
@@ -472,19 +539,34 @@ describe('Storage', () => {
     it('should remove oldest entries during cleanup', () => {
       // Add entries with known timestamps
       for (let i = 0; i < 10; i++) {
-        saveConversion(`${i} m to ft`, `${i * 3.281} ft`, 'meter', 'foot', i, i * 3.281);
+        saveConversion(
+          `${i} m to ft`,
+          `${i * 3.281} ft`,
+          'meter',
+          'foot',
+          i,
+          i * 3.281
+        );
       }
-      
+
       const historyFull = getConversionHistory();
-      const oldestId = historyFull.data?.entries[historyFull.data.entries.length - 1].id;
-      
+      const oldestId =
+        historyFull.data?.entries[historyFull.data.entries.length - 1].id;
+
       // Add more entries to trigger cleanup
       for (let i = 10; i < 105; i++) {
-        saveConversion(`${i} m to ft`, `${i * 3.281} ft`, 'meter', 'foot', i, i * 3.281);
+        saveConversion(
+          `${i} m to ft`,
+          `${i * 3.281} ft`,
+          'meter',
+          'foot',
+          i,
+          i * 3.281
+        );
       }
-      
+
       const historyAfter = getConversionHistory();
-      const remainingIds = historyAfter.data?.entries.map(e => e.id) || [];
+      const remainingIds = historyAfter.data?.entries.map((e) => e.id) || [];
       expect(remainingIds).not.toContain(oldestId);
     });
   });

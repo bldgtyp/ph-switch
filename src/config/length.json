@@ -27,14 +27,26 @@
     "centimeter": {
       "name": "centimeter",
       "symbol": "cm",
-      "aliases": ["centimeter", "centimetre", "centimeters", "centimetres", "cm"],
+      "aliases": [
+        "centimeter",
+        "centimetre",
+        "centimeters",
+        "centimetres",
+        "cm"
+      ],
       "factor": 0.01,
       "description": "Metric unit, 1/100 of a meter"
     },
     "millimeter": {
       "name": "millimeter",
       "symbol": "mm",
-      "aliases": ["millimeter", "millimetre", "millimeters", "millimetres", "mm"],
+      "aliases": [
+        "millimeter",
+        "millimetre",
+        "millimeters",
+        "millimetres",
+        "mm"
+      ],
       "factor": 0.001,
       "description": "Metric unit, 1/1000 of a meter"
     },
@@ -62,7 +74,16 @@
     "micrometer": {
       "name": "micrometer",
       "symbol": "μm",
-      "aliases": ["micrometer", "micrometre", "micrometers", "micrometres", "μm", "um", "micron", "microns"],
+      "aliases": [
+        "micrometer",
+        "micrometre",
+        "micrometers",
+        "micrometres",
+        "μm",
+        "um",
+        "micron",
+        "microns"
+      ],
       "factor": 0.000001,
       "description": "Metric unit, 1/1,000,000 of a meter"
     },

@@ -8,8 +8,24 @@ describe('App - Multi-line Input System', () => {
     jest.clearAllMocks();
   });
 
+  // Helper function to wait for configuration to load
+  const waitForConfigurationLoad = async () => {
+    await waitFor(
+      () => {
+        // Configuration is loaded when we no longer see the config loading message
+        expect(
+          screen.queryByText(/Configuration not loaded yet/)
+        ).not.toBeInTheDocument();
+      },
+      { timeout: 5000 }
+    );
+  };
+
   test('processes multiple conversion lines simultaneously', async () => {
     render(<App />);
+
+    // Wait for configuration to load first
+    await waitForConfigurationLoad();
 
     const input = screen.getByLabelText(/Unit conversion input/i);
     const multiLineInput = '5 meters to feet\n10 inches to cm\n2 km to miles';
@@ -20,16 +36,19 @@ describe('App - Multi-line Input System', () => {
     // Wait for debounced processing
     await waitFor(
       () => {
-        expect(screen.getByText(/16.404 foot/)).toBeInTheDocument();
-        expect(screen.getByText(/25.400 centimeter/)).toBeInTheDocument();
-        expect(screen.getByText(/1.243 mile/)).toBeInTheDocument();
+        expect(screen.getByText(/16.4042 feet/)).toBeInTheDocument();
+        expect(screen.getByText(/25.4 centimeters/)).toBeInTheDocument();
+        expect(screen.getByText(/1.2427 miles/)).toBeInTheDocument();
       },
       { timeout: 1000 }
     );
   });
 
-  test('handles empty lines in input', async () => {
+  test('handles empty lines and maintains proper line alignment', async () => {
     render(<App />);
+
+    // Wait for configuration to load first
+    await waitForConfigurationLoad();
 
     const input = screen.getByLabelText(/Unit conversion input/i);
     const inputWithEmptyLines =
@@ -41,9 +60,9 @@ describe('App - Multi-line Input System', () => {
     // Wait for debounced processing
     await waitFor(
       () => {
-        expect(screen.getByText(/16.404 foot/)).toBeInTheDocument();
-        expect(screen.getByText(/25.400 centimeter/)).toBeInTheDocument();
-        expect(screen.getByText(/1.243 mile/)).toBeInTheDocument();
+        expect(screen.getByText(/16.4042 feet/)).toBeInTheDocument();
+        expect(screen.getByText(/25.4 centimeters/)).toBeInTheDocument();
+        expect(screen.getByText(/1.2427 miles/)).toBeInTheDocument();
       },
       { timeout: 1000 }
     );
@@ -51,6 +70,9 @@ describe('App - Multi-line Input System', () => {
 
   test('shows processing state during conversion', async () => {
     render(<App />);
+
+    // Wait for configuration to load first
+    await waitForConfigurationLoad();
 
     const input = screen.getByLabelText(/Unit conversion input/i);
 
@@ -61,7 +83,7 @@ describe('App - Multi-line Input System', () => {
     // This test ensures the UI handles processing states gracefully
     await waitFor(
       () => {
-        expect(screen.getByText(/16.404 foot/)).toBeInTheDocument();
+        expect(screen.getByText(/16.4042 feet/)).toBeInTheDocument();
       },
       { timeout: 1000 }
     );
@@ -69,6 +91,9 @@ describe('App - Multi-line Input System', () => {
 
   test('maintains line alignment with mixed success and error results', async () => {
     render(<App />);
+
+    // Wait for configuration to load first
+    await waitForConfigurationLoad();
 
     const input = screen.getByLabelText(/Unit conversion input/i);
     const mixedInput = '5 meters to feet\ninvalid input\n10 inches to cm';
@@ -79,8 +104,8 @@ describe('App - Multi-line Input System', () => {
     await waitFor(
       () => {
         // Should show successful conversions
-        expect(screen.getByText(/16.404 foot/)).toBeInTheDocument();
-        expect(screen.getByText(/25.400 centimeter/)).toBeInTheDocument();
+        expect(screen.getByText(/16.4042 feet/)).toBeInTheDocument();
+        expect(screen.getByText(/25.4 centimeters/)).toBeInTheDocument();
 
         // Should show error for invalid line
         expect(screen.getByText(/Invalid format/)).toBeInTheDocument();
@@ -95,6 +120,9 @@ describe('App - Multi-line Input System', () => {
 
   test('updates results in real-time as user types', async () => {
     render(<App />);
+
+    // Wait for configuration to load first
+    await waitForConfigurationLoad();
 
     const input = screen.getByLabelText(/Unit conversion input/i);
 
@@ -116,7 +144,7 @@ describe('App - Multi-line Input System', () => {
     // Should show results for complete input
     await waitFor(
       () => {
-        expect(screen.getByText(/16.404 foot/)).toBeInTheDocument();
+        expect(screen.getByText(/16.4042 feet/)).toBeInTheDocument();
       },
       { timeout: 1000 }
     );
@@ -124,6 +152,9 @@ describe('App - Multi-line Input System', () => {
 
   test('handles rapid input changes with debouncing', async () => {
     render(<App />);
+
+    // Wait for configuration to load first
+    await waitForConfigurationLoad();
 
     const input = screen.getByLabelText(/Unit conversion input/i);
 
@@ -139,7 +170,7 @@ describe('App - Multi-line Input System', () => {
     // Should only process the final input after debounce
     await waitFor(
       () => {
-        expect(screen.getByText(/9.843 foot/)).toBeInTheDocument();
+        expect(screen.getByText(/9.8425 feet/)).toBeInTheDocument();
       },
       { timeout: 1000 }
     );
@@ -147,6 +178,9 @@ describe('App - Multi-line Input System', () => {
 
   test('clears results when input is emptied', async () => {
     render(<App />);
+
+    // Wait for configuration to load first
+    await waitForConfigurationLoad();
 
     const input = screen.getByLabelText(/Unit conversion input/i);
 
@@ -156,7 +190,7 @@ describe('App - Multi-line Input System', () => {
 
     await waitFor(
       () => {
-        expect(screen.getByText(/16.404 foot/)).toBeInTheDocument();
+        expect(screen.getByText(/16.4042 feet/)).toBeInTheDocument();
       },
       { timeout: 1000 }
     );
@@ -177,6 +211,9 @@ describe('App - Multi-line Input System', () => {
   test('handles multiple lines with different error types', async () => {
     render(<App />);
 
+    // Wait for configuration to load first
+    await waitForConfigurationLoad();
+
     const input = screen.getByLabelText(/Unit conversion input/i);
     const inputWithErrors =
       '5 meters to feet\ninvalid format here\n10 unknown_unit to cm\n2 km to miles';
@@ -187,8 +224,8 @@ describe('App - Multi-line Input System', () => {
     await waitFor(
       () => {
         // Successful conversions
-        expect(screen.getByText(/16.404 foot/)).toBeInTheDocument();
-        expect(screen.getByText(/1.243 mile/)).toBeInTheDocument();
+        expect(screen.getByText(/16.4042 feet/)).toBeInTheDocument();
+        expect(screen.getByText(/1.2427 miles/)).toBeInTheDocument();
 
         // Error messages
         expect(screen.getAllByText(/Invalid format|Unknown unit/)).toHaveLength(

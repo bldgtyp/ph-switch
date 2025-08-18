@@ -2,18 +2,28 @@
 import { Decimal } from 'decimal.js';
 import { getCategory, isConfigurationReady } from '../config';
 import { parseConversionInput } from './parser';
-import { createCalculationError, createCategoryError, createUnknownUnitError, enhanceErrorWithSuggestions } from './errorHandler';
-import type { ConversionResult, ErrorDetails, UnitCategory, ParsedInput } from '../types';
+import {
+  createCalculationError,
+  createCategoryError,
+  createUnknownUnitError,
+  enhanceErrorWithSuggestions,
+} from './errorHandler';
+import type {
+  ConversionResult,
+  ErrorDetails,
+  UnitCategory,
+  ParsedInput,
+} from '../types';
 
 // Configure Decimal.js for high precision calculations
 Decimal.config({
-  precision: 40,        // 40 significant digits for engineering precision
+  precision: 40, // 40 significant digits for engineering precision
   rounding: Decimal.ROUND_HALF_UP,
-  toExpNeg: -20,       // Use exponential notation for numbers smaller than 1e-20
-  toExpPos: 40,        // Use exponential notation for numbers larger than 1e40
-  maxE: 9e15,          // Maximum exponent
-  minE: -9e15,         // Minimum exponent
-  modulo: Decimal.ROUND_HALF_UP
+  toExpNeg: -20, // Use exponential notation for numbers smaller than 1e-20
+  toExpPos: 40, // Use exponential notation for numbers larger than 1e40
+  maxE: 9e15, // Maximum exponent
+  minE: -9e15, // Minimum exponent
+  modulo: Decimal.ROUND_HALF_UP,
 });
 
 /**
@@ -45,15 +55,18 @@ export function validateConversionSystem(): boolean {
 /**
  * Finds unit information in a specific category configuration
  */
-function findUnitInCategory(unitName: string, configuration: UnitCategory): { 
-  unitKey: string; 
-  conversionFactor: number; 
+function findUnitInCategory(
+  unitName: string,
+  configuration: UnitCategory
+): {
+  unitKey: string;
+  conversionFactor: number;
 } | null {
   // Check exact unit name match
   if (configuration.units[unitName]) {
     return {
       unitKey: unitName,
-      conversionFactor: configuration.units[unitName].factor
+      conversionFactor: configuration.units[unitName].factor,
     };
   }
 
@@ -62,7 +75,7 @@ function findUnitInCategory(unitName: string, configuration: UnitCategory): {
     if (unitData.aliases && unitData.aliases.includes(unitName.toLowerCase())) {
       return {
         unitKey,
-        conversionFactor: unitData.factor
+        conversionFactor: unitData.factor,
       };
     }
   }
@@ -73,27 +86,27 @@ function findUnitInCategory(unitName: string, configuration: UnitCategory): {
 /**
  * Finds unit information across all loaded categories
  */
-function findUnit(unitName: string): { 
-  category: string; 
-  unitKey: string; 
-  conversionFactor: number; 
+function findUnit(unitName: string): {
+  category: string;
+  unitKey: string;
+  conversionFactor: number;
 } | null {
   const normalizedUnit = unitName.toLowerCase().trim();
-  
+
   // Get all available categories
   const categories = ['length']; // Start with length, will be expanded
-  
+
   for (const category of categories) {
     try {
       const configuration = getCategory(category);
       if (!configuration) continue;
-      
+
       const unitInfo = findUnitInCategory(normalizedUnit, configuration);
       if (unitInfo) {
         return {
           category,
           unitKey: unitInfo.unitKey,
-          conversionFactor: unitInfo.conversionFactor
+          conversionFactor: unitInfo.conversionFactor,
         };
       }
     } catch (error) {
@@ -101,7 +114,7 @@ function findUnit(unitName: string): {
       continue;
     }
   }
-  
+
   return null;
 }
 
@@ -116,10 +129,10 @@ function performConversion(
   try {
     // Convert to base unit (multiply by source factor)
     const baseValue = inputValue.mul(sourceFactor);
-    
+
     // Convert from base unit to target (divide by target factor)
     const result = baseValue.div(targetFactor);
-    
+
     return result;
   } catch (error) {
     throw createCalculationError(
@@ -137,7 +150,7 @@ function formatResult(result: Decimal, targetUnit: string): string {
     // Determine appropriate number of decimal places based on magnitude
     const absResult = result.abs();
     let decimalPlaces: number;
-    
+
     if (absResult.gte(1000)) {
       // Large numbers: show fewer decimals
       decimalPlaces = 2;
@@ -151,18 +164,18 @@ function formatResult(result: Decimal, targetUnit: string): string {
       // Very small numbers: use scientific notation or high precision
       decimalPlaces = 8;
     }
-    
+
     // Convert to fixed decimal places
     let formatted = result.toFixed(decimalPlaces);
-    
+
     // Remove trailing zeros
     formatted = formatted.replace(/\.?0+$/, '');
-    
+
     // Handle very large or very small numbers with scientific notation
     if (absResult.gte(1e12) || (absResult.lt(1e-6) && absResult.gt(0))) {
       formatted = result.toExponential(6).replace(/\.?0+e/, 'e');
     }
-    
+
     return formatted;
   } catch (error) {
     // Fallback to string conversion
@@ -189,7 +202,7 @@ function createCalculationDetails(
     targetFactor: new Decimal(targetInfo.conversionFactor),
     baseValue: new Decimal(inputValue).mul(sourceInfo.conversionFactor),
     result,
-    category: sourceInfo.category
+    category: sourceInfo.category,
   };
 }
 
@@ -209,7 +222,7 @@ export function convertUnits(
         error: createCalculationError(
           'Conversion system not initialized',
           'Configuration files not loaded. Please try again.'
-        )
+        ),
       };
     }
 
@@ -220,7 +233,7 @@ export function convertUnits(
         error: createCalculationError(
           `Invalid input value: ${inputValue}`,
           'Input must be a valid number'
-        )
+        ),
       };
     }
 
@@ -231,7 +244,7 @@ export function convertUnits(
         success: false,
         error: enhanceErrorWithSuggestions(
           createUnknownUnitError(sourceUnit, true)
-        )
+        ),
       };
     }
 
@@ -242,7 +255,7 @@ export function convertUnits(
         success: false,
         error: enhanceErrorWithSuggestions(
           createUnknownUnitError(targetUnit, false)
-        )
+        ),
       };
     }
 
@@ -255,7 +268,7 @@ export function convertUnits(
           targetUnit,
           sourceInfo.category,
           targetInfo.category
-        )
+        ),
       };
     }
 
@@ -263,12 +276,12 @@ export function convertUnits(
     const inputDecimal = new Decimal(inputValue);
     const sourceFactor = new Decimal(sourceInfo.conversionFactor);
     const targetFactor = new Decimal(targetInfo.conversionFactor);
-    
+
     const result = performConversion(inputDecimal, sourceFactor, targetFactor);
-    
+
     // Format result for display
     const formattedResult = formatResult(result, targetUnit);
-    
+
     // Create calculation details for potential debugging
     const calculationDetails = createCalculationDetails(
       inputValue,
@@ -278,7 +291,7 @@ export function convertUnits(
       targetInfo,
       result
     );
-    
+
     return {
       success: true,
       value: parseFloat(result.toString()),
@@ -291,28 +304,27 @@ export function convertUnits(
         targetUnit,
         outputValue: parseFloat(result.toString()),
         precision: 'high',
-        category: sourceInfo.category
-      }
+        category: sourceInfo.category,
+      },
     };
-
   } catch (error) {
     console.error('Conversion error:', error);
-    
+
     if (error && typeof error === 'object' && 'type' in error) {
       // Already a properly formatted error
       return {
         success: false,
-        error: error as ErrorDetails
+        error: error as ErrorDetails,
       };
     }
-    
+
     // Unknown error - wrap in calculation error
     return {
       success: false,
       error: createCalculationError(
         error instanceof Error ? error.message : 'Unknown conversion error',
         'An unexpected error occurred during conversion'
-      )
+      ),
     };
   }
 }
@@ -320,38 +332,41 @@ export function convertUnits(
 /**
  * Converts natural language input to units using the parser and converter
  */
-export async function convertFromInput(input: string): Promise<ConversionResult> {
+export async function convertFromInput(
+  input: string
+): Promise<ConversionResult> {
   try {
     // Parse the natural language input
     const parseResult = parseConversionInput(input);
-    
+
     // Check if parsing failed (returned ErrorDetails)
     if ('type' in parseResult) {
       return {
         success: false,
-        error: parseResult
+        error: parseResult,
       };
     }
-    
+
     // Parsing succeeded, use the ParsedInput
     const parsedInput = parseResult;
-    
+
     // Perform the conversion
     return convertUnits(
       parsedInput.value,
       parsedInput.sourceUnit,
       parsedInput.targetUnit
     );
-    
   } catch (error) {
     console.error('Input conversion error:', error);
-    
+
     return {
       success: false,
       error: createCalculationError(
-        error instanceof Error ? error.message : 'Unknown input processing error',
+        error instanceof Error
+          ? error.message
+          : 'Unknown input processing error',
         'Failed to process conversion input'
-      )
+      ),
     };
   }
 }
@@ -359,22 +374,22 @@ export async function convertFromInput(input: string): Promise<ConversionResult>
 /**
  * Gets available conversion factors for a specific unit
  */
-export function getConversionFactors(unitName: string): { 
-  category: string; 
-  factor: number; 
-  baseUnit: string; 
+export function getConversionFactors(unitName: string): {
+  category: string;
+  factor: number;
+  baseUnit: string;
 } | null {
   const unitInfo = findUnit(unitName);
   if (!unitInfo) return null;
-  
+
   try {
     const configuration = getCategory(unitInfo.category);
     if (!configuration) return null;
-    
+
     return {
       category: unitInfo.category,
       factor: unitInfo.conversionFactor,
-      baseUnit: configuration.baseUnit
+      baseUnit: configuration.baseUnit,
     };
   } catch (error) {
     return null;
@@ -392,7 +407,9 @@ export function validateConversion(
   if (!sourceInfo) {
     return {
       isValid: false,
-      error: enhanceErrorWithSuggestions(createUnknownUnitError(sourceUnit, true))
+      error: enhanceErrorWithSuggestions(
+        createUnknownUnitError(sourceUnit, true)
+      ),
     };
   }
 
@@ -400,14 +417,21 @@ export function validateConversion(
   if (!targetInfo) {
     return {
       isValid: false,
-      error: enhanceErrorWithSuggestions(createUnknownUnitError(targetUnit, false))
+      error: enhanceErrorWithSuggestions(
+        createUnknownUnitError(targetUnit, false)
+      ),
     };
   }
 
   if (sourceInfo.category !== targetInfo.category) {
     return {
       isValid: false,
-      error: createCategoryError(sourceUnit, targetUnit, sourceInfo.category, targetInfo.category)
+      error: createCategoryError(
+        sourceUnit,
+        targetUnit,
+        sourceInfo.category,
+        targetInfo.category
+      ),
     };
   }
 
@@ -430,7 +454,7 @@ export function getPrecisionInfo(): {
     roundingMode: 'ROUND_HALF_UP',
     scientificNotationThresholds: {
       upper: 1e12,
-      lower: 1e-6
-    }
+      lower: 1e-6,
+    },
   };
 }

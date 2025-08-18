@@ -1,12 +1,18 @@
 // Central configuration management and exports
 // Single point of access for all unit configurations
 
-import { loadAllConfigurations, getAllUnitAliases, findUnitByAlias, getConversionFactor } from '../utils/configLoader';
+import {
+  loadAllConfigurations,
+  getAllUnitAliases,
+  findUnitByAlias,
+  getConversionFactor,
+} from '../utils/configLoader';
 import { UnitCategory } from '../types';
 
 // Global configuration state
 let globalConfigurations: Record<string, UnitCategory> | null = null;
-let globalAliases: Record<string, { category: string; unit: string }> | null = null;
+let globalAliases: Record<string, { category: string; unit: string }> | null =
+  null;
 let configurationPromise: Promise<void> | null = null;
 
 /**
@@ -18,11 +24,11 @@ export async function initializeConfigurations(): Promise<boolean> {
     await configurationPromise;
     return globalConfigurations !== null;
   }
-  
+
   configurationPromise = (async () => {
     try {
       const result = await loadAllConfigurations();
-      
+
       if (result.success && result.categories) {
         globalConfigurations = result.categories;
         globalAliases = getAllUnitAliases(result.categories);
@@ -38,7 +44,7 @@ export async function initializeConfigurations(): Promise<boolean> {
       globalAliases = null;
     }
   })();
-  
+
   await configurationPromise;
   return globalConfigurations !== null;
 }
@@ -55,29 +61,38 @@ export function getConfigurations(): Record<string, UnitCategory> | null {
  */
 export function getCategory(categoryName: string): UnitCategory | null {
   if (!globalConfigurations) {
-    console.warn('Configurations not initialized. Call initializeConfigurations() first.');
+    console.warn(
+      'Configurations not initialized. Call initializeConfigurations() first.'
+    );
     return null;
   }
-  
+
   return globalConfigurations[categoryName] || null;
 }
 
 /**
  * Get all unit aliases across all categories
  */
-export function getAliases(): Record<string, { category: string; unit: string }> | null {
+export function getAliases(): Record<
+  string,
+  { category: string; unit: string }
+> | null {
   return globalAliases;
 }
 
 /**
  * Find unit by alias (case-insensitive)
  */
-export function findUnit(alias: string): { category: string; unit: string; definition: any } | null {
+export function findUnit(
+  alias: string
+): { category: string; unit: string; definition: any } | null {
   if (!globalConfigurations) {
-    console.warn('Configurations not initialized. Call initializeConfigurations() first.');
+    console.warn(
+      'Configurations not initialized. Call initializeConfigurations() first.'
+    );
     return null;
   }
-  
+
   return findUnitByAlias(alias, globalConfigurations);
 }
 
@@ -85,38 +100,47 @@ export function findUnit(alias: string): { category: string; unit: string; defin
  * Get conversion factor between two units
  * Returns null if units are not in the same category or don't exist
  */
-export function getConversion(sourceUnit: string, targetUnit: string): {
+export function getConversion(
+  sourceUnit: string,
+  targetUnit: string
+): {
   factor: number;
   category: string;
 } | null {
   if (!globalConfigurations) {
-    console.warn('Configurations not initialized. Call initializeConfigurations() first.');
+    console.warn(
+      'Configurations not initialized. Call initializeConfigurations() first.'
+    );
     return null;
   }
-  
+
   // Find which category each unit belongs to
   const sourceInfo = findUnitByAlias(sourceUnit, globalConfigurations);
   const targetInfo = findUnitByAlias(targetUnit, globalConfigurations);
-  
+
   if (!sourceInfo || !targetInfo) {
     return null;
   }
-  
+
   // Check if they're in the same category
   if (sourceInfo.category !== targetInfo.category) {
     return null;
   }
-  
+
   const category = globalConfigurations[sourceInfo.category];
-  const factor = getConversionFactor(sourceInfo.unit, targetInfo.unit, category);
-  
+  const factor = getConversionFactor(
+    sourceInfo.unit,
+    targetInfo.unit,
+    category
+  );
+
   if (factor === null) {
     return null;
   }
-  
+
   return {
     factor,
-    category: sourceInfo.category
+    category: sourceInfo.category,
   };
 }
 
@@ -128,7 +152,7 @@ export function getCategoryUnits(categoryName: string): string[] {
   if (!category) {
     return [];
   }
-  
+
   return Object.keys(category.units);
 }
 
@@ -139,7 +163,7 @@ export function getAvailableCategories(): string[] {
   if (!globalConfigurations) {
     return [];
   }
-  
+
   return Object.keys(globalConfigurations);
 }
 

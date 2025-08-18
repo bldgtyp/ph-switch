@@ -1,8 +1,11 @@
-import React, { useState, useCallback, useMemo } from 'react';
+import React, { useState, useCallback, useMemo, useEffect } from 'react';
 import debounce from 'lodash.debounce';
 import './styles/App.css';
 import { ConversionInput, ConversionOutput, ErrorMessage } from './components';
-import { mockConvertInput, MockConversionResult } from './utils/mockConverter';
+import { convertFromInput } from './utils/converter';
+import { initializeConfigurations } from './config';
+import { saveConversion } from './utils/storage';
+import type { ConversionResult as ConverterResult } from './types';
 
 interface ConversionResult {
   id: string;
@@ -17,87 +20,152 @@ function App() {
   const [results, setResults] = useState<ConversionResult[]>([]);
   const [processingError, setProcessingError] = useState<string | null>(null);
   const [isProcessing, setIsProcessing] = useState(false);
+  const [isConfigurationLoaded, setIsConfigurationLoaded] = useState(false);
+  const [configurationError, setConfigurationError] = useState<string | null>(
+    null
+  );
 
-  const convertMockToConversionResult = (
-    mockResult: MockConversionResult,
+  // Initialize configuration system on app startup
+  useEffect(() => {
+    const initializeApp = async () => {
+      try {
+        const success = await initializeConfigurations();
+        if (success) {
+          setIsConfigurationLoaded(true);
+          console.log('App initialized successfully');
+        } else {
+          setConfigurationError('Failed to load unit configurations');
+        }
+      } catch (error) {
+        console.error('App initialization failed:', error);
+        setConfigurationError(
+          error instanceof Error
+            ? error.message
+            : 'Configuration loading failed'
+        );
+      }
+    };
+
+    initializeApp();
+  }, []);
+
+  const convertToAppResult = (
+    converterResult: ConverterResult,
     originalInput: string,
     lineIndex: number
   ): ConversionResult => {
-    if (mockResult.success && mockResult.value) {
+    if (converterResult.success && converterResult.formattedValue) {
       return {
         id: `result-${lineIndex}`,
         input: originalInput,
-        output: `${mockResult.value} ${mockResult.targetUnit || ''}`.trim(),
+        output:
+          `${converterResult.formattedValue} ${converterResult.targetUnit || ''}`.trim(),
         success: true,
       };
     } else {
       return {
         id: `error-${lineIndex}`,
         input: originalInput,
-        error: mockResult.error?.message || 'Unknown error',
+        error:
+          typeof converterResult.error === 'string'
+            ? converterResult.error
+            : converterResult.error?.message || 'Unknown error',
         success: false,
       };
     }
   };
 
-  const processConversions = useCallback((value: string) => {
-    setProcessingError(null);
-    setIsProcessing(true);
+  const processConversions = useCallback(
+    async (value: string) => {
+      setProcessingError(null);
+      setIsProcessing(true);
 
-    if (!value.trim()) {
-      setResults([]);
-      setIsProcessing(false);
-      return;
-    }
+      if (!value.trim()) {
+        setResults([]);
+        setIsProcessing(false);
+        return;
+      }
 
-    try {
-      // Process each line separately, including empty lines for alignment
-      const lines = value.split('\n');
-      const conversionResults: ConversionResult[] = [];
+      if (!isConfigurationLoaded) {
+        setProcessingError('Configuration not loaded yet. Please wait...');
+        setIsProcessing(false);
+        return;
+      }
 
-      lines.forEach((line, index) => {
-        const trimmedLine = line.trim();
+      try {
+        // Process each line separately, including empty lines for alignment
+        const lines = value.split('\n');
+        const conversionResults: ConversionResult[] = [];
 
-        if (!trimmedLine) {
-          // Empty line - add placeholder for alignment
-          conversionResults.push({
-            id: `empty-${index}`,
-            input: '',
-            output: '',
-            success: true,
-          });
-          return;
+        // Process lines sequentially to maintain order
+        for (let index = 0; index < lines.length; index++) {
+          const line = lines[index];
+          const trimmedLine = line.trim();
+
+          if (!trimmedLine) {
+            // Empty line - add placeholder for alignment
+            conversionResults.push({
+              id: `empty-${index}`,
+              input: '',
+              output: '',
+              success: true,
+            });
+            continue;
+          }
+
+          try {
+            const converterResult = await convertFromInput(trimmedLine);
+            const result = convertToAppResult(
+              converterResult,
+              trimmedLine,
+              index
+            );
+            conversionResults.push(result);
+
+            // Save successful conversions to local storage
+            if (converterResult.success && converterResult.formattedValue) {
+              try {
+                await saveConversion(
+                  trimmedLine,
+                  converterResult.formattedValue,
+                  converterResult.sourceUnit || '',
+                  converterResult.targetUnit || '',
+                  converterResult.value || 0,
+                  converterResult.value || 0,
+                  'length', // Default category for now
+                  converterResult.formattedValue
+                );
+              } catch (storageError) {
+                console.warn(
+                  'Failed to save conversion to storage:',
+                  storageError
+                );
+                // Don't fail the conversion if storage fails
+              }
+            }
+          } catch (error) {
+            // Add error result for this line
+            conversionResults.push({
+              id: `parse-error-${index}`,
+              input: trimmedLine,
+              error: error instanceof Error ? error.message : 'Parse error',
+              success: false,
+            });
+          }
         }
 
-        try {
-          const mockResult = mockConvertInput(trimmedLine);
-          const result = convertMockToConversionResult(
-            mockResult,
-            trimmedLine,
-            index
-          );
-          conversionResults.push(result);
-        } catch (error) {
-          // Add error result for this line
-          conversionResults.push({
-            id: `parse-error-${index}`,
-            input: trimmedLine,
-            error: error instanceof Error ? error.message : 'Parse error',
-            success: false,
-          });
-        }
-      });
-
-      setResults(conversionResults);
-    } catch (error) {
-      setProcessingError(
-        error instanceof Error ? error.message : 'Conversion failed'
-      );
-      setResults([]);
-    } finally {
-      setIsProcessing(false);
-    }
-  }, []);
+        setResults(conversionResults);
+      } catch (error) {
+        setProcessingError(
+          error instanceof Error ? error.message : 'Conversion failed'
+        );
+        setResults([]);
+      } finally {
+        setIsProcessing(false);
+      }
+    },
+    [isConfigurationLoaded]
+  );
 
   // Debounced conversion processing for real-time updates
   const debouncedProcessConversions = useMemo(

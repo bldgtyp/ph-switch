@@ -9,7 +9,7 @@ import {
   createCalculationError,
   formatErrorMessage,
   getAvailableUnits,
-  validateErrorHandling
+  validateErrorHandling,
 } from './errorHandler';
 import { initializeConfigurations, resetConfigurations } from '../config';
 import { ErrorDetails } from '../types';
@@ -34,7 +34,9 @@ describe('Error Handler', () => {
     it('should find multiple similar units', () => {
       const suggestions = findSimilarUnits('met', 5); // Should suggest meter-related units
       expect(suggestions.length).toBeGreaterThan(0);
-      expect(suggestions.some(s => s.includes('meter') || s.includes('metre'))).toBe(true);
+      expect(
+        suggestions.some((s) => s.includes('meter') || s.includes('metre'))
+      ).toBe(true);
     });
 
     it('should handle abbreviations', () => {
@@ -69,9 +71,9 @@ describe('Error Handler', () => {
       const baseError: ErrorDetails = {
         type: 'UNKNOWN_UNIT',
         message: 'Unknown unit: "mter"',
-        context: 'Unit not found'
+        context: 'Unit not found',
       };
-      
+
       const enhanced = enhanceErrorWithSuggestions(baseError);
       expect(enhanced.suggestions).toBeDefined();
       expect(enhanced.suggestions!.length).toBeGreaterThan(0);
@@ -81,9 +83,9 @@ describe('Error Handler', () => {
       const baseError: ErrorDetails = {
         type: 'INVALID_FORMAT',
         message: 'Invalid format',
-        context: 'Bad format'
+        context: 'Bad format',
       };
-      
+
       const enhanced = enhanceErrorWithSuggestions(baseError);
       expect(enhanced).toEqual(baseError);
     });
@@ -92,13 +94,15 @@ describe('Error Handler', () => {
       const baseError: ErrorDetails = {
         type: 'UNKNOWN_UNIT',
         message: 'Unknown unit: "xyzabc123"',
-        context: 'Unit not found'
+        context: 'Unit not found',
       };
-      
+
       const enhanced = enhanceErrorWithSuggestions(baseError);
       expect(enhanced.suggestions).toBeDefined();
       expect(enhanced.suggestions!.length).toBeGreaterThan(0);
-      expect(enhanced.suggestions!.some(s => s.includes('spelling'))).toBe(true);
+      expect(enhanced.suggestions!.some((s) => s.includes('spelling'))).toBe(
+        true
+      );
     });
   });
 
@@ -119,7 +123,9 @@ describe('Error Handler', () => {
 
     it('should include helpful examples in suggestions', () => {
       const error = createFormatError('bad input');
-      expect(error.suggestions!.some(s => s.includes('meters to feet'))).toBe(true);
+      expect(error.suggestions!.some((s) => s.includes('meters to feet'))).toBe(
+        true
+      );
     });
   });
 
@@ -202,9 +208,9 @@ describe('Error Handler', () => {
     it('should format basic error message', () => {
       const error: ErrorDetails = {
         type: 'INVALID_FORMAT',
-        message: 'Test error'
+        message: 'Test error',
       };
-      
+
       const formatted = formatErrorMessage(error);
       expect(formatted).toContain('Test error');
     });
@@ -213,9 +219,9 @@ describe('Error Handler', () => {
       const error: ErrorDetails = {
         type: 'INVALID_FORMAT',
         message: 'Test error',
-        context: 'Additional context'
+        context: 'Additional context',
       };
-      
+
       const formatted = formatErrorMessage(error);
       expect(formatted).toContain('Test error');
       expect(formatted).toContain('Additional context');
@@ -225,9 +231,9 @@ describe('Error Handler', () => {
       const error: ErrorDetails = {
         type: 'INVALID_FORMAT',
         message: 'Test error',
-        suggestions: ['Suggestion 1', 'Suggestion 2']
+        suggestions: ['Suggestion 1', 'Suggestion 2'],
       };
-      
+
       const formatted = formatErrorMessage(error);
       expect(formatted).toContain('Test error');
       expect(formatted).toContain('Suggestions:');
@@ -240,9 +246,9 @@ describe('Error Handler', () => {
         type: 'UNKNOWN_UNIT',
         message: 'Unknown unit',
         context: 'Unit not found in database',
-        suggestions: ['Check spelling', 'Try abbreviation']
+        suggestions: ['Check spelling', 'Try abbreviation'],
       };
-      
+
       const formatted = formatErrorMessage(error);
       expect(formatted).toContain('Unknown unit');
       expect(formatted).toContain('Unit not found in database');
@@ -290,20 +296,20 @@ describe('Error Handler', () => {
       expect(error.type).toBe('UNKNOWN_UNIT');
       expect(error.suggestions).toBeDefined();
       expect(error.suggestions!.length).toBeGreaterThan(0);
-      
+
       const formatted = formatErrorMessage(error);
       expect(formatted.length).toBeGreaterThan(error.message.length);
     });
 
     it('should handle error enhancement for various typos', () => {
       const testCases = [
-        'mter',    // meter
-        'fet',     // feet
-        'inche',   // inch
-        'kilmeter' // kilometer
+        'mter', // meter
+        'fet', // feet
+        'inche', // inch
+        'kilmeter', // kilometer
       ];
-      
-      testCases.forEach(typo => {
+
+      testCases.forEach((typo) => {
         const error = createUnknownUnitError(typo);
         expect(error.suggestions).toBeDefined();
         expect(error.suggestions!.length).toBeGreaterThanOrEqual(0);
@@ -312,7 +318,9 @@ describe('Error Handler', () => {
 
     it('should provide reasonable suggestions for common misspellings', () => {
       const error = createUnknownUnitError('feets'); // Common plural mistake
-      expect(error.suggestions!.some(s => s.includes('feet') || s.includes('foot'))).toBe(true);
+      expect(
+        error.suggestions!.some((s) => s.includes('feet') || s.includes('foot'))
+      ).toBe(true);
     });
   });
 });

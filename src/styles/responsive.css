@@ -78,7 +78,7 @@
     padding: var(--spacing-md);
     border-radius: var(--border-radius);
   }
-  
+
   /* Improve tap targets for conversion results */
   .conversion-output__result button {
     padding: var(--spacing-md);
@@ -135,11 +135,11 @@
   .app-header {
     padding: var(--spacing-sm) 0;
   }
-  
+
   .app-main {
     padding: var(--spacing-sm) var(--spacing-md);
   }
-  
+
   .conversion-panel__content {
     min-height: 120px;
     padding: var(--spacing-sm) var(--spacing-md);
@@ -154,15 +154,15 @@
     --spacing-md: 8px;
     --spacing-lg: 12px;
   }
-  
+
   .conversion-panel__header {
     padding: var(--spacing-xs) var(--spacing-sm);
   }
-  
+
   .conversion-panel__content {
     padding: var(--spacing-sm);
   }
-  
+
   .app-title {
     font-size: var(--font-size-large);
   }
