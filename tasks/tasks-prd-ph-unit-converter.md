@@ -186,13 +186,13 @@ Add these to package.json before starting Phase 2 implementation:
 
 ### Phase 3: Enhanced Features
 
-- [ ] 14.0 Auto-suggest Dropdown for Unit Discovery
-  - [ ] 14.1 Create dropdown component that appears as user types unit names
-  - [ ] 14.2 Implement real-time unit matching based on partial input (e.g., "me" shows "meter")
-  - [ ] 14.3 Add keyboard navigation support (arrow keys, enter to select, escape to close)
-  - [ ] 14.4 Position dropdown dynamically under cursor/input position
-  - [ ] 14.5 Implement click-to-complete functionality for suggested units
-  - [ ] 14.6 Write unit tests for auto-suggest functionality and user interactions
+- [x] 14.0 Auto-suggest Dropdown for Unit Discovery
+  - [x] 14.1 Create dropdown component that appears as user types unit names
+  - [x] 14.2 Implement real-time unit matching based on partial input (e.g., "me" shows "meter")
+  - [x] 14.3 Add keyboard navigation support (arrow keys, enter to select, escape to close)
+  - [x] 14.4 Position dropdown dynamically under cursor/input position
+  - [x] 14.5 Implement click-to-complete functionality for suggested units
+  - [x] 14.6 Write unit tests for auto-suggest functionality and user interactions
 
 - [ ] 15.0 Additional Unit Categories (Thermal, Volume, Density)
   - [ ] 15.1 Create thermal.json with Passive House thermal units (Btu/hr-ft², W/m², U-values, etc.)
