@@ -7,7 +7,13 @@
     "type": "git",
     "url": "https://github.com/bldgtyp/ph-switch.git"
   },
-  "keywords": ["passive-house", "unit-converter", "engineering", "react", "typescript"],
+  "keywords": [
+    "passive-house",
+    "unit-converter",
+    "engineering",
+    "react",
+    "typescript"
+  ],
   "author": "bldgtyp",
   "license": "MIT",
   "private": true,
@@ -21,6 +27,8 @@
     "@types/react": "^19.1.10",
     "@types/react-dom": "^19.1.7",
     "ajv": "^8.17.1",
+    "decimal.js": "^10.6.0",
+    "fast-levenshtein": "^3.0.0",
     "lodash.debounce": "^4.0.8",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",

@@ -1,0 +1,73 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Unit Configuration Schema",
+  "description": "JSON schema for validating unit category configuration files",
+  "type": "object",
+  "properties": {
+    "category": {
+      "type": "string",
+      "description": "The unit category name (e.g., 'length', 'thermal', 'volume')",
+      "minLength": 1
+    },
+    "baseUnit": {
+      "type": "string",
+      "description": "The base unit used for conversions within this category",
+      "minLength": 1
+    },
+    "description": {
+      "type": "string",
+      "description": "Human-readable description of this unit category"
+    },
+    "units": {
+      "type": "object",
+      "description": "Map of unit definitions with their conversion factors and aliases",
+      "patternProperties": {
+        "^[a-zA-Z0-9_-]+$": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string",
+              "description": "Full name of the unit",
+              "minLength": 1
+            },
+            "symbol": {
+              "type": "string",
+              "description": "Standard symbol/abbreviation for the unit",
+              "minLength": 1
+            },
+            "aliases": {
+              "type": "array",
+              "description": "Array of alternative names and abbreviations for this unit",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              },
+              "uniqueItems": true
+            },
+            "factor": {
+              "type": "number",
+              "description": "Conversion factor to base unit (multiply by this to get base unit)",
+              "exclusiveMinimum": 0
+            },
+            "description": {
+              "type": "string",
+              "description": "Optional description or notes about this unit"
+            },
+            "precision": {
+              "type": "integer",
+              "description": "Recommended decimal places for display (optional)",
+              "minimum": 0,
+              "maximum": 10
+            }
+          },
+          "required": ["name", "symbol", "aliases", "factor"],
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false,
+      "minProperties": 1
+    }
+  },
+  "required": ["category", "baseUnit", "units"],
+  "additionalProperties": false
+}

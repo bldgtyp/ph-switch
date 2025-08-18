@@ -1,0 +1,147 @@
+{
+  "category": "length",
+  "baseUnit": "meter",
+  "description": "Length and distance units for engineering applications",
+  "units": {
+    "meter": {
+      "name": "meter",
+      "symbol": "m",
+      "aliases": ["meter", "metre", "meters", "metres", "m"],
+      "factor": 1,
+      "description": "SI base unit of length"
+    },
+    "foot": {
+      "name": "foot",
+      "symbol": "ft",
+      "aliases": ["foot", "feet", "ft", "'"],
+      "factor": 0.3048,
+      "description": "Imperial unit of length"
+    },
+    "inch": {
+      "name": "inch",
+      "symbol": "in",
+      "aliases": ["inch", "inches", "in", "\""],
+      "factor": 0.0254,
+      "description": "Imperial unit of length, 1/12 of a foot"
+    },
+    "centimeter": {
+      "name": "centimeter",
+      "symbol": "cm",
+      "aliases": ["centimeter", "centimetre", "centimeters", "centimetres", "cm"],
+      "factor": 0.01,
+      "description": "Metric unit, 1/100 of a meter"
+    },
+    "millimeter": {
+      "name": "millimeter",
+      "symbol": "mm",
+      "aliases": ["millimeter", "millimetre", "millimeters", "millimetres", "mm"],
+      "factor": 0.001,
+      "description": "Metric unit, 1/1000 of a meter"
+    },
+    "kilometer": {
+      "name": "kilometer",
+      "symbol": "km",
+      "aliases": ["kilometer", "kilometre", "kilometers", "kilometres", "km"],
+      "factor": 1000,
+      "description": "Metric unit, 1000 meters"
+    },
+    "yard": {
+      "name": "yard",
+      "symbol": "yd",
+      "aliases": ["yard", "yards", "yd"],
+      "factor": 0.9144,
+      "description": "Imperial unit, 3 feet"
+    },
+    "mile": {
+      "name": "mile",
+      "symbol": "mi",
+      "aliases": ["mile", "miles", "mi"],
+      "factor": 1609.344,
+      "description": "Imperial unit, 5280 feet"
+    },
+    "micrometer": {
+      "name": "micrometer",
+      "symbol": "μm",
+      "aliases": ["micrometer", "micrometre", "micrometers", "micrometres", "μm", "um", "micron", "microns"],
+      "factor": 0.000001,
+      "description": "Metric unit, 1/1,000,000 of a meter"
+    },
+    "nanometer": {
+      "name": "nanometer",
+      "symbol": "nm",
+      "aliases": ["nanometer", "nanometre", "nanometers", "nanometres", "nm"],
+      "factor": 0.000000001,
+      "description": "Metric unit, 1/1,000,000,000 of a meter"
+    },
+    "angstrom": {
+      "name": "angstrom",
+      "symbol": "Å",
+      "aliases": ["angstrom", "angstroms", "ångström", "Å", "A"],
+      "factor": 0.0000000001,
+      "description": "Unit commonly used in atomic physics, 10^-10 meters"
+    },
+    "mil": {
+      "name": "mil",
+      "symbol": "mil",
+      "aliases": ["mil", "mils", "thou", "thousandth"],
+      "factor": 0.0000254,
+      "description": "Imperial unit, 1/1000 of an inch"
+    },
+    "nautical_mile": {
+      "name": "nautical mile",
+      "symbol": "nmi",
+      "aliases": ["nautical mile", "nautical miles", "nmi", "nmile"],
+      "factor": 1852,
+      "description": "Maritime and aviation unit, exactly 1852 meters"
+    },
+    "light_year": {
+      "name": "light year",
+      "symbol": "ly",
+      "aliases": ["light year", "light years", "lightyear", "lightyears", "ly"],
+      "factor": 9460730472580800,
+      "description": "Astronomical unit, distance light travels in one year"
+    },
+    "astronomical_unit": {
+      "name": "astronomical unit",
+      "symbol": "AU",
+      "aliases": ["astronomical unit", "astronomical units", "AU"],
+      "factor": 149597870700,
+      "description": "Astronomical unit, average Earth-Sun distance"
+    },
+    "parsec": {
+      "name": "parsec",
+      "symbol": "pc",
+      "aliases": ["parsec", "parsecs", "pc"],
+      "factor": 30856775814913673,
+      "description": "Astronomical unit, approximately 3.26 light years"
+    },
+    "furlong": {
+      "name": "furlong",
+      "symbol": "fur",
+      "aliases": ["furlong", "furlongs", "fur"],
+      "factor": 201.168,
+      "description": "Imperial unit, 1/8 of a mile or 660 feet"
+    },
+    "chain": {
+      "name": "chain",
+      "symbol": "ch",
+      "aliases": ["chain", "chains", "ch"],
+      "factor": 20.1168,
+      "description": "Surveying unit, 66 feet or 1/80 of a mile"
+    },
+    "rod": {
+      "name": "rod",
+      "symbol": "rd",
+      "aliases": ["rod", "rods", "rd", "pole", "poles", "perch", "perches"],
+      "factor": 5.0292,
+      "description": "Imperial unit, 16.5 feet or 1/4 of a chain"
+    },
+    "fathom": {
+      "name": "fathom",
+      "symbol": "ftm",
+      "aliases": ["fathom", "fathoms", "ftm"],
+      "factor": 1.8288,
+      "description": "Maritime unit, 6 feet"
+    }
+  }
+}
