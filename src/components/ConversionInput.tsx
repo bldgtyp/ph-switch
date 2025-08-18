@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef } from 'react';
 import './ConversionInput.css';
 
 interface ConversionInputProps {
@@ -14,7 +14,7 @@ interface ConversionInputProps {
 
 /**
  * Multi-line textarea component for natural language conversion input
- * Supports Google Translate-style interface with auto-expanding height
+ * Supports Google Translate-style interface with flex layout to match output height
  * Handles "X unit as/to Y unit" format parsing
  */
 export const ConversionInput: React.FC<ConversionInputProps> = ({
@@ -29,25 +29,6 @@ export const ConversionInput: React.FC<ConversionInputProps> = ({
 }) => {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const [isFocused, setIsFocused] = useState(false);
-
-  // Auto-resize textarea based on content
-  useEffect(() => {
-    const textarea = textareaRef.current;
-    if (textarea) {
-      // Reset height to auto to get the correct scrollHeight
-      textarea.style.height = 'auto';
-
-      // Set height based on scrollHeight with minimum height
-      const minHeight = 60; // 3 lines approximately
-      const maxHeight = 300; // Prevent excessive height
-      const newHeight = Math.max(
-        minHeight,
-        Math.min(maxHeight, textarea.scrollHeight)
-      );
-
-      textarea.style.height = `${newHeight}px`;
-    }
-  }, [value]);
 
   const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     onChange(event.target.value);
