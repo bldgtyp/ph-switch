@@ -255,6 +255,17 @@ describe('Natural Language Parser', () => {
         expect(isSuccessfulParse(result)).toBe(true);
       });
     });
+
+    it('should parse and validate CO2 emissions shorthand with slashes and hyphens', () => {
+      const input = '1 g-CO2/kbtu to kg-co2/btu';
+      const result = parseAndValidateInput(input);
+      expect(isSuccessfulParse(result)).toBe(true);
+      const success = result as any;
+      expect(success.value).toBe(1);
+      // normalized unit tokens
+      expect(success.sourceUnit).toBe('g-co2/kbtu');
+      expect(success.targetUnit).toBe('kg-co2/btu');
+    });
   });
 
   describe('parseMultilineInput', () => {

@@ -36,14 +36,20 @@
       "symbol": "g-CO2/Btu",
       "aliases": ["g-CO2/Btu", "gco2/btu", "g_co2_btu"],
       "description": "Grams of CO2 per Btu",
-      "transform": { "toBase": "x / 0.293071111", "fromBase": "x * 0.293071111" }
+      "transform": {
+        "toBase": "x / 0.293071111",
+        "fromBase": "x * 0.293071111"
+      }
     },
     "kg_co2_btu": {
       "name": "kilogram CO2 per Btu",
       "symbol": "kg-CO2/Btu",
       "aliases": ["kg-CO2/Btu", "kgco2/btu", "kg_co2_btu"],
       "description": "Kilograms of CO2 per Btu",
-      "transform": { "toBase": "x * 1000 / 0.293071111", "fromBase": "x * 0.293071111 / 1000" }
+      "transform": {
+        "toBase": "x * 1000 / 0.293071111",
+        "fromBase": "x * 0.293071111 / 1000"
+      }
     },
     "g_co2_kbtu": {
       "name": "gram CO2 per kBtu",
@@ -57,7 +63,10 @@
       "symbol": "kg-CO2/kBtu",
       "aliases": ["kg-CO2/kBtu", "kgco2/kbtu", "kg_co2_kbtu"],
       "description": "Kilograms of CO2 per thousand Btu",
-      "transform": { "toBase": "x * 1000 / 293.071111", "fromBase": "x * 293.071111 / 1000" }
+      "transform": {
+        "toBase": "x * 1000 / 293.071111",
+        "fromBase": "x * 293.071111 / 1000"
+      }
     },
     "g_co2_m2": {
       "name": "gram CO2 per square meter",

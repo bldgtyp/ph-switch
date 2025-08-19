@@ -60,9 +60,14 @@ function findUnitInCategory(
     };
   }
 
-  // Check aliases for each unit
+  // Check aliases for each unit (case-insensitive)
   for (const [unitKey, unitData] of Object.entries(configuration.units)) {
-    if (unitData.aliases && unitData.aliases.includes(unitName.toLowerCase())) {
+    if (
+      unitData.aliases &&
+      unitData.aliases.some(
+        (a: string) => a.toLowerCase() === unitName.toLowerCase()
+      )
+    ) {
       return {
         unitKey,
         conversionFactor: unitData.factor,

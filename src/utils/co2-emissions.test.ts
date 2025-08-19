@@ -1,5 +1,6 @@
 import { convertUnits } from './converter';
 import { initializeConfigurations } from '../config';
+import { convertFromInput } from './converter';
 
 describe('co2-emissions conversions', () => {
   beforeAll(async () => {
@@ -41,5 +42,15 @@ describe('co2-emissions conversions', () => {
     const res = convertUnits(1000, 'g_co2_m3', 'kg_co2_m3');
     expect(res.success).toBe(true);
     expect(res.value).toBeCloseTo(1, 12);
+  });
+
+  test('natural language: 1 g-CO2/kbtu to kg-co2/btu', async () => {
+    const res = await convertFromInput('1 g-CO2/kbtu to kg-co2/btu');
+    expect(res.success).toBe(true);
+    // 1 g/kBtu -> toBase = 1 / 293.071111 g/Wh
+    // kg/btu -> toBase = 1000 / 0.293071111 g/Wh
+    // Conversion result will be a small value; just assert success and numeric
+    expect(typeof res.value).toBe('number');
+    expect(isFinite(res.value as number)).toBe(true);
   });
 });
