@@ -8,6 +8,8 @@ import areaConfig from '../config/area.json';
 import volumeConfig from '../config/volume.json';
 import temperatureConfig from '../config/temperature.json';
 import airflowConfig from '../config/airflow.json';
+import massConfig from '../config/mass.json';
+import energyConfig from '../config/energy.json';
 import {
   UnitCategory,
   ConfigurationLoadResult,
@@ -176,6 +178,28 @@ export async function loadAllConfigurations(): Promise<ConfigurationLoadResult> 
       return {
         success: false,
         error: 'Failed to load airflow unit configuration',
+      };
+    }
+
+    // Load mass configuration
+    const massCategory = loadUnitCategory(massConfig, 'mass');
+    if (massCategory) {
+      categories.mass = massCategory;
+    } else {
+      return {
+        success: false,
+        error: 'Failed to load mass unit configuration',
+      };
+    }
+
+    // Load energy configuration
+    const energyCategory = loadUnitCategory(energyConfig, 'energy');
+    if (energyCategory) {
+      categories.energy = energyCategory;
+    } else {
+      return {
+        success: false,
+        error: 'Failed to load energy unit configuration',
       };
     }
 

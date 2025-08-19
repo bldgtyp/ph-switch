@@ -1,0 +1,86 @@
+{
+  "category": "mass",
+  "baseUnit": "kg",
+  "description": "Mass units commonly used in engineering and everyday contexts",
+  "units": {
+    "kg": {
+      "name": "kilogram",
+      "symbol": "kg",
+      "aliases": ["kilogram", "kilograms", "kg"],
+      "description": "SI base unit of mass",
+      "transform": { "toBase": "x", "fromBase": "x" }
+    },
+    "g": {
+      "name": "gram",
+      "symbol": "g",
+      "aliases": ["gram", "grams", "g"],
+      "description": "1/1000 of a kilogram",
+      "transform": { "toBase": "x * 0.001", "fromBase": "x / 0.001" }
+    },
+    "mg": {
+      "name": "milligram",
+      "symbol": "mg",
+      "aliases": ["milligram", "milligrams", "mg"],
+      "description": "1/1,000,000 of a kilogram",
+      "transform": { "toBase": "x * 0.000001", "fromBase": "x / 0.000001" }
+    },
+    "ug": {
+      "name": "microgram",
+      "symbol": "ug",
+      "aliases": ["microgram", "micrograms", "ug", "μg"],
+      "description": "1/1,000,000,000 of a kilogram",
+      "transform": {
+        "toBase": "x * 0.000000001",
+        "fromBase": "x / 0.000000001"
+      }
+    },
+    "lb": {
+      "name": "pound",
+      "symbol": "lb",
+      "aliases": ["pound", "pounds", "lb", "lbs"],
+      "description": "Avoirdupois pound",
+      "transform": { "toBase": "x * 0.45359237", "fromBase": "x / 0.45359237" }
+    },
+    "oz": {
+      "name": "ounce",
+      "symbol": "oz",
+      "aliases": ["ounce", "ounces", "oz"],
+      "description": "Avoirdupois ounce (1/16 lb)",
+      "transform": {
+        "toBase": "x * 0.028349523125",
+        "fromBase": "x / 0.028349523125"
+      }
+    },
+    "ton-us": {
+      "name": "short ton",
+      "symbol": "ton-us",
+      "aliases": ["ton-us", "short ton", "us ton"],
+      "description": "US short ton (2000 pounds)",
+      "transform": { "toBase": "x * 907.18474", "fromBase": "x / 907.18474" }
+    },
+    "ton-metric": {
+      "name": "metric tonne",
+      "symbol": "t",
+      "aliases": ["ton-metric", "tonne", "t"],
+      "description": "Metric ton (1000 kilograms)",
+      "transform": { "toBase": "x * 1000", "fromBase": "x / 1000" }
+    },
+    "ton-imperial": {
+      "name": "long ton",
+      "symbol": "ton-imperial",
+      "aliases": ["ton-imperial", "long ton", "imperial ton"],
+      "description": "Imperial long ton (2240 pounds)",
+      "transform": {
+        "toBase": "x * 1016.0469088",
+        "fromBase": "x / 1016.0469088"
+      }
+    },
+    "stone": {
+      "name": "stone",
+      "symbol": "st",
+      "aliases": ["stone", "stones", "st"],
+      "description": "Stone (14 pounds)",
+      "transform": { "toBase": "x * 6.35029318", "fromBase": "x / 6.35029318" }
+    }
+  }
+}
