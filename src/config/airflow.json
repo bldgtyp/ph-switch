@@ -1,0 +1,55 @@
+{
+  "category": "airflow",
+  "baseUnit": "m3_s",
+  "description": "Airflow units commonly used in HVAC and ventilation",
+  "units": {
+    "m3_s": {
+      "name": "cubic meter per second",
+      "symbol": "m3/s",
+      "aliases": ["m3/s", "m3s", "m3 per s"],
+      "description": "Cubic meters per second",
+      "transform": { "toBase": "x", "fromBase": "x" }
+    },
+    "m3_m": {
+      "name": "cubic meter per minute",
+      "symbol": "m3/m",
+      "aliases": ["m3/m", "m3pm", "m3 per min", "m3/min"],
+      "description": "Cubic meters per minute",
+      "transform": { "toBase": "x / 60", "fromBase": "x * 60" }
+    },
+    "m3_h": {
+      "name": "cubic meter per hour",
+      "symbol": "m3/h",
+      "aliases": ["m3/h", "m3ph", "m3 per hr", "m3/hr"],
+      "description": "Cubic meters per hour",
+      "transform": { "toBase": "x / 3600", "fromBase": "x * 3600" }
+    },
+    "l_s": {
+      "name": "liter per second",
+      "symbol": "L/s",
+      "aliases": ["l/s", "L/s", "Lps", "lps"],
+      "description": "Liters per second (1 L = 0.001 m3)",
+      "transform": { "toBase": "x * 0.001", "fromBase": "x / 0.001" }
+    },
+    "cfm": {
+      "name": "cubic foot per minute",
+      "symbol": "cfm",
+      "aliases": ["cfm", "ft3/min", "ft3m"],
+      "description": "Cubic feet per minute",
+      "transform": {
+        "toBase": "x * 0.0004719474",
+        "fromBase": "x / 0.0004719474"
+      }
+    },
+    "cfh": {
+      "name": "cubic foot per hour",
+      "symbol": "cfh",
+      "aliases": ["cfh", "ft3/h", "ft3h"],
+      "description": "Cubic feet per hour",
+      "transform": {
+        "toBase": "x * 0.0004719474 / 60",
+        "fromBase": "x / (0.0004719474 / 60)"
+      }
+    }
+  }
+}

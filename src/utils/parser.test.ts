@@ -118,6 +118,15 @@ describe('Natural Language Parser', () => {
       expect(success.targetUnit).toBe('m');
     });
 
+    it('should parse units with slash like m3/h', () => {
+      const result = parseConversionInput('5 cfm to m3/h');
+      expect(isSuccessfulParse(result)).toBe(true);
+      const success = result as any;
+      expect(success.value).toBe(5);
+      expect(success.sourceUnit).toBe('cfm');
+      expect(success.targetUnit).toBe('m3/h');
+    });
+
     it('should parse scientific notation', () => {
       const result = parseConversionInput('1.5e3 mm to meters');
       expect(isSuccessfulParse(result)).toBe(true);
