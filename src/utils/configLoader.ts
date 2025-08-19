@@ -8,6 +8,7 @@ import areaConfig from '../config/area.json';
 import volumeConfig from '../config/volume.json';
 import temperatureConfig from '../config/temperature.json';
 import airflowConfig from '../config/airflow.json';
+import airflowEnvelopeConfig from '../config/airflow-envelope.json';
 import massConfig from '../config/mass.json';
 import energyConfig from '../config/energy.json';
 import powerConfig from '../config/power.json';
@@ -179,6 +180,20 @@ export async function loadAllConfigurations(): Promise<ConfigurationLoadResult> 
       return {
         success: false,
         error: 'Failed to load airflow unit configuration',
+      };
+    }
+
+    // Load airflow-envelope configuration
+    const airflowEnvelopeCategory = loadUnitCategory(
+      airflowEnvelopeConfig,
+      'airflow-envelope'
+    );
+    if (airflowEnvelopeCategory) {
+      categories['airflow-envelope'] = airflowEnvelopeCategory;
+    } else {
+      return {
+        success: false,
+        error: 'Failed to load airflow-envelope unit configuration',
       };
     }
 

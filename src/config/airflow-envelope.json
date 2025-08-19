@@ -1,0 +1,52 @@
+{
+  "category": "airflow-envelope",
+  "baseUnit": "m3_hr_m2",
+  "description": "Airflow per unit envelope area (e.g., cfm/ft2, m3/hr-m2)",
+  "units": {
+    "m3_hr_m2": {
+      "name": "cubic meter per hour per square meter",
+      "symbol": "m3/hr/m2",
+      "aliases": ["m3/hr-m2", "m3/hr/m^2", "m3/hr/m2"],
+      "description": "Cubic meters per hour per square meter",
+      "transform": { "toBase": "x", "fromBase": "x" }
+    },
+    "m3_s_m2": {
+      "name": "cubic meter per second per square meter",
+      "symbol": "m3/s/m2",
+      "aliases": ["m3/s-m2", "m3/s/m2", "m3s-m2"],
+      "description": "Cubic meters per second per square meter",
+      "transform": { "toBase": "x * 3600", "fromBase": "x / 3600" }
+    },
+    "m3_min_m2": {
+      "name": "cubic meter per minute per square meter",
+      "symbol": "m3/min/m2",
+      "aliases": ["m3/min-m2", "m3/min/m2"],
+      "description": "Cubic meters per minute per square meter",
+      "transform": { "toBase": "x * 60", "fromBase": "x / 60" }
+    },
+    "l_s_m2": {
+      "name": "liter per second per square meter",
+      "symbol": "L/s/m2",
+      "aliases": ["l/s-m2", "L/s-m2", "lps-m2"],
+      "description": "Liters per second per square meter",
+      "transform": { "toBase": "x * 3.6", "fromBase": "x / 3.6" }
+    },
+    "cfm_ft2": {
+      "name": "cubic foot per minute per square foot",
+      "symbol": "cfm/ft2",
+      "aliases": ["cfm/ft2", "cfm/ft^2", "cfm/ft"],
+      "description": "Cubic feet per minute per square foot",
+      "transform": { "toBase": "x * 18.288", "fromBase": "x / 18.288" }
+    },
+    "cfm_m2": {
+      "name": "cubic foot per minute per square meter",
+      "symbol": "cfm/m2",
+      "aliases": ["cfm/m2", "cfm/m^2"],
+      "description": "Cubic feet per minute per square meter",
+      "transform": {
+        "toBase": "x * 1.69901079552",
+        "fromBase": "x / 1.69901079552"
+      }
+    }
+  }
+}
