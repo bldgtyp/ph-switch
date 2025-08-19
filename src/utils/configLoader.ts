@@ -13,6 +13,7 @@ import massConfig from '../config/mass.json';
 import energyConfig from '../config/energy.json';
 import powerConfig from '../config/power.json';
 import powerIntensityConfig from '../config/power-intensity.json';
+import energyIntensityConfig from '../config/energy-intensity.json';
 import {
   UnitCategory,
   ConfigurationLoadResult,
@@ -242,6 +243,20 @@ export async function loadAllConfigurations(): Promise<ConfigurationLoadResult> 
       return {
         success: false,
         error: 'Failed to load power-intensity unit configuration',
+      };
+    }
+
+    // Load energy-intensity configuration
+    const energyIntensityCategory = loadUnitCategory(
+      energyIntensityConfig,
+      'energy-intensity'
+    );
+    if (energyIntensityCategory) {
+      categories['energy-intensity'] = energyIntensityCategory;
+    } else {
+      return {
+        success: false,
+        error: 'Failed to load energy-intensity unit configuration',
       };
     }
 
