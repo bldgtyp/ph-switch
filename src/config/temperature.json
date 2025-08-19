@@ -1,0 +1,51 @@
+{
+  "category": "temperature",
+  "baseUnit": "kelvin",
+  "description": "Temperature units (Kelvin base). Note: temperature conversions may require offsets (handled by converter).",
+  "units": {
+    "kelvin": {
+      "name": "kelvin",
+      "symbol": "K",
+      "aliases": ["kelvin", "kelvins", "k"],
+      "description": "SI base unit for temperature",
+      "transform": {
+        "toBase": "x",
+        "fromBase": "x"
+      }
+    },
+    "celsius": {
+      "name": "celsius",
+      "symbol": "°C",
+      "aliases": [
+        "celsius",
+        "degree celsius",
+        "degrees celsius",
+        "c",
+        "°c",
+        "degc"
+      ],
+      "description": "Celsius scale (offset to K: +273.15)",
+      "transform": {
+        "toBase": "x + 273.15",
+        "fromBase": "x - 273.15"
+      }
+    },
+    "fahrenheit": {
+      "name": "fahrenheit",
+      "symbol": "°F",
+      "aliases": [
+        "fahrenheit",
+        "degree fahrenheit",
+        "degrees fahrenheit",
+        "f",
+        "°f",
+        "degf"
+      ],
+      "description": "Fahrenheit scale (affine transform)",
+      "transform": {
+        "toBase": "(x - 32) * 5/9 + 273.15",
+        "fromBase": "(x - 273.15) * 9/5 + 32"
+      }
+    }
+  }
+}
