@@ -1,0 +1,31 @@
+{
+  "category": "temperature-difference",
+  "baseUnit": "delta_k",
+  "description": "Temperature difference units",
+  "units": {
+    "delta_k": {
+      "name": "Kelvin difference",
+      "symbol": "ΔK",
+      "aliases": ["delta-k", "ΔK", "dK", "K difference"],
+      "description": "Difference in temperature measured in Kelvin",
+      "transform": { "toBase": "x", "fromBase": "x" }
+    },
+    "delta_c": {
+      "name": "Celsius difference",
+      "symbol": "Δ°C",
+      "aliases": ["delta-c", "ΔC", "dC", "C difference"],
+      "description": "Difference in temperature measured in Celsius (same magnitude as Kelvin)",
+      "transform": { "toBase": "x", "fromBase": "x" }
+    },
+    "delta_f": {
+      "name": "Fahrenheit difference",
+      "symbol": "Δ°F",
+      "aliases": ["delta-f", "ΔF", "dF", "F difference"],
+      "description": "Difference in temperature measured in Fahrenheit",
+      "transform": {
+        "toBase": "x * 0.555555556",
+        "fromBase": "x / 0.555555556"
+      }
+    }
+  }
+}

@@ -23,6 +23,7 @@ import heatCapacityByAreaConfig from '../config/heat-capacity-by-area.json';
 import heatCapacityByMassConfig from '../config/heat-capacity-by-mass.json';
 import fanEfficiencyConfig from '../config/fan-efficiency.json';
 import pressureConfig from '../config/pressure.json';
+import temperatureDifferenceConfig from '../config/temperature-difference.json';
 import {
   UnitCategory,
   ConfigurationLoadResult,
@@ -380,6 +381,20 @@ export async function loadAllConfigurations(): Promise<ConfigurationLoadResult> 
       return {
         success: false,
         error: 'Failed to load pressure unit configuration',
+      };
+    }
+
+    // Load temperature-difference configuration
+    const tempDiffCategory = loadUnitCategory(
+      temperatureDifferenceConfig,
+      'temperature-difference'
+    );
+    if (tempDiffCategory) {
+      categories['temperature-difference'] = tempDiffCategory;
+    } else {
+      return {
+        success: false,
+        error: 'Failed to load temperature-difference unit configuration',
       };
     }
 
