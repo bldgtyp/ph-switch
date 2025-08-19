@@ -9,13 +9,16 @@
 
 ### Task:
 
-- Add a new `heat-capacity-by-area` unit type JSON file.
+- Add a new `heat-capacity-by-mass` unit type JSON file.
 - New unit type includes units:
-  - BTU/ft2-F [ reference: 1 BTU/ft2-F = 0.293071111 Wh/ft2-F | 5.678264134 Wh/m2-K ]
-  - Wh/ft2-F [ reference: 1 Wh/ft2-F = 3.412141156 BTU/ft2-F | 19.37503875 Wh/m2-K ]
-  - Wh/m2-K [ reference: 1 Wh/m2-K = 0.176110159 BTU/ft2-F | 0.0516128 Wh/ft2-K ]
-- Create a new `heat-capacity-by-area.json` file and add the relevant conversion factors.
+  - Btu/lb-F [ reference: 1 BTU/lb-F =4186.800585 J/kg-K ]
+  - kBtu/lb-F
+  - J/kg-K [ reference: 1 J/kg-K = 0.0002388458633 BTU/lb-F ]
+  - kJ/kg-K
+  - kWh/kg-K
+  - Wh/kg-K
+- Create a new `heat-capacity-by-mass.json` file and add the relevant conversion factors.
 - Ensure that the new units are loaded in `configLoader.ts` as well.
-- Add new unit tests in `heat-capacity-by-area.test.ts` to verify conversions between these units.
+- Add new unit tests in `heat-capacity-by-mass.test.ts` to verify conversions between these units.
 - Run Prettier formater
 - Run all tests

@@ -20,6 +20,7 @@ import speedConfig from '../config/speed.json';
 import humidityConfig from '../config/humidity.json';
 import heatCapacityByVolumeConfig from '../config/heat-capacity-by-volume.json';
 import heatCapacityByAreaConfig from '../config/heat-capacity-by-area.json';
+import heatCapacityByMassConfig from '../config/heat-capacity-by-mass.json';
 import {
   UnitCategory,
   ConfigurationLoadResult,
@@ -338,6 +339,20 @@ export async function loadAllConfigurations(): Promise<ConfigurationLoadResult> 
       return {
         success: false,
         error: 'Failed to load heat-capacity-by-area unit configuration',
+      };
+    }
+
+    // Load heat-capacity-by-mass configuration
+    const heatCapMassCategory = loadUnitCategory(
+      heatCapacityByMassConfig,
+      'heat-capacity-by-mass'
+    );
+    if (heatCapMassCategory) {
+      categories['heat-capacity-by-mass'] = heatCapMassCategory;
+    } else {
+      return {
+        success: false,
+        error: 'Failed to load heat-capacity-by-mass unit configuration',
       };
     }
 

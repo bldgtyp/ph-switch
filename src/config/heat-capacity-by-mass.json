@@ -1,0 +1,55 @@
+{
+  "category": "heat-capacity-by-mass",
+  "baseUnit": "j_kg_k",
+  "description": "Heat capacity by mass (energy per mass per temperature)",
+  "units": {
+    "btu_lb_f": {
+      "name": "Btu per pound per degree Fahrenheit",
+      "symbol": "Btu/lb-F",
+      "aliases": ["Btu/lb-F", "btu/lb-f", "btu per lb f"],
+      "description": "British Thermal Units per pound per degree Fahrenheit",
+      "transform": {
+        "toBase": "x * 4186.800585",
+        "fromBase": "x / 4186.800585"
+      }
+    },
+    "kbtu_lb_f": {
+      "name": "kBtu per pound per degree Fahrenheit",
+      "symbol": "kBtu/lb-F",
+      "aliases": ["kBtu/lb-F", "kbtu/lb-f", "kBtu per lb f"],
+      "description": "Thousand Btu per pound per degree Fahrenheit",
+      "transform": {
+        "toBase": "x * 4186800.585",
+        "fromBase": "x / 4186800.585"
+      }
+    },
+    "j_kg_k": {
+      "name": "Joule per kilogram per Kelvin",
+      "symbol": "J/kg-K",
+      "aliases": ["J/kg-K", "j/kg-k", "j per kg k"],
+      "description": "Joules per kilogram per Kelvin (SI)",
+      "transform": { "toBase": "x", "fromBase": "x" }
+    },
+    "kj_kg_k": {
+      "name": "Kilojoule per kilogram per Kelvin",
+      "symbol": "kJ/kg-K",
+      "aliases": ["kJ/kg-K", "kj/kg-k", "kj per kg k"],
+      "description": "Kilojoules per kilogram per Kelvin",
+      "transform": { "toBase": "x * 1000", "fromBase": "x / 1000" }
+    },
+    "wh_kg_k": {
+      "name": "Watt-hour per kilogram per Kelvin",
+      "symbol": "Wh/kg-K",
+      "aliases": ["Wh/kg-K", "wh/kg-k", "wh per kg k"],
+      "description": "Watt-hours per kilogram per Kelvin",
+      "transform": { "toBase": "x * 3600", "fromBase": "x / 3600" }
+    },
+    "kwh_kg_k": {
+      "name": "Kilowatt-hour per kilogram per Kelvin",
+      "symbol": "kWh/kg-K",
+      "aliases": ["kWh/kg-K", "kwh/kg-k", "kwh per kg k"],
+      "description": "Kilowatt-hours per kilogram per Kelvin",
+      "transform": { "toBase": "x * 3600000", "fromBase": "x / 3600000" }
+    }
+  }
+}
