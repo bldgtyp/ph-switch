@@ -1,0 +1,48 @@
+{
+  "category": "density",
+  "baseUnit": "kg_m3",
+  "description": "Density units (mass per unit volume)",
+  "units": {
+    "mg_m3": {
+      "name": "milligram per cubic meter",
+      "symbol": "mg/m3",
+      "aliases": ["mg/m3", "mg/m^3", "mg per m3"],
+      "description": "Milligrams per cubic meter",
+      "transform": { "toBase": "x * 0.000001", "fromBase": "x / 0.000001" }
+    },
+    "g_m3": {
+      "name": "gram per cubic meter",
+      "symbol": "g/m3",
+      "aliases": ["g/m3", "g/m^3", "g per m3"],
+      "description": "Grams per cubic meter",
+      "transform": { "toBase": "x * 0.001", "fromBase": "x / 0.001" }
+    },
+    "kg_m3": {
+      "name": "kilogram per cubic meter",
+      "symbol": "kg/m3",
+      "aliases": ["kg/m3", "kg/m^3", "kg per m3", "kg/m³"],
+      "description": "Kilograms per cubic meter (SI base)",
+      "transform": { "toBase": "x", "fromBase": "x" }
+    },
+    "lb_ft3": {
+      "name": "pound per cubic foot",
+      "symbol": "lb/ft3",
+      "aliases": ["lb/ft3", "lb/ft^3", "lb per ft3"],
+      "description": "Pounds per cubic foot",
+      "transform": {
+        "toBase": "x * 16.018463373962",
+        "fromBase": "x / 16.018463373962"
+      }
+    },
+    "lb_in3": {
+      "name": "pound per cubic inch",
+      "symbol": "lb/in3",
+      "aliases": ["lb/in3", "lb/in^3", "lb per in3"],
+      "description": "Pounds per cubic inch",
+      "transform": {
+        "toBase": "x * 27679.904710192",
+        "fromBase": "x / 27679.904710192"
+      }
+    }
+  }
+}

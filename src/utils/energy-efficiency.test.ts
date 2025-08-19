@@ -15,7 +15,7 @@ describe('energy-efficiency conversions', () => {
   test('1 W/W -> Btu/Wh equals ~3.412141156', () => {
     const res = convertUnits(1, 'w_per_w', 'btu_per_wh');
     expect(res.success).toBe(true);
-  expect(res.value).toBeCloseTo(3.412141156, 8);
+    expect(res.value).toBeCloseTo(3.412141156, 8);
   });
 
   test('SEER-IP numeric equivalence to Btu/Wh', () => {
