@@ -9,15 +9,17 @@
 
 ### Task:
 
-- Add a new `fan-efficiency` unit type JSON file.
+- Add a new `pressure` unit type JSON file.
 - New unit type includes units:
-  - J/L
-  - W/cfm [ reference: 1 W/cfm = 0.588577779 Wh/m3 ]
-  - W/cfh (watts per cubic-foot-per-hour)
-  - Wh/m3 [ reference: 1 Wh/m3 = 1.699010796 W/cfm ]
-  - kWh/m3
-- Create a new `fan-efficiency.json` file and add the relevant conversion factors.
+  - Pa (Pascal)
+  - inHg (inch Mercury) [reference: 1 inHg = 3386.39 Pa]
+  - inWC (inch water-column) [reference: 1 inWC = 249.0889083 Pa]
+  - Bar (bar) [reference: 1 Bar = 100000 Pa]
+  - psi (Pound-Force-per-Square-Inch) [reference: 1 psi = 6894.76 Pa]
+  - atm (Atmosphere) [reference: 1 atm = 101325 Pa]
+  - Torr (Torr) [reference: 1 Torr = 133.322 Pa]
+- Create a new `pressure.json` file and add the relevant conversion factors.
 - Ensure that the new units are loaded in `configLoader.ts` as well.
-- Add new unit tests in `fan-efficiency.test.ts` to verify conversions between these units.
+- Add new unit tests in `pressure.test.ts` to verify conversions between these units.
 - Run Prettier formater
 - Run all tests

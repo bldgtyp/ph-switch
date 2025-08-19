@@ -1,0 +1,59 @@
+{
+  "category": "pressure",
+  "baseUnit": "pa",
+  "description": "Pressure units",
+  "units": {
+    "pa": {
+      "name": "Pascal",
+      "symbol": "Pa",
+      "aliases": ["Pa", "pascal", "pascals"],
+      "description": "Pascal (SI)",
+      "transform": { "toBase": "x", "fromBase": "x" }
+    },
+    "inhg": {
+      "name": "Inch of Mercury",
+      "symbol": "inHg",
+      "aliases": ["inHg", "inchHg", "inch of mercury"],
+      "description": "Inches of mercury",
+      "transform": { "toBase": "x * 3386.39", "fromBase": "x / 3386.39" }
+    },
+    "inwc": {
+      "name": "Inch water-column",
+      "symbol": "inWC",
+      "aliases": ["inWC", "inch wc", "inch water column"],
+      "description": "Inches of water column",
+      "transform": {
+        "toBase": "x * 249.0889083",
+        "fromBase": "x / 249.0889083"
+      }
+    },
+    "bar": {
+      "name": "bar",
+      "symbol": "bar",
+      "aliases": ["bar", "Bar"],
+      "description": "bar (100000 Pa)",
+      "transform": { "toBase": "x * 100000", "fromBase": "x / 100000" }
+    },
+    "psi": {
+      "name": "Pound per square inch",
+      "symbol": "psi",
+      "aliases": ["psi", "pound per square inch"],
+      "description": "Pound-force per square inch",
+      "transform": { "toBase": "x * 6894.76", "fromBase": "x / 6894.76" }
+    },
+    "atm": {
+      "name": "Standard atmosphere",
+      "symbol": "atm",
+      "aliases": ["atm", "atmosphere"],
+      "description": "Standard atmosphere",
+      "transform": { "toBase": "x * 101325", "fromBase": "x / 101325" }
+    },
+    "torr": {
+      "name": "Torr",
+      "symbol": "Torr",
+      "aliases": ["Torr", "torr", "mmHg"],
+      "description": "Torr (mm of mercury approximation)",
+      "transform": { "toBase": "x * 133.322", "fromBase": "x / 133.322" }
+    }
+  }
+}

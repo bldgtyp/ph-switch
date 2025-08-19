@@ -22,6 +22,7 @@ import heatCapacityByVolumeConfig from '../config/heat-capacity-by-volume.json';
 import heatCapacityByAreaConfig from '../config/heat-capacity-by-area.json';
 import heatCapacityByMassConfig from '../config/heat-capacity-by-mass.json';
 import fanEfficiencyConfig from '../config/fan-efficiency.json';
+import pressureConfig from '../config/pressure.json';
 import {
   UnitCategory,
   ConfigurationLoadResult,
@@ -368,6 +369,17 @@ export async function loadAllConfigurations(): Promise<ConfigurationLoadResult> 
       return {
         success: false,
         error: 'Failed to load fan-efficiency unit configuration',
+      };
+    }
+
+    // Load pressure configuration
+    const pressureCategory = loadUnitCategory(pressureConfig, 'pressure');
+    if (pressureCategory) {
+      categories['pressure'] = pressureCategory;
+    } else {
+      return {
+        success: false,
+        error: 'Failed to load pressure unit configuration',
       };
     }
 
