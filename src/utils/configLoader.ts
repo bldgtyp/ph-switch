@@ -14,6 +14,7 @@ import energyConfig from '../config/energy.json';
 import powerConfig from '../config/power.json';
 import powerIntensityConfig from '../config/power-intensity.json';
 import energyIntensityConfig from '../config/energy-intensity.json';
+import energyEfficiencyConfig from '../config/energy-efficiency.json';
 import {
   UnitCategory,
   ConfigurationLoadResult,
@@ -257,6 +258,20 @@ export async function loadAllConfigurations(): Promise<ConfigurationLoadResult> 
       return {
         success: false,
         error: 'Failed to load energy-intensity unit configuration',
+      };
+    }
+
+    // Load energy-efficiency configuration
+    const energyEfficiencyCategory = loadUnitCategory(
+      energyEfficiencyConfig,
+      'energy-efficiency'
+    );
+    if (energyEfficiencyCategory) {
+      categories['energy-efficiency'] = energyEfficiencyCategory;
+    } else {
+      return {
+        success: false,
+        error: 'Failed to load energy-efficiency unit configuration',
       };
     }
 

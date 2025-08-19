@@ -1,0 +1,58 @@
+{
+  "category": "energy-efficiency",
+  "baseUnit": "w_per_w",
+  "description": "Energy efficiency metrics (SEER/COP) in both IP (Btu/Wh) and SI (W/W) conventions",
+  "units": {
+    "btu_per_wh": {
+      "name": "Btu per Watt-hour",
+      "symbol": "Btu/Wh",
+      "aliases": ["btu/wh", "Btu/Wh"],
+      "description": "Energy ratio commonly used in IP units",
+      "transform": {
+        "toBase": "x * 0.293071111",
+        "fromBase": "x / 0.293071111"
+      }
+    },
+    "w_per_w": {
+      "name": "Watt per Watt",
+      "symbol": "W/W",
+      "aliases": ["w/w", "W/W"],
+      "description": "Dimensionless efficiency in SI units (watts out per watt in)",
+      "transform": { "toBase": "x", "fromBase": "x" }
+    },
+    "seer_ip": {
+      "name": "SEER (IP)",
+      "symbol": "SEER-IP",
+      "aliases": ["seer-ip", "SEER-IP"],
+      "description": "Seasonal Energy Efficiency Ratio (US/IP) measured in Btu/Wh",
+      "transform": {
+        "toBase": "x * 0.293071111",
+        "fromBase": "x / 0.293071111"
+      }
+    },
+    "cop_ip": {
+      "name": "COP (IP)",
+      "symbol": "COP-IP",
+      "aliases": ["cop-ip", "COP-IP"],
+      "description": "Coefficient of Performance (IP) measured in Btu/Wh equivalent",
+      "transform": {
+        "toBase": "x * 0.293071111",
+        "fromBase": "x / 0.293071111"
+      }
+    },
+    "seer_si": {
+      "name": "SEER (SI)",
+      "symbol": "SEER-SI",
+      "aliases": ["seer-si", "SEER-SI"],
+      "description": "Seasonal Energy Efficiency Ratio (SI) measured in W/W",
+      "transform": { "toBase": "x", "fromBase": "x" }
+    },
+    "cop_si": {
+      "name": "COP (SI)",
+      "symbol": "COP-SI",
+      "aliases": ["cop-si", "COP-SI"],
+      "description": "Coefficient of Performance (SI) measured in W/W",
+      "transform": { "toBase": "x", "fromBase": "x" }
+    }
+  }
+}
