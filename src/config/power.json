@@ -1,0 +1,42 @@
+{
+  "category": "power",
+  "baseUnit": "watt",
+  "description": "Power units used in HVAC and electrical contexts",
+  "units": {
+    "watt": {
+      "name": "watt",
+      "symbol": "W",
+      "aliases": ["watt", "watts", "w"],
+      "description": "SI unit of power (J/s)",
+      "transform": { "toBase": "x", "fromBase": "x" }
+    },
+    "kw": {
+      "name": "kilowatt",
+      "symbol": "kW",
+      "aliases": ["kw", "kW", "kilowatt", "kilowatts"],
+      "description": "1000 watts",
+      "transform": { "toBase": "x * 1000", "fromBase": "x / 1000" }
+    },
+    "btu_per_hr": {
+      "name": "BTU per hour",
+      "symbol": "Btu/hr",
+      "aliases": ["btu/hr", "btu per hr", "btu/h", "btuh"],
+      "description": "British Thermal Units per hour",
+      "transform": { "toBase": "x * 0.29307107", "fromBase": "x / 0.29307107" }
+    },
+    "kbtu_per_hr": {
+      "name": "kBtu per hour",
+      "symbol": "kBtu/hr",
+      "aliases": ["kbtu/hr", "kbtu per hr", "k btu/hr", "kBtu/h"],
+      "description": "kilo-British Thermal Units per hour",
+      "transform": { "toBase": "x * 293.07107", "fromBase": "x / 293.07107" }
+    },
+    "ton_cooling": {
+      "name": "ton of cooling",
+      "symbol": "ton",
+      "aliases": ["ton-cooling", "ton of cooling", "ton", "TR"],
+      "description": "1 ton refrigeration = 12,000 BTU/hr",
+      "transform": { "toBase": "x * 3516.85284", "fromBase": "x / 3516.85284" }
+    }
+  }
+}

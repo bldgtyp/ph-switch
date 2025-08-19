@@ -10,6 +10,7 @@ import temperatureConfig from '../config/temperature.json';
 import airflowConfig from '../config/airflow.json';
 import massConfig from '../config/mass.json';
 import energyConfig from '../config/energy.json';
+import powerConfig from '../config/power.json';
 import {
   UnitCategory,
   ConfigurationLoadResult,
@@ -200,6 +201,17 @@ export async function loadAllConfigurations(): Promise<ConfigurationLoadResult> 
       return {
         success: false,
         error: 'Failed to load energy unit configuration',
+      };
+    }
+
+    // Load power configuration
+    const powerCategory = loadUnitCategory(powerConfig, 'power');
+    if (powerCategory) {
+      categories.power = powerCategory;
+    } else {
+      return {
+        success: false,
+        error: 'Failed to load power unit configuration',
       };
     }
 
