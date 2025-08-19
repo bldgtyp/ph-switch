@@ -12,6 +12,7 @@ import airflowEnvelopeConfig from '../config/airflow-envelope.json';
 import massConfig from '../config/mass.json';
 import energyConfig from '../config/energy.json';
 import powerConfig from '../config/power.json';
+import powerIntensityConfig from '../config/power-intensity.json';
 import {
   UnitCategory,
   ConfigurationLoadResult,
@@ -227,6 +228,20 @@ export async function loadAllConfigurations(): Promise<ConfigurationLoadResult> 
       return {
         success: false,
         error: 'Failed to load power unit configuration',
+      };
+    }
+
+    // Load power-intensity configuration
+    const powerIntensityCategory = loadUnitCategory(
+      powerIntensityConfig,
+      'power-intensity'
+    );
+    if (powerIntensityCategory) {
+      categories['power-intensity'] = powerIntensityCategory;
+    } else {
+      return {
+        success: false,
+        error: 'Failed to load power-intensity unit configuration',
       };
     }
 

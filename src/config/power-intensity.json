@@ -1,0 +1,61 @@
+{
+  "category": "power-intensity",
+  "baseUnit": "w_m2",
+  "description": "Power intensity units (heat flux) per unit area",
+  "units": {
+    "w_m2": {
+      "name": "watt per square meter",
+      "symbol": "W/m2",
+      "aliases": ["w/m2", "w/m^2", "W/m2", "W/m^2"],
+      "description": "Watts per square meter",
+      "transform": { "toBase": "x", "fromBase": "x" }
+    },
+    "kw_m2": {
+      "name": "kilowatt per square meter",
+      "symbol": "kW/m2",
+      "aliases": ["kw/m2", "kW/m2"],
+      "description": "Kilowatts per square meter",
+      "transform": { "toBase": "x * 1000", "fromBase": "x / 1000" }
+    },
+    "w_ft2": {
+      "name": "watt per square foot",
+      "symbol": "W/ft2",
+      "aliases": ["w/ft2", "W/ft2", "w/ft^2"],
+      "description": "Watts per square foot",
+      "transform": {
+        "toBase": "x * 10.76391042",
+        "fromBase": "x / 10.76391042"
+      }
+    },
+    "kw_ft2": {
+      "name": "kilowatt per square foot",
+      "symbol": "kW/ft2",
+      "aliases": ["kw/ft2", "kW/ft2"],
+      "description": "Kilowatts per square foot",
+      "transform": {
+        "toBase": "x * 1000 * 10.76391042",
+        "fromBase": "x / (1000 * 10.76391042)"
+      }
+    },
+    "btu_hr_ft2": {
+      "name": "Btu per hour per square foot",
+      "symbol": "Btu/hr-ft2",
+      "aliases": ["btu/hr-ft2", "btu/hr-ft^2"],
+      "description": "British thermal units per hour per square foot",
+      "transform": {
+        "toBase": "x * 3.154591186",
+        "fromBase": "x / 3.154591186"
+      }
+    },
+    "kbtu_hr_ft2": {
+      "name": "kBtu per hour per square foot",
+      "symbol": "kBtu/hr-ft2",
+      "aliases": ["kbtu/hr-ft2", "kBtu/hr-ft2"],
+      "description": "Thousand Btu per hour per square foot",
+      "transform": {
+        "toBase": "x * 1000 * 3.154591186",
+        "fromBase": "x / (1000 * 3.154591186)"
+      }
+    }
+  }
+}
