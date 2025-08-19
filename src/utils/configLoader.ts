@@ -6,11 +6,13 @@ import schema from '../config/schema.json';
 import lengthConfig from '../config/length.json';
 import areaConfig from '../config/area.json';
 import volumeConfig from '../config/volume.json';
+import temperatureConfig from '../config/temperature.json';
 import {
   UnitCategory,
   ConfigurationLoadResult,
   ValidationResult,
 } from '../types';
+import { evaluateExpressionToNumber } from './transformEvaluator';
 
 // Initialize AJV validator with schema
 const ajv = new Ajv();
@@ -69,16 +71,45 @@ export function loadUnitCategory(
     );
     return null;
   }
+  // Verify base unit is normalized to base. Accept either factor === 1 or transform identity
+  const baseDef = config.units[config.baseUnit];
+  const baseIsValid =
+    (typeof baseDef.factor === 'number' && baseDef.factor === 1) ||
+    (baseDef.transform &&
+      baseDef.transform.toBase &&
+      baseDef.transform.fromBase);
 
-  // Verify base unit has factor of 1
-  if (config.units[config.baseUnit].factor !== 1) {
+  if (!baseIsValid) {
     console.error(
-      `Base unit '${config.baseUnit}' must have factor of 1, got ${config.units[config.baseUnit].factor}`
+      `Base unit '${config.baseUnit}' must either have factor 1 or provide transform toBase/fromBase`
     );
     return null;
   }
 
-  return config as UnitCategory;
+  // Backfill numeric 'factor' for units that provide transforms only.
+  // This provides backward-compatibility for code/tests that expect a numeric factor.
+  const evaluateToNumber = (expr: string): number | null => {
+    return evaluateExpressionToNumber(expr, 1);
+  };
+  // Work on a deep clone so we don't mutate the imported JSON objects
+  const workingConfig = JSON.parse(JSON.stringify(config));
+
+  Object.entries(workingConfig.units).forEach(([unitKey, unitDataRaw]) => {
+    const unitData: any = unitDataRaw;
+
+    if (
+      typeof unitData.factor !== 'number' &&
+      unitData.transform &&
+      unitData.transform.toBase
+    ) {
+      const computed = evaluateToNumber(unitData.transform.toBase);
+      if (computed !== null) {
+        unitData.factor = computed;
+      }
+    }
+  });
+
+  return workingConfig as UnitCategory;
 }
 
 /**
@@ -119,6 +150,20 @@ export async function loadAllConfigurations(): Promise<ConfigurationLoadResult> 
       return {
         success: false,
         error: 'Failed to load volume unit configuration',
+      };
+    }
+
+    // Load temperature configuration
+    const temperatureCategory = loadUnitCategory(
+      temperatureConfig,
+      'temperature'
+    );
+    if (temperatureCategory) {
+      categories.temperature = temperatureCategory;
+    } else {
+      return {
+        success: false,
+        error: 'Failed to load temperature unit configuration',
       };
     }
 
@@ -166,16 +211,27 @@ export function getAllUnitAliases(
     Object.entries(category.units).forEach(([unitKey, unit]) => {
       // Add all aliases for this unit
       unit.aliases.forEach((alias) => {
+        if (!alias || typeof alias !== 'string') return;
         const normalizedAlias = alias.toLowerCase().trim();
-        if (aliases[normalizedAlias]) {
+        if (!normalizedAlias) return;
+
+        const existing = aliases[normalizedAlias];
+        if (!existing) {
+          // First-seen mapping wins to keep deterministic behavior
+          aliases[normalizedAlias] = {
+            category: categoryKey,
+            unit: unitKey,
+          };
+        } else if (
+          existing.category !== categoryKey ||
+          existing.unit !== unitKey
+        ) {
+          // Conflict across different units/categories — warn and keep first mapping
           console.warn(
             `Duplicate alias '${alias}' found in category ${categoryKey}, unit ${unitKey}`
           );
+          // keep first mapping
         }
-        aliases[normalizedAlias] = {
-          category: categoryKey,
-          unit: unitKey,
-        };
       });
     });
   });
@@ -226,6 +282,11 @@ export function getConversionFactor(
   // source_value * source_factor = base_value
   // base_value / target_factor = target_value
   // Therefore: target_value = source_value * (source_factor / target_factor)
+
+  if (typeof source.factor !== 'number' || typeof target.factor !== 'number') {
+    // One or both units use transforms instead of simple factors
+    return null;
+  }
 
   return source.factor / target.factor;
 }

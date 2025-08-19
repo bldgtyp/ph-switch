@@ -4,16 +4,31 @@ export interface UnitDefinition {
   name: string;
   symbol: string;
   aliases: string[];
-  factor: number;
+  // Optional numeric factor for simple multiplicative units (UI convenience)
+  factor?: number;
   description?: string;
   precision?: number;
 }
+
+export interface TransformDefinition {
+  toBase: string; // expression using 'x' to convert unit -> base
+  fromBase: string; // expression using 'x' to convert base -> unit
+}
+
+// UnitDefinition prefers a transform-based definition. A unit may either
+// provide a full transform (preferred) or omit it and rely on a numeric factor.
+export type UnitDefinitionWithOptionalTransform =
+  | (UnitDefinition & { transform: TransformDefinition })
+  | (UnitDefinition & { transform?: undefined });
+
+// Re-export under the original name for compatibility
+export type UnitDefinitionType = UnitDefinitionWithOptionalTransform;
 
 export interface UnitCategory {
   category: string;
   baseUnit: string;
   description?: string;
-  units: Record<string, UnitDefinition>;
+  units: Record<string, UnitDefinitionType>;
 }
 
 export interface ConversionResult {

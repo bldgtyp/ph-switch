@@ -7,8 +7,8 @@
       "name": "cubic meter",
       "symbol": "m³",
       "aliases": ["cubic meter", "cubic meters", "m3", "m^3", "m³"],
-      "factor": 1,
-      "description": "SI base unit for volume"
+      "description": "SI base unit for volume",
+      "transform": { "toBase": "x", "fromBase": "x" }
     },
     "cubic_centimeter": {
       "name": "cubic centimeter",
@@ -22,8 +22,8 @@
         "cm³",
         "cc"
       ],
-      "factor": 0.000001,
-      "description": "1 cm^3 = 1e-6 m^3"
+      "description": "1 cm^3 = 1e-6 m^3",
+      "transform": { "toBase": "x * 0.000001", "fromBase": "x / 0.000001" }
     },
     "cubic_millimeter": {
       "name": "cubic millimeter",
@@ -36,57 +36,72 @@
         "mm^3",
         "mm³"
       ],
-      "factor": 0.000000001,
-      "description": "1 mm^3 = 1e-9 m^3"
+      "description": "1 mm^3 = 1e-9 m^3",
+      "transform": {
+        "toBase": "x * 0.000000001",
+        "fromBase": "x / 0.000000001"
+      }
     },
     "cubic_kilometer": {
       "name": "cubic kilometer",
       "symbol": "km³",
       "aliases": ["cubic kilometer", "cubic kilometre", "km3", "km^3", "km³"],
-      "factor": 1000000000,
-      "description": "1 km^3 = 1e9 m^3"
+      "description": "1 km^3 = 1e9 m^3",
+      "transform": { "toBase": "x * 1000000000", "fromBase": "x / 1000000000" }
     },
     "liter": {
       "name": "liter",
       "symbol": "L",
       "aliases": ["liter", "litre", "liters", "litres", "l"],
-      "factor": 0.001,
-      "description": "1 liter = 0.001 m^3"
+      "description": "1 liter = 0.001 m^3",
+      "transform": { "toBase": "x * 0.001", "fromBase": "x / 0.001" }
     },
     "milliliter": {
       "name": "milliliter",
       "symbol": "mL",
       "aliases": ["milliliter", "millilitre", "milliliters", "ml"],
-      "factor": 0.000001,
-      "description": "1 milliliter = 1e-6 m^3"
+      "description": "1 milliliter = 1e-6 m^3",
+      "transform": { "toBase": "x * 0.000001", "fromBase": "x / 0.000001" }
     },
     "cubic_inch": {
       "name": "cubic inch",
       "symbol": "in³",
       "aliases": ["cubic inch", "cubic inches", "in3", "in^3", "in³"],
-      "factor": 0.000016387064,
-      "description": "1 in^3 = 0.0254^3 m^3"
+      "description": "1 in^3 = 0.0254^3 m^3",
+      "transform": {
+        "toBase": "x * 0.000016387064",
+        "fromBase": "x / 0.000016387064"
+      }
     },
     "cubic_foot": {
       "name": "cubic foot",
       "symbol": "ft³",
       "aliases": ["cubic foot", "cubic feet", "ft3", "ft^3", "ft³"],
-      "factor": 0.028316846592,
-      "description": "1 ft^3 = 0.3048^3 m^3"
+      "description": "1 ft^3 = 0.3048^3 m^3",
+      "transform": {
+        "toBase": "x * 0.028316846592",
+        "fromBase": "x / 0.028316846592"
+      }
     },
     "cubic_yard": {
       "name": "cubic yard",
       "symbol": "yd³",
       "aliases": ["cubic yard", "cubic yards", "yd3", "yd^3", "yd³"],
-      "factor": 0.764554857984,
-      "description": "1 yd^3 = 0.9144^3 m^3"
+      "description": "1 yd^3 = 0.9144^3 m^3",
+      "transform": {
+        "toBase": "x * 0.764554857984",
+        "fromBase": "x / 0.764554857984"
+      }
     },
     "gallon_us": {
       "name": "US liquid gallon",
       "symbol": "gal",
       "aliases": ["gallon", "gallons", "gal", "us gal", "gallon_us"],
-      "factor": 0.003785411784,
-      "description": "US liquid gallon = 3.785411784 liters"
+      "description": "US liquid gallon = 3.785411784 liters",
+      "transform": {
+        "toBase": "x * 0.003785411784",
+        "fromBase": "x / 0.003785411784"
+      }
     }
   }
 }

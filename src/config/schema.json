@@ -58,9 +58,30 @@
               "description": "Recommended decimal places for display (optional)",
               "minimum": 0,
               "maximum": 10
+            },
+            "transform": {
+              "type": "object",
+              "description": "Optional transformation expressions. Use 'x' as the variable for the input value. toBase converts unit->base; fromBase converts base->unit.",
+              "properties": {
+                "toBase": { "type": "string" },
+                "fromBase": { "type": "string" }
+              },
+              "additionalProperties": false
             }
           },
-          "required": ["name", "symbol", "aliases", "factor"],
+          "required": ["name", "symbol", "aliases"],
+          "anyOf": [
+            { "required": ["factor"] },
+            {
+              "required": ["transform"],
+              "properties": {
+                "transform": {
+                  "type": "object",
+                  "required": ["toBase", "fromBase"]
+                }
+              }
+            }
+          ],
           "additionalProperties": false
         }
       },

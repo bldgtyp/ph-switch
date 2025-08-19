@@ -7,22 +7,22 @@
       "name": "meter",
       "symbol": "m",
       "aliases": ["meter", "metre", "meters", "metres", "m"],
-      "factor": 1,
-      "description": "SI base unit of length"
+      "description": "SI base unit of length",
+      "transform": { "toBase": "x", "fromBase": "x" }
     },
     "foot": {
       "name": "foot",
       "symbol": "ft",
       "aliases": ["foot", "feet", "ft", "'"],
-      "factor": 0.3048,
-      "description": "Imperial unit of length"
+      "description": "Imperial unit of length",
+      "transform": { "toBase": "x * 0.3048", "fromBase": "x / 0.3048" }
     },
     "inch": {
       "name": "inch",
       "symbol": "in",
       "aliases": ["inch", "inches", "in", "\""],
-      "factor": 0.0254,
-      "description": "Imperial unit of length, 1/12 of a foot"
+      "description": "Imperial unit of length, 1/12 of a foot",
+      "transform": { "toBase": "x * 0.0254", "fromBase": "x / 0.0254" }
     },
     "centimeter": {
       "name": "centimeter",
@@ -34,8 +34,8 @@
         "centimetres",
         "cm"
       ],
-      "factor": 0.01,
-      "description": "Metric unit, 1/100 of a meter"
+      "description": "Metric unit, 1/100 of a meter",
+      "transform": { "toBase": "x * 0.01", "fromBase": "x / 0.01" }
     },
     "millimeter": {
       "name": "millimeter",
@@ -47,29 +47,29 @@
         "millimetres",
         "mm"
       ],
-      "factor": 0.001,
-      "description": "Metric unit, 1/1000 of a meter"
+      "description": "Metric unit, 1/1000 of a meter",
+      "transform": { "toBase": "x * 0.001", "fromBase": "x / 0.001" }
     },
     "kilometer": {
       "name": "kilometer",
       "symbol": "km",
       "aliases": ["kilometer", "kilometre", "kilometers", "kilometres", "km"],
-      "factor": 1000,
-      "description": "Metric unit, 1000 meters"
+      "description": "Metric unit, 1000 meters",
+      "transform": { "toBase": "x * 1000", "fromBase": "x / 1000" }
     },
     "yard": {
       "name": "yard",
       "symbol": "yd",
       "aliases": ["yard", "yards", "yd"],
-      "factor": 0.9144,
-      "description": "Imperial unit, 3 feet"
+      "description": "Imperial unit, 3 feet",
+      "transform": { "toBase": "x * 0.9144", "fromBase": "x / 0.9144" }
     },
     "mile": {
       "name": "mile",
       "symbol": "mi",
       "aliases": ["mile", "miles", "mi"],
-      "factor": 1609.344,
-      "description": "Imperial unit, 5280 feet"
+      "description": "Imperial unit, 5280 feet",
+      "transform": { "toBase": "x * 1609.344", "fromBase": "x / 1609.344" }
     },
     "micrometer": {
       "name": "micrometer",
@@ -84,85 +84,97 @@
         "micron",
         "microns"
       ],
-      "factor": 0.000001,
-      "description": "Metric unit, 1/1,000,000 of a meter"
+      "description": "Metric unit, 1/1,000,000 of a meter",
+      "transform": { "toBase": "x * 0.000001", "fromBase": "x / 0.000001" }
     },
     "nanometer": {
       "name": "nanometer",
       "symbol": "nm",
       "aliases": ["nanometer", "nanometre", "nanometers", "nanometres", "nm"],
-      "factor": 0.000000001,
-      "description": "Metric unit, 1/1,000,000,000 of a meter"
+      "description": "Metric unit, 1/1,000,000,000 of a meter",
+      "transform": {
+        "toBase": "x * 0.000000001",
+        "fromBase": "x / 0.000000001"
+      }
     },
     "angstrom": {
       "name": "angstrom",
       "symbol": "Å",
-      "aliases": ["angstrom", "angstroms", "ångström", "Å", "A"],
-      "factor": 0.0000000001,
-      "description": "Unit commonly used in atomic physics, 10^-10 meters"
+      "aliases": ["angstrom", "angstroms", "ångström", "å", "a"],
+      "description": "Unit commonly used in atomic physics, 10^-10 meters",
+      "transform": { "toBase": "x * 1e-10", "fromBase": "x / 1e-10" }
     },
     "mil": {
       "name": "mil",
       "symbol": "mil",
       "aliases": ["mil", "mils", "thou", "thousandth"],
-      "factor": 0.0000254,
-      "description": "Imperial unit, 1/1000 of an inch"
+      "description": "Imperial unit, 1/1000 of an inch",
+      "transform": { "toBase": "x * 0.0000254", "fromBase": "x / 0.0000254" }
     },
     "nautical_mile": {
       "name": "nautical mile",
       "symbol": "nmi",
       "aliases": ["nautical mile", "nautical miles", "nmi", "nmile"],
-      "factor": 1852,
-      "description": "Maritime and aviation unit, exactly 1852 meters"
+      "description": "Maritime and aviation unit, exactly 1852 meters",
+      "transform": { "toBase": "x * 1852", "fromBase": "x / 1852" }
     },
     "light_year": {
       "name": "light year",
       "symbol": "ly",
       "aliases": ["light year", "light years", "lightyear", "lightyears", "ly"],
-      "factor": 9460730472580800,
-      "description": "Astronomical unit, distance light travels in one year"
+      "description": "Astronomical unit, distance light travels in one year",
+      "transform": {
+        "toBase": "x * 9.4607304725808e15",
+        "fromBase": "x / 9.4607304725808e15"
+      }
     },
     "astronomical_unit": {
       "name": "astronomical unit",
       "symbol": "AU",
-      "aliases": ["astronomical unit", "astronomical units", "AU"],
-      "factor": 149597870700,
-      "description": "Astronomical unit, average Earth-Sun distance"
+      "aliases": ["astronomical unit", "astronomical units", "au"],
+      "description": "Astronomical unit, average Earth-Sun distance",
+      "transform": {
+        "toBase": "x * 149597870700",
+        "fromBase": "x / 149597870700"
+      }
     },
     "parsec": {
       "name": "parsec",
       "symbol": "pc",
       "aliases": ["parsec", "parsecs", "pc"],
-      "factor": 30856775814913673,
-      "description": "Astronomical unit, approximately 3.26 light years"
+      "description": "Astronomical unit, approximately 3.26 light years",
+      "transform": {
+        "toBase": "x * 3.0856775814913673e16",
+        "fromBase": "x / 3.0856775814913673e16"
+      }
     },
     "furlong": {
       "name": "furlong",
       "symbol": "fur",
       "aliases": ["furlong", "furlongs", "fur"],
-      "factor": 201.168,
-      "description": "Imperial unit, 1/8 of a mile or 660 feet"
+      "description": "Imperial unit, 1/8 of a mile or 660 feet",
+      "transform": { "toBase": "x * 201.168", "fromBase": "x / 201.168" }
     },
     "chain": {
       "name": "chain",
       "symbol": "ch",
       "aliases": ["chain", "chains", "ch"],
-      "factor": 20.1168,
-      "description": "Surveying unit, 66 feet or 1/80 of a mile"
+      "description": "Surveying unit, 66 feet or 1/80 of a mile",
+      "transform": { "toBase": "x * 20.1168", "fromBase": "x / 20.1168" }
     },
     "rod": {
       "name": "rod",
       "symbol": "rd",
       "aliases": ["rod", "rods", "rd", "pole", "poles", "perch", "perches"],
-      "factor": 5.0292,
-      "description": "Imperial unit, 16.5 feet or 1/4 of a chain"
+      "description": "Imperial unit, 16.5 feet or 1/4 of a chain",
+      "transform": { "toBase": "x * 5.0292", "fromBase": "x / 5.0292" }
     },
     "fathom": {
       "name": "fathom",
       "symbol": "ftm",
       "aliases": ["fathom", "fathoms", "ftm"],
-      "factor": 1.8288,
-      "description": "Maritime unit, 6 feet"
+      "description": "Maritime unit, 6 feet",
+      "transform": { "toBase": "x * 1.8288", "fromBase": "x / 1.8288" }
     }
   }
 }

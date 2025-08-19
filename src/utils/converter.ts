@@ -5,6 +5,7 @@ import {
   isConfigurationReady,
   getAvailableCategories,
 } from '../config';
+import { evaluateTransform } from './transformEvaluator';
 import { parseConversionInput } from './parser';
 import {
   createCalculationError,
@@ -13,6 +14,8 @@ import {
   enhanceErrorWithSuggestions,
 } from './errorHandler';
 import type { ConversionResult, ErrorDetails, UnitCategory } from '../types';
+
+// evaluateTransform is provided by src/utils/transformEvaluator
 
 // Configure Decimal.js for high precision calculations
 Decimal.config({
@@ -45,13 +48,15 @@ function findUnitInCategory(
   configuration: UnitCategory
 ): {
   unitKey: string;
-  conversionFactor: number;
+  conversionFactor?: number;
+  definition: any;
 } | null {
   // Check exact unit name match
   if (configuration.units[unitName]) {
     return {
       unitKey: unitName,
       conversionFactor: configuration.units[unitName].factor,
+      definition: configuration.units[unitName],
     };
   }
 
@@ -61,6 +66,7 @@ function findUnitInCategory(
       return {
         unitKey,
         conversionFactor: unitData.factor,
+        definition: unitData,
       };
     }
   }
@@ -74,7 +80,8 @@ function findUnitInCategory(
 function findUnit(unitName: string): {
   category: string;
   unitKey: string;
-  conversionFactor: number;
+  conversionFactor?: number;
+  definition: any;
 } | null {
   const normalizedUnit = unitName.toLowerCase().trim();
 
@@ -92,6 +99,7 @@ function findUnit(unitName: string): {
           category,
           unitKey: unitInfo.unitKey,
           conversionFactor: unitInfo.conversionFactor,
+          definition: unitInfo.definition,
         };
       }
     } catch (error) {
@@ -101,30 +109,6 @@ function findUnit(unitName: string): {
   }
 
   return null;
-}
-
-/**
- * Performs the actual conversion calculation with high precision
- */
-function performConversion(
-  inputValue: Decimal,
-  sourceFactor: Decimal,
-  targetFactor: Decimal
-): Decimal {
-  try {
-    // Convert to base unit (multiply by source factor)
-    const baseValue = inputValue.mul(sourceFactor);
-
-    // Convert from base unit to target (divide by target factor)
-    const result = baseValue.div(targetFactor);
-
-    return result;
-  } catch (error) {
-    throw createCalculationError(
-      `Conversion calculation failed: ${error instanceof Error ? error.message : 'Unknown calculation error'}`,
-      'Arithmetic error during unit conversion'
-    );
-  }
 }
 
 /**
@@ -239,12 +223,46 @@ export function convertUnits(
       };
     }
 
-    // Perform high-precision conversion
+    // Perform conversion using transform expressions only
     const inputDecimal = new Decimal(inputValue);
-    const sourceFactor = new Decimal(sourceInfo.conversionFactor);
-    const targetFactor = new Decimal(targetInfo.conversionFactor);
+    const sourceDef = sourceInfo.definition;
+    const targetDef = targetInfo.definition;
 
-    const result = performConversion(inputDecimal, sourceFactor, targetFactor);
+    if (!sourceDef || !targetDef) {
+      return {
+        success: false,
+        error: createCalculationError(
+          'Internal unit definition missing',
+          'Missing unit definition for conversion'
+        ),
+      };
+    }
+
+    if (
+      !sourceDef.transform ||
+      !sourceDef.transform.toBase ||
+      !sourceDef.transform.fromBase ||
+      !targetDef.transform ||
+      !targetDef.transform.toBase ||
+      !targetDef.transform.fromBase
+    ) {
+      return {
+        success: false,
+        error: createCalculationError(
+          'Transform expressions missing for one or both units',
+          'Unit definitions must provide transform.toBase and transform.fromBase'
+        ),
+      };
+    }
+
+    // Convert source -> base using source transform
+    const baseValue = evaluateTransform(
+      sourceDef.transform.toBase,
+      inputDecimal
+    );
+
+    // Convert base -> target using target transform
+    const result = evaluateTransform(targetDef.transform.fromBase, baseValue);
 
     // Format result for display
     const formattedResult = formatResult(result, targetUnit);
@@ -344,6 +362,8 @@ export function getConversionFactors(unitName: string): {
   try {
     const configuration = getCategory(unitInfo.category);
     if (!configuration) return null;
+
+    if (typeof unitInfo.conversionFactor !== 'number') return null;
 
     return {
       category: unitInfo.category,
