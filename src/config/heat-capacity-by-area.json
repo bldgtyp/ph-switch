@@ -1,0 +1,34 @@
+{
+  "category": "heat-capacity-by-area",
+  "baseUnit": "wh_m2_k",
+  "description": "Heat capacity by area (energy per area per temperature)",
+  "units": {
+    "btu_ft2_f": {
+      "name": "Btu per square foot per degree Fahrenheit",
+      "symbol": "Btu/ft2-F",
+      "aliases": ["Btu/ft2-F", "btu/ft2-f", "btu per ft2 f"],
+      "description": "British Thermal Units per square foot per degree Fahrenheit",
+      "transform": {
+        "toBase": "x * 5.678264134",
+        "fromBase": "x / 5.678264134"
+      }
+    },
+    "wh_ft2_f": {
+      "name": "Watt-hour per square foot per degree Fahrenheit",
+      "symbol": "Wh/ft2-F",
+      "aliases": ["Wh/ft2-F", "wh/ft2-f", "wh per ft2 f"],
+      "description": "Watt-hours per square foot per degree Fahrenheit",
+      "transform": {
+        "toBase": "x * 19.37503875",
+        "fromBase": "x / 19.37503875"
+      }
+    },
+    "wh_m2_k": {
+      "name": "Watt-hour per square meter per Kelvin",
+      "symbol": "Wh/m2-K",
+      "aliases": ["Wh/m2-K", "wh/m2-k", "wh per m2 k"],
+      "description": "Watt-hours per square meter per Kelvin (SI)",
+      "transform": { "toBase": "x", "fromBase": "x" }
+    }
+  }
+}

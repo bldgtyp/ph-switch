@@ -19,6 +19,7 @@ import densityConfig from '../config/density.json';
 import speedConfig from '../config/speed.json';
 import humidityConfig from '../config/humidity.json';
 import heatCapacityByVolumeConfig from '../config/heat-capacity-by-volume.json';
+import heatCapacityByAreaConfig from '../config/heat-capacity-by-area.json';
 import {
   UnitCategory,
   ConfigurationLoadResult,
@@ -323,6 +324,20 @@ export async function loadAllConfigurations(): Promise<ConfigurationLoadResult> 
       return {
         success: false,
         error: 'Failed to load heat-capacity-by-volume unit configuration',
+      };
+    }
+
+    // Load heat-capacity-by-area configuration
+    const heatCapAreaCategory = loadUnitCategory(
+      heatCapacityByAreaConfig,
+      'heat-capacity-by-area'
+    );
+    if (heatCapAreaCategory) {
+      categories['heat-capacity-by-area'] = heatCapAreaCategory;
+    } else {
+      return {
+        success: false,
+        error: 'Failed to load heat-capacity-by-area unit configuration',
       };
     }
 
