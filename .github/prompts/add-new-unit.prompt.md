@@ -9,15 +9,19 @@
 
 ### Task:
 
-- Add a new `density` unit type JSON file.
+- Add a new `speed` unit type JSON file.
 - New unit type includes units:
-  - mg/m3 (milligram / meter3)
-  - g/m3 (gram / meter3)
-  - kg/m3 (kilogram / meter3)
-  - lb/ft3 (pound / cubic foot)
-  - lb/in3 (pound / cubic inch)
-- Create a new `density.json` file and add the relevant conversion factors.
+  - m/s (meter / second)
+  - m/h (meter / hour)
+  - m/day (meter / day)
+  - ft/s (foot / second)
+  - ft/min (foot / minute)
+  - ft/h (foot / hour)
+  - ft/day (foot / day)
+  - kph (kilometer / hour)
+  - mph (mile / hour)
+- Create a new `speed.json` file and add the relevant conversion factors.
 - Ensure that the new units are loaded in `configLoader.ts` as well.
-- Add new unit tests in `density.test.ts` to verify conversions between these units.
+- Add new unit tests in `speed.test.ts` to verify conversions between these units.
 - Run Prettier formater
 - Run all tests

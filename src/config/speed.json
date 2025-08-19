@@ -1,0 +1,85 @@
+{
+  "category": "speed",
+  "baseUnit": "m_s",
+  "description": "Speed units (distance per time)",
+  "units": {
+    "m_s": {
+      "name": "meter per second",
+      "symbol": "m/s",
+      "aliases": ["m/s", "mps", "m per s", "meter per second"],
+      "description": "Meters per second",
+      "transform": { "toBase": "x", "fromBase": "x" }
+    },
+    "m_h": {
+      "name": "meter per hour",
+      "symbol": "m/h",
+      "aliases": ["m/h", "m per h", "m per hour"],
+      "description": "Meters per hour",
+      "transform": { "toBase": "x / 3600", "fromBase": "x * 3600" }
+    },
+    "m_day": {
+      "name": "meter per day",
+      "symbol": "m/day",
+      "aliases": ["m/day", "m per day"],
+      "description": "Meters per day",
+      "transform": { "toBase": "x / 86400", "fromBase": "x * 86400" }
+    },
+    "ft_s": {
+      "name": "foot per second",
+      "symbol": "ft/s",
+      "aliases": ["ft/s", "fps", "ft per s", "foot per second"],
+      "description": "Feet per second",
+      "transform": { "toBase": "x * 0.3048", "fromBase": "x / 0.3048" }
+    },
+    "ft_min": {
+      "name": "foot per minute",
+      "symbol": "ft/min",
+      "aliases": ["ft/min", "ft per min", "ft per minute"],
+      "description": "Feet per minute",
+      "transform": {
+        "toBase": "x * 0.3048 / 60",
+        "fromBase": "x / (0.3048 / 60)"
+      }
+    },
+    "ft_h": {
+      "name": "foot per hour",
+      "symbol": "ft/h",
+      "aliases": ["ft/h", "ft per h", "ft per hour"],
+      "description": "Feet per hour",
+      "transform": {
+        "toBase": "x * 0.3048 / 3600",
+        "fromBase": "x / (0.3048 / 3600)"
+      }
+    },
+    "ft_day": {
+      "name": "foot per day",
+      "symbol": "ft/day",
+      "aliases": ["ft/day", "ft per day"],
+      "description": "Feet per day",
+      "transform": {
+        "toBase": "x * 0.3048 / 86400",
+        "fromBase": "x / (0.3048 / 86400)"
+      }
+    },
+    "kph": {
+      "name": "kilometer per hour",
+      "symbol": "kph",
+      "aliases": ["kph", "km/h", "kmh", "km per h"],
+      "description": "Kilometers per hour",
+      "transform": {
+        "toBase": "x * 1000 / 3600",
+        "fromBase": "x * 3600 / 1000"
+      }
+    },
+    "mph": {
+      "name": "mile per hour",
+      "symbol": "mph",
+      "aliases": ["mph", "mi/h", "mi per h"],
+      "description": "Miles per hour",
+      "transform": {
+        "toBase": "x * 1609.344 / 3600",
+        "fromBase": "x * 3600 / 1609.344"
+      }
+    }
+  }
+}

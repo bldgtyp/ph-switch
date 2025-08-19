@@ -16,6 +16,7 @@ import powerIntensityConfig from '../config/power-intensity.json';
 import energyIntensityConfig from '../config/energy-intensity.json';
 import energyEfficiencyConfig from '../config/energy-efficiency.json';
 import densityConfig from '../config/density.json';
+import speedConfig from '../config/speed.json';
 import {
   UnitCategory,
   ConfigurationLoadResult,
@@ -284,6 +285,17 @@ export async function loadAllConfigurations(): Promise<ConfigurationLoadResult> 
       return {
         success: false,
         error: 'Failed to load density unit configuration',
+      };
+    }
+
+    // Load speed configuration
+    const speedCategory = loadUnitCategory(speedConfig, 'speed');
+    if (speedCategory) {
+      categories['speed'] = speedCategory;
+    } else {
+      return {
+        success: false,
+        error: 'Failed to load speed unit configuration',
       };
     }
 
