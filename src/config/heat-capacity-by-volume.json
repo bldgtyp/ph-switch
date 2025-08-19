@@ -1,0 +1,31 @@
+{
+  "category": "heat-capacity-by-volume",
+  "baseUnit": "mj_m3_k",
+  "description": "Heat capacity by volume (energy per volume per temperature)",
+  "units": {
+    "btu_ft3_f": {
+      "name": "Btu per cubic foot per degree Fahrenheit",
+      "symbol": "Btu/ft3-F",
+      "aliases": ["btu/ft3-f", "btu per ft3 f"],
+      "description": "British Thermal Units per cubic foot per degree Fahrenheit",
+      "transform": {
+        "toBase": "x * 0.067066112",
+        "fromBase": "x / 0.067066112"
+      }
+    },
+    "wh_ft3_f": {
+      "name": "Watt-hour per cubic foot per degree Fahrenheit",
+      "symbol": "Wh/ft3-F",
+      "aliases": ["wh/ft3-f", "wh per ft3 f"],
+      "description": "Watt-hours per cubic foot per degree Fahrenheit",
+      "transform": { "toBase": "x * 0.22883904", "fromBase": "x / 0.22883904" }
+    },
+    "mj_m3_k": {
+      "name": "Megajoule per cubic meter per Kelvin",
+      "symbol": "MJ/m3-K",
+      "aliases": ["mj/m3-k", "mj per m3 k"],
+      "description": "Megajoules per cubic meter per Kelvin (SI)",
+      "transform": { "toBase": "x", "fromBase": "x" }
+    }
+  }
+}

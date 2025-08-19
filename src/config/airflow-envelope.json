@@ -27,7 +27,7 @@
     "l_s_m2": {
       "name": "liter per second per square meter",
       "symbol": "L/s/m2",
-      "aliases": ["l/s-m2", "L/s-m2", "lps-m2"],
+      "aliases": ["l/s-m2", "L/s-m2", "lps-m2", "lps/m2"],
       "description": "Liters per second per square meter",
       "transform": { "toBase": "x * 3.6", "fromBase": "x / 3.6" }
     },
