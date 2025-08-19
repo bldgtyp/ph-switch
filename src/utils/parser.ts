@@ -7,13 +7,13 @@ import { findUnit } from '../config';
 // Regex patterns for parsing different input formats
 const CONVERSION_PATTERNS = [
   // "5 meters to feet" or "5 meters as feet" - main pattern
-  /^([0-9]+(?:\.[0-9]+)?(?:[eE][+-]?[0-9]+)?)\s+([a-zA-Z][a-zA-Z0-9\/°\u00B5\u00C5\u2013\u2014\u2032\u2033\-\s]*?)\s+(?:to|as)\s+([a-zA-Z][a-zA-Z0-9\/°\u00B5\u00C5\u2013\u2014\u2032\u2033\-\s]*?)$/i,
+  /^([0-9]+(?:\.[0-9]+)?(?:[eE][+-]?[0-9]+)?)\s+([a-zA-Z][a-zA-Z0-9/°\u00B5\u00C5\u2013\u2014\u2032\u2033\-\s]*?)\s+(?:to|as)\s+([a-zA-Z][a-zA-Z0-9/°\u00B5\u00C5\u2013\u2014\u2032\u2033\-\s]*?)$/i,
 
   // "1/2 inch to mm" (fractions)
-  /^([0-9]+\/[0-9]+)\s+([a-zA-Z][a-zA-Z0-9\/°\u00B5\u00C5\u2013\u2014\u2032\u2033\-\s]*?)\s+(?:to|as)\s+([a-zA-Z][a-zA-Z0-9\/°\u00B5\u00C5\u2013\u2014\u2032\u2033\-\s]*?)$/i,
+  /^([0-9]+\/[0-9]+)\s+([a-zA-Z][a-zA-Z0-9/°\u00B5\u00C5\u2013\u2014\u2032\u2033\-\s]*?)\s+(?:to|as)\s+([a-zA-Z][a-zA-Z0-9/°\u00B5\u00C5\u2013\u2014\u2032\u2033\-\s]*?)$/i,
 
   // "1 1/2 inches to cm" (mixed numbers)
-  /^([0-9]+\s+[0-9]+\/[0-9]+)\s+([a-zA-Z][a-zA-Z0-9\/°\u00B5\u00C5\u2013\u2014\u2032\u2033\-\s]*?)\s+(?:to|as)\s+([a-zA-Z][a-zA-Z0-9\/°\u00B5\u00C5\u2013\u2014\u2032\u2033\-\s]*?)$/i,
+  /^([0-9]+\s+[0-9]+\/[0-9]+)\s+([a-zA-Z][a-zA-Z0-9/°\u00B5\u00C5\u2013\u2014\u2032\u2033\-\s]*?)\s+(?:to|as)\s+([a-zA-Z][a-zA-Z0-9/°\u00B5\u00C5\u2013\u2014\u2032\u2033\-\s]*?)$/i,
 ];
 
 /**
