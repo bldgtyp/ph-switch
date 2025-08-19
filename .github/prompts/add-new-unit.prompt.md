@@ -9,19 +9,14 @@
 
 ### Task:
 
-- Add a new `speed` unit type JSON file.
+- Add a new `humidity` unit type JSON file.
 - New unit type includes units:
-  - m/s (meter / second)
-  - m/h (meter / hour)
-  - m/day (meter / day)
-  - ft/s (foot / second)
-  - ft/min (foot / minute)
-  - ft/h (foot / hour)
-  - ft/day (foot / day)
-  - kph (kilometer / hour)
-  - mph (mile / hour)
-- Create a new `speed.json` file and add the relevant conversion factors.
+  - lb/lb [reference: 1 lb/lb = 1000 g/kg]
+  - g/kg [reference: 1 g/kg = 0.001 lb/lb]
+  - g/g
+  - kg/kg
+- Create a new `humidity.json` file and add the relevant conversion factors.
 - Ensure that the new units are loaded in `configLoader.ts` as well.
-- Add new unit tests in `speed.test.ts` to verify conversions between these units.
+- Add new unit tests in `humidity.test.ts` to verify conversions between these units.
 - Run Prettier formater
 - Run all tests

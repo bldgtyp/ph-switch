@@ -1,0 +1,35 @@
+{
+  "category": "humidity",
+  "baseUnit": "kg_kg",
+  "description": "Mass fraction / humidity units",
+  "units": {
+    "lb_lb": {
+      "name": "pound per pound",
+      "symbol": "lb/lb",
+      "aliases": ["lb/lb", "lb per lb", "pound per pound"],
+      "description": "Pound per pound (mass fraction)",
+      "transform": { "toBase": "x / 1000", "fromBase": "x * 1000" }
+    },
+    "g_kg": {
+      "name": "gram per kilogram",
+      "symbol": "g/kg",
+      "aliases": ["g/kg", "g per kg", "grams per kilogram"],
+      "description": "Grams per kilogram",
+      "transform": { "toBase": "x / 1000", "fromBase": "x * 1000" }
+    },
+    "g_g": {
+      "name": "gram per gram",
+      "symbol": "g/g",
+      "aliases": ["g/g", "g per g"],
+      "description": "Gram per gram (dimensionless)",
+      "transform": { "toBase": "x / 1000", "fromBase": "x * 1000" }
+    },
+    "kg_kg": {
+      "name": "kilogram per kilogram",
+      "symbol": "kg/kg",
+      "aliases": ["kg/kg", "kg per kg", "kilogram per kilogram"],
+      "description": "Kilogram per kilogram (dimensionless)",
+      "transform": { "toBase": "x", "fromBase": "x" }
+    }
+  }
+}

@@ -17,6 +17,7 @@ import energyIntensityConfig from '../config/energy-intensity.json';
 import energyEfficiencyConfig from '../config/energy-efficiency.json';
 import densityConfig from '../config/density.json';
 import speedConfig from '../config/speed.json';
+import humidityConfig from '../config/humidity.json';
 import {
   UnitCategory,
   ConfigurationLoadResult,
@@ -296,6 +297,17 @@ export async function loadAllConfigurations(): Promise<ConfigurationLoadResult> 
       return {
         success: false,
         error: 'Failed to load speed unit configuration',
+      };
+    }
+
+    // Load humidity configuration
+    const humidityCategory = loadUnitCategory(humidityConfig, 'humidity');
+    if (humidityCategory) {
+      categories['humidity'] = humidityCategory;
+    } else {
+      return {
+        success: false,
+        error: 'Failed to load humidity unit configuration',
       };
     }
 
