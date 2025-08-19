@@ -1,0 +1,86 @@
+{
+  "category": "energy",
+  "baseUnit": "joule",
+  "description": "Energy units commonly used in thermal and electrical calculations",
+  "units": {
+    "joule": {
+      "name": "joule",
+      "symbol": "J",
+      "aliases": ["joule", "joules", "j"],
+      "description": "SI unit of energy",
+      "transform": { "toBase": "x", "fromBase": "x" }
+    },
+    "kilojoule": {
+      "name": "kilojoule",
+      "symbol": "kJ",
+      "aliases": ["kilojoule", "kj", "kJ"],
+      "description": "1000 joules",
+      "transform": { "toBase": "x * 1000", "fromBase": "x / 1000" }
+    },
+    "btu": {
+      "name": "British Thermal Unit",
+      "symbol": "Btu",
+      "aliases": ["btu", "Btu", "btus"],
+      "description": "Approximate energy to raise one pound of water by 1°F",
+      "transform": {
+        "toBase": "x * 1055.05585262",
+        "fromBase": "x / 1055.05585262"
+      }
+    },
+    "kbtu": {
+      "name": "kilo-British Thermal Unit",
+      "symbol": "kBtu",
+      "aliases": ["kbtu", "kBtu"],
+      "description": "1000 BTU",
+      "transform": {
+        "toBase": "x * 1055055.85262",
+        "fromBase": "x / 1055055.85262"
+      }
+    },
+    "calorie": {
+      "name": "calorie",
+      "symbol": "cal",
+      "aliases": ["calorie", "calories", "cal"],
+      "description": "Small calorie (thermochemical): 4.184 J",
+      "transform": { "toBase": "x * 4.184", "fromBase": "x / 4.184" }
+    },
+    "kilocalorie": {
+      "name": "kilocalorie",
+      "symbol": "kcal",
+      "aliases": ["kilocalorie", "kcal"],
+      "description": "1000 calories = 4184 J",
+      "transform": { "toBase": "x * 4184", "fromBase": "x / 4184" }
+    },
+    "wh": {
+      "name": "watt hour",
+      "symbol": "Wh",
+      "aliases": ["wh", "watt hour", "watt-hour"],
+      "description": "One watt sustained for one hour = 3600 J",
+      "transform": { "toBase": "x * 3600", "fromBase": "x / 3600" }
+    },
+    "kwh": {
+      "name": "kilowatt hour",
+      "symbol": "kWh",
+      "aliases": ["kwh", "kilowatt hour", "kilowatt-hour"],
+      "description": "1000 Wh = 3.6e6 J",
+      "transform": { "toBase": "x * 3600000", "fromBase": "x / 3600000" }
+    },
+    "mwh": {
+      "name": "megawatt hour",
+      "symbol": "MWh",
+      "aliases": ["mwh", "megawatt hour", "megawatt-hour"],
+      "description": "1 MWh = 3.6e9 J",
+      "transform": { "toBase": "x * 3600000000", "fromBase": "x / 3600000000" }
+    },
+    "therm": {
+      "name": "therm",
+      "symbol": "therm",
+      "aliases": ["therm", "therms"],
+      "description": "Therm (US) = 100,000 BTU",
+      "transform": {
+        "toBase": "x * 105505585.262",
+        "fromBase": "x / 105505585.262"
+      }
+    }
+  }
+}
