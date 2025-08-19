@@ -97,13 +97,6 @@
         "fromBase": "x / 0.000000001"
       }
     },
-    "angstrom": {
-      "name": "angstrom",
-      "symbol": "Å",
-      "aliases": ["angstrom", "angstroms", "ångström", "å", "a"],
-      "description": "Unit commonly used in atomic physics, 10^-10 meters",
-      "transform": { "toBase": "x * 1e-10", "fromBase": "x / 1e-10" }
-    },
     "mil": {
       "name": "mil",
       "symbol": "mil",
@@ -126,16 +119,6 @@
       "transform": {
         "toBase": "x * 9.4607304725808e15",
         "fromBase": "x / 9.4607304725808e15"
-      }
-    },
-    "astronomical_unit": {
-      "name": "astronomical unit",
-      "symbol": "AU",
-      "aliases": ["astronomical unit", "astronomical units", "au"],
-      "description": "Astronomical unit, average Earth-Sun distance",
-      "transform": {
-        "toBase": "x * 149597870700",
-        "fromBase": "x / 149597870700"
       }
     },
     "parsec": {
