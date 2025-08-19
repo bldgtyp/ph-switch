@@ -1,0 +1,91 @@
+{
+  "category": "co2-emissions",
+  "baseUnit": "g_co2_wh",
+  "description": "CO2 emissions expressed per energy or per area/volume",
+  "units": {
+    "g_co2_wh": {
+      "name": "gram CO2 per Watt-hour",
+      "symbol": "g-CO2/Wh",
+      "aliases": ["g-CO2/Wh", "gco2/wh", "g_co2_wh"],
+      "description": "Grams of CO2 per Watt-hour",
+      "transform": { "toBase": "x", "fromBase": "x" }
+    },
+    "kg_co2_wh": {
+      "name": "kilogram CO2 per Watt-hour",
+      "symbol": "kg-CO2/Wh",
+      "aliases": ["kg-CO2/Wh", "kgco2/wh", "kg_co2_wh"],
+      "description": "Kilograms of CO2 per Watt-hour",
+      "transform": { "toBase": "x * 1000", "fromBase": "x / 1000" }
+    },
+    "g_co2_kwh": {
+      "name": "gram CO2 per kilowatt-hour",
+      "symbol": "g-CO2/kWh",
+      "aliases": ["g-CO2/kWh", "gco2/kwh", "g_co2_kwh"],
+      "description": "Grams of CO2 per kilowatt-hour",
+      "transform": { "toBase": "x / 1000", "fromBase": "x * 1000" }
+    },
+    "kg_co2_kwh": {
+      "name": "kilogram CO2 per kilowatt-hour",
+      "symbol": "kg-CO2/kWh",
+      "aliases": ["kg-CO2/kWh", "kgco2/kwh", "kg_co2_kwh"],
+      "description": "Kilograms of CO2 per kilowatt-hour",
+      "transform": { "toBase": "x", "fromBase": "x" }
+    },
+    "g_co2_btu": {
+      "name": "gram CO2 per Btu",
+      "symbol": "g-CO2/Btu",
+      "aliases": ["g-CO2/Btu", "gco2/btu", "g_co2_btu"],
+      "description": "Grams of CO2 per Btu",
+      "transform": { "toBase": "x / 0.293071111", "fromBase": "x * 0.293071111" }
+    },
+    "kg_co2_btu": {
+      "name": "kilogram CO2 per Btu",
+      "symbol": "kg-CO2/Btu",
+      "aliases": ["kg-CO2/Btu", "kgco2/btu", "kg_co2_btu"],
+      "description": "Kilograms of CO2 per Btu",
+      "transform": { "toBase": "x * 1000 / 0.293071111", "fromBase": "x * 0.293071111 / 1000" }
+    },
+    "g_co2_kbtu": {
+      "name": "gram CO2 per kBtu",
+      "symbol": "g-CO2/kBtu",
+      "aliases": ["g-CO2/kBtu", "gco2/kbtu", "g_co2_kbtu"],
+      "description": "Grams of CO2 per thousand Btu",
+      "transform": { "toBase": "x / 293.071111", "fromBase": "x * 293.071111" }
+    },
+    "kg_co2_kbtu": {
+      "name": "kilogram CO2 per kBtu",
+      "symbol": "kg-CO2/kBtu",
+      "aliases": ["kg-CO2/kBtu", "kgco2/kbtu", "kg_co2_kbtu"],
+      "description": "Kilograms of CO2 per thousand Btu",
+      "transform": { "toBase": "x * 1000 / 293.071111", "fromBase": "x * 293.071111 / 1000" }
+    },
+    "g_co2_m2": {
+      "name": "gram CO2 per square meter",
+      "symbol": "g-CO2/m2",
+      "aliases": ["g-CO2/m2", "gco2/m2", "g_co2_m2"],
+      "description": "Grams of CO2 per square meter",
+      "transform": { "toBase": "x", "fromBase": "x" }
+    },
+    "kg_co2_m2": {
+      "name": "kilogram CO2 per square meter",
+      "symbol": "kg-CO2/m2",
+      "aliases": ["kg-CO2/m2", "kgco2/m2", "kg_co2_m2"],
+      "description": "Kilograms of CO2 per square meter",
+      "transform": { "toBase": "x * 1000", "fromBase": "x / 1000" }
+    },
+    "g_co2_m3": {
+      "name": "gram CO2 per cubic meter",
+      "symbol": "g-CO2/m3",
+      "aliases": ["g-CO2/m3", "gco2/m3", "g_co2_m3"],
+      "description": "Grams of CO2 per cubic meter",
+      "transform": { "toBase": "x", "fromBase": "x" }
+    },
+    "kg_co2_m3": {
+      "name": "kilogram CO2 per cubic meter",
+      "symbol": "kg-CO2/m3",
+      "aliases": ["kg-CO2/m3", "kgco2/m3", "kg_co2_m3"],
+      "description": "Kilograms of CO2 per cubic meter",
+      "transform": { "toBase": "x * 1000", "fromBase": "x / 1000" }
+    }
+  }
+}

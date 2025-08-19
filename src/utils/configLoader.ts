@@ -24,6 +24,7 @@ import heatCapacityByMassConfig from '../config/heat-capacity-by-mass.json';
 import fanEfficiencyConfig from '../config/fan-efficiency.json';
 import pressureConfig from '../config/pressure.json';
 import temperatureDifferenceConfig from '../config/temperature-difference.json';
+import co2EmissionsConfig from '../config/co2-emissions.json';
 import {
   UnitCategory,
   ConfigurationLoadResult,
@@ -395,6 +396,17 @@ export async function loadAllConfigurations(): Promise<ConfigurationLoadResult> 
       return {
         success: false,
         error: 'Failed to load temperature-difference unit configuration',
+      };
+    }
+
+    // Load co2-emissions configuration
+    const co2Category = loadUnitCategory(co2EmissionsConfig, 'co2-emissions');
+    if (co2Category) {
+      categories['co2-emissions'] = co2Category;
+    } else {
+      return {
+        success: false,
+        error: 'Failed to load co2-emissions unit configuration',
       };
     }
 
