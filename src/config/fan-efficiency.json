@@ -1,0 +1,51 @@
+{
+  "category": "fan-efficiency",
+  "baseUnit": "wh_m3",
+  "description": "Fan efficiency units expressed as energy per volume",
+  "units": {
+    "j_l": {
+      "name": "Joule per liter",
+      "symbol": "J/L",
+      "aliases": ["J/L", "j/l", "J per L", "joule per liter"],
+      "description": "Joules per liter (energy per volume)",
+      "transform": {
+        "toBase": "x * 0.2777777777777778",
+        "fromBase": "x / 0.2777777777777778"
+      }
+    },
+    "w_cfm": {
+      "name": "Watt per cubic foot per minute",
+      "symbol": "W/cfm",
+      "aliases": ["W/cfm", "w/cfm", "W per cfm"],
+      "description": "Watts per cubic foot per minute",
+      "transform": {
+        "toBase": "x * 0.588577779",
+        "fromBase": "x / 0.588577779"
+      }
+    },
+    "w_cfh": {
+      "name": "Watt per cubic foot per hour",
+      "symbol": "W/cfh",
+      "aliases": ["W/cfh", "w/cfh", "W per cfh"],
+      "description": "Watts per cubic foot per hour",
+      "transform": {
+        "toBase": "x * 35.31466674",
+        "fromBase": "x / 35.31466674"
+      }
+    },
+    "wh_m3": {
+      "name": "Watt-hour per cubic meter",
+      "symbol": "Wh/m3",
+      "aliases": ["Wh/m3", "wh/m3", "Wh per m3"],
+      "description": "Watt-hours per cubic meter (base)",
+      "transform": { "toBase": "x", "fromBase": "x" }
+    },
+    "kwh_m3": {
+      "name": "Kilowatt-hour per cubic meter",
+      "symbol": "kWh/m3",
+      "aliases": ["kWh/m3", "kwh/m3", "kWh per m3"],
+      "description": "Kilowatt-hours per cubic meter",
+      "transform": { "toBase": "x * 1000", "fromBase": "x / 1000" }
+    }
+  }
+}

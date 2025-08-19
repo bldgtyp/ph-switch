@@ -21,6 +21,7 @@ import humidityConfig from '../config/humidity.json';
 import heatCapacityByVolumeConfig from '../config/heat-capacity-by-volume.json';
 import heatCapacityByAreaConfig from '../config/heat-capacity-by-area.json';
 import heatCapacityByMassConfig from '../config/heat-capacity-by-mass.json';
+import fanEfficiencyConfig from '../config/fan-efficiency.json';
 import {
   UnitCategory,
   ConfigurationLoadResult,
@@ -353,6 +354,20 @@ export async function loadAllConfigurations(): Promise<ConfigurationLoadResult> 
       return {
         success: false,
         error: 'Failed to load heat-capacity-by-mass unit configuration',
+      };
+    }
+
+    // Load fan-efficiency configuration
+    const fanEfficiencyCategory = loadUnitCategory(
+      fanEfficiencyConfig,
+      'fan-efficiency'
+    );
+    if (fanEfficiencyCategory) {
+      categories['fan-efficiency'] = fanEfficiencyCategory;
+    } else {
+      return {
+        success: false,
+        error: 'Failed to load fan-efficiency unit configuration',
       };
     }
 

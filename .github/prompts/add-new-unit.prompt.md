@@ -9,16 +9,15 @@
 
 ### Task:
 
-- Add a new `heat-capacity-by-mass` unit type JSON file.
+- Add a new `fan-efficiency` unit type JSON file.
 - New unit type includes units:
-  - Btu/lb-F [ reference: 1 BTU/lb-F =4186.800585 J/kg-K ]
-  - kBtu/lb-F
-  - J/kg-K [ reference: 1 J/kg-K = 0.0002388458633 BTU/lb-F ]
-  - kJ/kg-K
-  - kWh/kg-K
-  - Wh/kg-K
-- Create a new `heat-capacity-by-mass.json` file and add the relevant conversion factors.
+  - J/L
+  - W/cfm [ reference: 1 W/cfm = 0.588577779 Wh/m3 ]
+  - W/cfh (watts per cubic-foot-per-hour)
+  - Wh/m3 [ reference: 1 Wh/m3 = 1.699010796 W/cfm ]
+  - kWh/m3
+- Create a new `fan-efficiency.json` file and add the relevant conversion factors.
 - Ensure that the new units are loaded in `configLoader.ts` as well.
-- Add new unit tests in `heat-capacity-by-mass.test.ts` to verify conversions between these units.
+- Add new unit tests in `fan-efficiency.test.ts` to verify conversions between these units.
 - Run Prettier formater
 - Run all tests
