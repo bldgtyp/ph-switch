@@ -7,6 +7,8 @@ import {
   getAllUnitSymbols,
   findUnitByAlias,
   getConversionFactor,
+  getUnitCategory,
+  getSymbolsForCategory,
 } from '../../utils/configLoader';
 import lengthConfig from '../../config/length.json';
 
@@ -338,6 +340,161 @@ describe('Configuration Loader', () => {
       );
 
       consoleSpy.mockRestore();
+    });
+  });
+
+  describe('getUnitCategory', () => {
+    const mockCategories = {
+      length: {
+        category: 'length',
+        baseUnit: 'meter',
+        units: {
+          meter: {
+            name: 'meter',
+            symbol: 'm',
+            aliases: ['meter', 'metres', 'm'],
+            factor: 1,
+          },
+          foot: {
+            name: 'foot',
+            symbol: 'ft',
+            aliases: ['foot', 'feet', 'ft'],
+            factor: 0.3048,
+          },
+        },
+      },
+      airflow: {
+        category: 'airflow',
+        baseUnit: 'cfm',
+        units: {
+          cfm: {
+            name: 'cubic foot per minute',
+            symbol: 'cfm',
+            aliases: ['cfm', 'ft3/min'],
+            factor: 1,
+          },
+        },
+      },
+    };
+
+    it('should find category by symbol', () => {
+      expect(getUnitCategory('m', mockCategories)).toBe('length');
+      expect(getUnitCategory('ft', mockCategories)).toBe('length');
+      expect(getUnitCategory('cfm', mockCategories)).toBe('airflow');
+    });
+
+    it('should find category by alias', () => {
+      expect(getUnitCategory('meter', mockCategories)).toBe('length');
+      expect(getUnitCategory('feet', mockCategories)).toBe('length');
+      expect(getUnitCategory('ft3/min', mockCategories)).toBe('airflow');
+    });
+
+    it('should be case insensitive', () => {
+      expect(getUnitCategory('M', mockCategories)).toBe('length');
+      expect(getUnitCategory('FT', mockCategories)).toBe('length');
+      expect(getUnitCategory('CFM', mockCategories)).toBe('airflow');
+    });
+
+    it('should handle whitespace', () => {
+      expect(getUnitCategory(' m ', mockCategories)).toBe('length');
+      expect(getUnitCategory('\tft\n', mockCategories)).toBe('length');
+    });
+
+    it('should return null for unknown units', () => {
+      expect(getUnitCategory('unknown', mockCategories)).toBeNull();
+      expect(getUnitCategory('xyz', mockCategories)).toBeNull();
+    });
+
+    it('should return null when no categories provided', () => {
+      expect(getUnitCategory('m')).toBeNull();
+    });
+  });
+
+  describe('getSymbolsForCategory', () => {
+    const mockCategories = {
+      length: {
+        category: 'length',
+        baseUnit: 'meter',
+        units: {
+          meter: {
+            name: 'meter',
+            symbol: 'm',
+            aliases: ['meter', 'metres', 'm'],
+            factor: 1,
+          },
+          foot: {
+            name: 'foot',
+            symbol: 'ft',
+            aliases: ['foot', 'feet', 'ft'],
+            factor: 0.3048,
+          },
+          inch: {
+            name: 'inch',
+            symbol: 'in',
+            aliases: ['inch', 'inches', 'in'],
+            factor: 0.0254,
+          },
+        },
+      },
+      airflow: {
+        category: 'airflow',
+        baseUnit: 'cfm',
+        units: {
+          cfm: {
+            name: 'cubic foot per minute',
+            symbol: 'cfm',
+            aliases: ['cfm', 'ft3/min'],
+            factor: 1,
+          },
+        },
+      },
+    };
+
+    it('should return symbols for valid category', () => {
+      const lengthSymbols = getSymbolsForCategory('length', mockCategories);
+      expect(lengthSymbols).toEqual(['ft', 'in', 'm']); // sorted
+      expect(lengthSymbols).toHaveLength(3);
+    });
+
+    it('should return symbols for single-unit category', () => {
+      const airflowSymbols = getSymbolsForCategory('airflow', mockCategories);
+      expect(airflowSymbols).toEqual(['cfm']);
+      expect(airflowSymbols).toHaveLength(1);
+    });
+
+    it('should return empty array for unknown category', () => {
+      expect(getSymbolsForCategory('unknown', mockCategories)).toEqual([]);
+    });
+
+    it('should handle empty categories object', () => {
+      expect(getSymbolsForCategory('length', {})).toEqual([]);
+    });
+
+    it('should deduplicate symbols if there are duplicates', () => {
+      const duplicateSymbolCategories = {
+        test: {
+          category: 'test',
+          baseUnit: 'unit1',
+          units: {
+            unit1: {
+              name: 'unit1',
+              symbol: 'm',
+              aliases: ['unit1'],
+              factor: 1,
+            },
+            unit2: {
+              name: 'unit2',
+              symbol: 'm', // duplicate symbol
+              aliases: ['unit2'],
+              factor: 2,
+            },
+          },
+        },
+      };
+
+      const symbols = getSymbolsForCategory('test', duplicateSymbolCategories);
+      expect(symbols).toEqual(['m']); // deduplicated
+      expect(symbols).toHaveLength(1);
     });
   });
 });

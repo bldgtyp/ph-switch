@@ -224,4 +224,105 @@ describe('ConversionInput', () => {
       expect(textarea).toHaveValue('');
     });
   });
+
+  describe('Category-Filtered Suggestions', () => {
+    // These tests verify that the component correctly handles conversion patterns
+    // without crashing and maintains proper state management
+
+    test('should not crash when typing conversion patterns', async () => {
+      const onChange = jest.fn();
+      render(<ConversionInput value="" onChange={onChange} />);
+      const textarea = screen.getByRole('textbox');
+
+      // Type various conversion patterns and ensure they don't crash
+      fireEvent.change(textarea, { target: { value: '5 m to f' } });
+      expect(onChange).toHaveBeenCalledWith('5 m to f');
+
+      fireEvent.change(textarea, { target: { value: '10 ft as cm' } });
+      expect(onChange).toHaveBeenCalledWith('10 ft as cm');
+
+      fireEvent.change(textarea, { target: { value: '100 cfm to m3/h' } });
+      expect(onChange).toHaveBeenCalledWith('100 cfm to m3/h');
+    });
+
+    test('should handle partial conversion input gracefully', async () => {
+      const onChange = jest.fn();
+      render(<ConversionInput value="" onChange={onChange} />);
+      const textarea = screen.getByRole('textbox');
+
+      // Test various partial inputs that might trigger conversion logic
+      fireEvent.change(textarea, { target: { value: '5 m to ' } });
+      expect(onChange).toHaveBeenCalledWith('5 m to ');
+
+      fireEvent.change(textarea, { target: { value: '10 ' } });
+      expect(onChange).toHaveBeenCalledWith('10 ');
+
+      fireEvent.change(textarea, { target: { value: '5 m' } });
+      expect(onChange).toHaveBeenCalledWith('5 m');
+    });
+
+    test('should handle non-conversion context normally', async () => {
+      const onChange = jest.fn();
+      render(<ConversionInput value="" onChange={onChange} />);
+      const textarea = screen.getByRole('textbox');
+
+      // Type text that's not a conversion pattern
+      fireEvent.change(textarea, { target: { value: 'test m' } });
+      expect(onChange).toHaveBeenCalledWith('test m');
+
+      fireEvent.change(textarea, { target: { value: 'hello world' } });
+      expect(onChange).toHaveBeenCalledWith('hello world');
+
+      fireEvent.change(textarea, { target: { value: 'random text with m inside' } });
+      expect(onChange).toHaveBeenCalledWith('random text with m inside');
+    });
+
+    test('should handle different number formats in conversion patterns', async () => {
+      const onChange = jest.fn();
+      render(<ConversionInput value="" onChange={onChange} />);
+      const textarea = screen.getByRole('textbox');
+
+      // Test with decimal numbers
+      fireEvent.change(textarea, { target: { value: '5.5 m to f' } });
+      expect(onChange).toHaveBeenCalledWith('5.5 m to f');
+
+      // Test with scientific notation
+      fireEvent.change(textarea, { target: { value: '1e3 kg to l' } });
+      expect(onChange).toHaveBeenCalledWith('1e3 kg to l');
+
+      // Test with larger numbers
+      fireEvent.change(textarea, { target: { value: '1000 m to f' } });
+      expect(onChange).toHaveBeenCalledWith('1000 m to f');
+    });
+
+    test('should handle both "to" and "as" conversion keywords', async () => {
+      const onChange = jest.fn();
+      render(<ConversionInput value="" onChange={onChange} />);
+      const textarea = screen.getByRole('textbox');
+
+      // Test "to" keyword
+      fireEvent.change(textarea, { target: { value: '5 meters to feet' } });
+      expect(onChange).toHaveBeenCalledWith('5 meters to feet');
+
+      // Test "as" keyword  
+      fireEvent.change(textarea, { target: { value: '10 inches as cm' } });
+      expect(onChange).toHaveBeenCalledWith('10 inches as cm');
+    });
+
+    test('should handle special characters in unit names', async () => {
+      const onChange = jest.fn();
+      render(<ConversionInput value="" onChange={onChange} />);
+      const textarea = screen.getByRole('textbox');
+
+      // Test units with special characters commonly found in unit systems
+      fireEvent.change(textarea, { target: { value: '32 °F to °C' } });
+      expect(onChange).toHaveBeenCalledWith('32 °F to °C');
+
+      fireEvent.change(textarea, { target: { value: '1 m² to f' } });
+      expect(onChange).toHaveBeenCalledWith('1 m² to f');
+
+      fireEvent.change(textarea, { target: { value: '5 m³ to l' } });
+      expect(onChange).toHaveBeenCalledWith('5 m³ to l');
+    });
+  });
 });

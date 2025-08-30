@@ -5,6 +5,7 @@ import {
   loadAllConfigurations,
   getAllUnitSymbols,
 } from '../utils/configLoader';
+import { findUnitCategory, getCategorySymbols } from '../config';
 
 // Helper: approximate caret coordinates in textarea (relative to textarea top-left)
 function getCaretCoordinates(textarea: HTMLTextAreaElement, position: number) {
@@ -114,6 +115,72 @@ export const ConversionInput: React.FC<ConversionInputProps> = ({
     const before = val.slice(0, pos);
     const lines = before.split('\n');
     const currentLine = lines[lines.length - 1];
+
+    // Check if we're in a conversion context (e.g., "5 m to f" where user is typing the target unit)
+    const conversionMatch = currentLine.match(
+      /(\d+(?:\.\d+)?(?:[eE][+-]?\d+)?)\s+([a-zA-Z][a-zA-Z0-9/°µÅ–—′″\-\s]*?)\s+(?:to|as)\s+(\S*)$/i
+    );
+
+    if (conversionMatch) {
+      // We're in conversion context - filter suggestions by source unit's category
+      const [, , sourceUnit, partialTargetUnit] = conversionMatch;
+      const token = partialTargetUnit.toLowerCase();
+
+      if (!token || token.length < 1) {
+        setSuggestions([]);
+        setSuggestVisible(false);
+        setActiveIndex(-1);
+        return;
+      }
+
+      // Find the category of the source unit
+      const sourceCategory = findUnitCategory(sourceUnit.trim());
+
+      if (sourceCategory) {
+        // Get symbols only from the same category as the source unit
+        const categorySymbols = getCategorySymbols(sourceCategory);
+
+        const starts = categorySymbols.filter((s) =>
+          s.toLowerCase().startsWith(token)
+        );
+        const contains = categorySymbols.filter(
+          (s) =>
+            !s.toLowerCase().startsWith(token) &&
+            s.toLowerCase().includes(token)
+        );
+        const results = Array.from(new Set([...starts, ...contains])).slice(
+          0,
+          10
+        );
+
+        setSuggestions(results);
+        setSuggestVisible(results.length > 0);
+        setActiveIndex(results.length > 0 ? 0 : -1);
+
+        // Position suggestions
+        const ta = textareaRef.current;
+        if (ta && results.length > 0) {
+          try {
+            const { top, left } = getCaretCoordinates(
+              ta,
+              ta.selectionStart || ta.value.length
+            );
+            setSuggestStyle({
+              top: top - ta.scrollTop + 6,
+              left: left - ta.scrollLeft,
+            });
+          } catch (e) {
+            setSuggestStyle({ bottom: 8, left: 8 });
+          }
+        } else {
+          setSuggestStyle(undefined);
+        }
+        return;
+      }
+      // If we can't find the source category, fall through to general suggestions
+    }
+
+    // Default behavior: not in conversion context or source unit category unknown
     const tokenMatch = currentLine.match(/(\S+)$/);
     const token = tokenMatch ? tokenMatch[1].toLowerCase() : '';
 

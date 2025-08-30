@@ -594,3 +594,73 @@ export function getConversionFactor(
 
   return source.factor / target.factor;
 }
+
+/**
+ * Finds which category a unit belongs to by searching all loaded configurations
+ * @param unitSymbolOrAlias - The unit symbol or alias to search for
+ * @param categories - The loaded category configurations (optional, will load if not provided)
+ * @returns The category name if found, null otherwise
+ */
+export function getUnitCategory(
+  unitSymbolOrAlias: string,
+  categories?: Record<string, UnitCategory>
+): string | null {
+  // If categories not provided, we need to load them first
+  if (!categories) {
+    // This function should be called with categories passed in from the caller
+    // to avoid async complications here
+    return null;
+  }
+
+  const normalizedUnit = unitSymbolOrAlias.toLowerCase().trim();
+
+  // Search through all categories
+  for (const [categoryName, config] of Object.entries(categories)) {
+    // Check exact unit name match (symbol)
+    for (const unitData of Object.values(config.units)) {
+      // Check symbol match
+      if (unitData.symbol?.toLowerCase() === normalizedUnit) {
+        return categoryName;
+      }
+
+      // Check aliases match
+      if (unitData.aliases && Array.isArray(unitData.aliases)) {
+        for (const alias of unitData.aliases) {
+          if (alias.toLowerCase() === normalizedUnit) {
+            return categoryName;
+          }
+        }
+      }
+    }
+  }
+
+  return null;
+}
+
+/**
+ * Gets all unit symbols for a specific category
+ * @param categoryName - The name of the category
+ * @param categories - The loaded category configurations
+ * @returns Array of symbols for that category, sorted and deduplicated
+ */
+export function getSymbolsForCategory(
+  categoryName: string,
+  categories: Record<string, UnitCategory>
+): string[] {
+  if (!categories || !categories[categoryName]) {
+    return [];
+  }
+
+  const config = categories[categoryName];
+  const symbols: string[] = [];
+
+  // Extract symbols from all units in the category
+  for (const unitData of Object.values(config.units)) {
+    if (unitData.symbol) {
+      symbols.push(unitData.symbol);
+    }
+  }
+
+  // Remove duplicates and sort
+  return Array.from(new Set(symbols)).sort();
+}

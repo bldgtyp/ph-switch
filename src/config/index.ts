@@ -7,6 +7,8 @@ import {
   getAllUnitSymbols,
   findUnitByAlias,
   getConversionFactor,
+  getUnitCategory,
+  getSymbolsForCategory,
 } from '../utils/configLoader';
 import { UnitCategory } from '../types';
 
@@ -187,6 +189,22 @@ export function isConfigurationReady(): boolean {
 export function getAllSymbols(): string[] {
   if (!globalConfigurations) return [];
   return getAllUnitSymbols(globalConfigurations);
+}
+
+/**
+ * Find which category a unit belongs to
+ */
+export function findUnitCategory(unitSymbolOrAlias: string): string | null {
+  if (!globalConfigurations) return null;
+  return getUnitCategory(unitSymbolOrAlias, globalConfigurations);
+}
+
+/**
+ * Get all symbols for a specific category
+ */
+export function getCategorySymbols(categoryName: string): string[] {
+  if (!globalConfigurations) return [];
+  return getSymbolsForCategory(categoryName, globalConfigurations);
 }
 
 /**
