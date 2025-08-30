@@ -32,8 +32,8 @@
     --spacing-lg: 16px;
     --spacing-xl: 20px;
     --spacing-xxl: 24px;
-    --font-size-medium: 0.9rem;
-    --font-size-large: 1rem;
+    --font-size-base: 0.9rem;
+    --font-size-lg: 1rem;
   }
 
   .app-container {
@@ -56,7 +56,7 @@
   }
 
   .app-title {
-    font-size: var(--font-size-large);
+    font-size: var(--font-size-lg);
   }
 
   /* Ensure touch-friendly targets (44px minimum) */
@@ -121,11 +121,11 @@
 /* Dark mode support (for future implementation) */
 @media (prefers-color-scheme: dark) {
   :root {
-    --background-color: #121212;
+    --color-background: #121212;
     --surface-color: #1e1e1e;
-    --text-primary: #ffffff;
+    --color-text: #ffffff;
     --text-secondary: #b0b0b0;
-    --border-color: #333333;
+    --color-border: #333333;
     --primary-color: #64b5f6;
   }
 }
@@ -164,6 +164,6 @@
   }
 
   .app-title {
-    font-size: var(--font-size-large);
+    font-size: var(--font-size-lg);
   }
 }

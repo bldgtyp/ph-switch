@@ -253,7 +253,13 @@ function App() {
       <footer className="app-footer">
         <div className="app-footer__content">
           <p className="app-footer__text">
-            Made for Passive Housers • No data collected • Works offline
+            Made for Passive Housers • No data collected • Works offline •{' '}
+            <a
+              href="https://github.com/bldgtyp/ph-switch"
+              className="app-footer__link"
+            >
+              GitHub
+            </a>
           </p>
         </div>
       </footer>

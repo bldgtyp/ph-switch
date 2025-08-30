@@ -39,10 +39,10 @@ describe('heat-flow-1D conversions', () => {
   test('conductivity to resistivity conversion', () => {
     const res = convertUnits(1, 'btu_hr_ft_f', 'hr_ft2_f_btu_in');
     expect(res.success).toBe(true);
-    // 1 Btu/hr-ft-F = 1.730734908 W/m-K 
+    // 1 Btu/hr-ft-F = 1.730734908 W/m-K
     // Using fromBase: 1 / ((x * 0.577789236) * 12)
     // So: 1 / ((1.730734908 * 0.577789236) * 12)
-    const expected = 1 / ((1.730734908 * 0.577789236) * 12);
+    const expected = 1 / (1.730734908 * 0.577789236 * 12);
     expect(res.value).toBeCloseTo(expected, 6);
   });
 

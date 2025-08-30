@@ -186,7 +186,11 @@ describe('App - Multi-line Input System', () => {
     // Check that conversions are working
     await screen.findByText(/16.4042 feet/, undefined, { timeout: 1000 });
     await screen.findByText(/25.4 cm/, undefined, { timeout: 1000 });
-    const errorMessages = await screen.findAllByText(/Invalid conversion format/, undefined, { timeout: 1000 });
+    const errorMessages = await screen.findAllByText(
+      /Invalid conversion format/,
+      undefined,
+      { timeout: 1000 }
+    );
     expect(errorMessages).toHaveLength(2); // Should have 2 error messages for the 2 invalid inputs
     // Note: Summary count feature may not be implemented yet
     // await screen.findByText(/2 of 4 converted/, undefined, { timeout: 1000 });

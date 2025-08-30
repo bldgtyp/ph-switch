@@ -176,13 +176,13 @@ describe('Configuration Loader', () => {
       expect(symbols.length).toBeGreaterThan(0);
 
       // Check that some expected symbols exist
-      expect(symbols).toContain('m');     // meter symbol
-      expect(symbols).toContain('ft');    // foot symbol
-      expect(symbols).toContain('in');    // inch symbol
+      expect(symbols).toContain('m'); // meter symbol
+      expect(symbols).toContain('ft'); // foot symbol
+      expect(symbols).toContain('in'); // inch symbol
 
       // Should not contain aliases, only symbols
-      expect(symbols).not.toContain('meter');   // alias, not symbol
-      expect(symbols).not.toContain('foot');    // alias, not symbol
+      expect(symbols).not.toContain('meter'); // alias, not symbol
+      expect(symbols).not.toContain('foot'); // alias, not symbol
     });
 
     it('should remove duplicates and sort symbols', async () => {

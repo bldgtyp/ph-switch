@@ -273,7 +273,9 @@ describe('ConversionInput', () => {
       fireEvent.change(textarea, { target: { value: 'hello world' } });
       expect(onChange).toHaveBeenCalledWith('hello world');
 
-      fireEvent.change(textarea, { target: { value: 'random text with m inside' } });
+      fireEvent.change(textarea, {
+        target: { value: 'random text with m inside' },
+      });
       expect(onChange).toHaveBeenCalledWith('random text with m inside');
     });
 
@@ -304,7 +306,7 @@ describe('ConversionInput', () => {
       fireEvent.change(textarea, { target: { value: '5 meters to feet' } });
       expect(onChange).toHaveBeenCalledWith('5 meters to feet');
 
-      // Test "as" keyword  
+      // Test "as" keyword
       fireEvent.change(textarea, { target: { value: '10 inches as cm' } });
       expect(onChange).toHaveBeenCalledWith('10 inches as cm');
     });

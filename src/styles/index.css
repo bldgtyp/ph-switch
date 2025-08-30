@@ -10,9 +10,9 @@
 body {
   margin: 0;
   font-family: var(--font-family);
-  font-size: var(--font-size-medium);
-  color: var(--text-primary);
-  background-color: var(--background-color);
+  font-size: var(--font-size-base);
+  color: var(--color-text);
+  background-color: var(--color-background);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   line-height: 1.5;
@@ -31,7 +31,7 @@ code {
 button:focus,
 input:focus,
 textarea:focus {
-  outline: 2px solid var(--border-color-focused);
+  outline: 2px solid var(--color-border-focused);
   outline-offset: 2px;
 }
 

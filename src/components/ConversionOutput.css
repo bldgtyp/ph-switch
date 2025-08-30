@@ -3,9 +3,9 @@
 .conversion-output {
   width: 100%;
   min-height: 60px;
-  border: 1px solid var(--border-color);
+  border: 1px solid var(--color-border);
   border-radius: var(--border-radius);
-  background-color: var(--background-color);
+  background-color: var(--color-background);
   position: relative;
   overflow: hidden;
   contain: layout style;
@@ -18,13 +18,13 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: var(--spacing-large);
+  padding: var(--spacing-lg);
   flex: 1;
 }
 
 .conversion-output__placeholder {
   text-align: center;
-  color: var(--text-color-muted);
+  color: var(--color-text-muted);
 }
 
 .conversion-output__placeholder-text {
@@ -33,7 +33,7 @@
 }
 
 .conversion-output__results {
-  padding: var(--spacing-small);
+  padding: var(--spacing-sm);
   overflow-y: auto;
   overflow-x: hidden;
   flex: 1;
@@ -63,7 +63,7 @@
 
 .conversion-output__result {
   position: relative;
-  margin-bottom: var(--spacing-small);
+  margin-bottom: var(--spacing-sm);
   border-radius: var(--border-radius-small);
   transition: all var(--transition-duration) ease;
 }
@@ -97,7 +97,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: var(--spacing-small);
+  gap: var(--spacing-sm);
   font-family: var(--font-family-mono);
   font-size: var(--font-size-base);
   line-height: var(--line-height-base);
@@ -126,18 +126,18 @@
   padding: var(--spacing-medium);
   display: flex;
   align-items: center;
-  gap: var(--spacing-small);
+  gap: var(--spacing-sm);
 }
 
 .conversion-output__error-icon {
   flex-shrink: 0;
-  font-size: var(--font-size-small);
+  font-size: var(--font-size-sm);
 }
 
 .conversion-output__error-text {
   flex: 1;
   color: var(--error-color);
-  font-size: var(--font-size-small);
+  font-size: var(--font-size-sm);
   line-height: var(--line-height-tight);
 }
 
@@ -181,12 +181,12 @@
 /* Responsive adjustments */
 @media (max-width: 768px) {
   .conversion-output__value {
-    padding: var(--spacing-small);
-    font-size: var(--font-size-small);
+    padding: var(--spacing-sm);
+    font-size: var(--font-size-sm);
   }
 
   .conversion-output__error {
-    padding: var(--spacing-small);
+    padding: var(--spacing-sm);
   }
 
   .conversion-output__error-text {
