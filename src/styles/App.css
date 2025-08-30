@@ -168,6 +168,34 @@
   color: var(--color-text-secondary);
 }
 
+.app-footer__link {
+  color: var(--color-primary);
+  text-decoration: none;
+  font-weight: var(--font-weight-medium);
+  transition: color var(--transition-duration) ease;
+}
+
+.app-footer__link:hover {
+  color: var(--color-text);
+  text-decoration: underline;
+}
+
+.app-footer__link:focus {
+  outline: 2px solid var(--color-border-focused);
+  outline-offset: 2px;
+}
+
+/* Dark mode footer link */
+@media (prefers-color-scheme: dark) {
+  .app-footer__link {
+    color: var(--color-white);
+  }
+  
+  .app-footer__link:hover {
+    color: var(--color-primary);
+  }
+}
+
 /* Responsive design */
 @media (max-width: 894px) {
   .conversion-interface {
