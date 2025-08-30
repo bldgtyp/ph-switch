@@ -94,7 +94,7 @@ describe('App - Multi-line Input System', () => {
     await screen.findByText(/16.4042 feet/, undefined, { timeout: 1000 });
     await screen.findByText(/25.4 cm/, undefined, { timeout: 1000 });
     await screen.findByText(
-      /Input: "x unit to unit" or "x unit as unit"/,
+      /Try: "5 meters to feet" or "2.5 inches as mm"/,
       undefined,
       {
         timeout: 1000,
@@ -201,9 +201,9 @@ describe('App - Multi-line Input System', () => {
 
     await screen.findByText(/16.4042 feet/, undefined, { timeout: 1000 });
     await screen.findByText(/1.2427 miles/, undefined, { timeout: 1000 });
-    const errors = await screen.findAllByText(
-      /Input: "x unit to unit" or "x unit as unit"/
+    const formatHelpers = await screen.findAllByText(
+      /Try: "5 meters to feet" or "2.5 inches as mm"/
     );
-    expect(errors).toHaveLength(2);
+    expect(formatHelpers).toHaveLength(2);
   });
 });

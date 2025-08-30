@@ -82,6 +82,11 @@
   border: 1px solid var(--error-border);
 }
 
+.conversion-output__result.format {
+  background-color: var(--color-surface-secondary);
+  border: 1px solid var(--color-primary-light);
+}
+
 .conversion-output__result.copied {
   background-color: var(--primary-color-light);
   border-color: var(--primary-color);
@@ -136,9 +141,39 @@
 
 .conversion-output__error-text {
   flex: 1;
-  color: var(--error-color);
+  color: var(--color-text-error);
   font-size: var(--font-size-sm);
   line-height: var(--line-height-tight);
+}
+
+.conversion-output__format-help {
+  padding: var(--spacing-medium);
+  display: flex;
+  align-items: flex-start;
+  gap: var(--spacing-sm);
+}
+
+.conversion-output__format-icon {
+  flex-shrink: 0;
+  font-size: var(--font-size-base);
+  margin-top: 2px;
+}
+
+.conversion-output__format-text {
+  flex: 1;
+}
+
+.conversion-output__format-message {
+  color: var(--color-primary);
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  margin-bottom: 2px;
+}
+
+.conversion-output__format-hint {
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-sm);
+  font-style: italic;
 }
 
 .conversion-output__copy-feedback {
@@ -305,7 +340,7 @@
 }
 
 .conversion-output__result.error .conversion-output__status-indicator {
-  background-color: var(--error-color);
+  background-color: var(--color-text-error);
   box-shadow: 0 0 4px rgba(244, 67, 54, 0.4);
 }
 

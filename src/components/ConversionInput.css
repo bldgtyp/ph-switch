@@ -117,7 +117,7 @@
 }
 
 .conversion-input.has-errors {
-  border-color: var(--error-color);
+  border-color: var(--color-text-error);
 }
 
 .conversion-input.has-success {

@@ -13,6 +13,7 @@ interface ConversionResult {
   output?: string;
   error?: string;
   success: boolean;
+  state: 'success' | 'error' | 'format';
 }
 
 function App() {
@@ -58,16 +59,28 @@ function App() {
         output:
           `${converterResult.formattedValue} ${converterResult.targetUnit || ''}`.trim(),
         success: true,
+        state: 'success',
       };
     } else {
+      // Determine if this is a format error vs actual conversion error
+      const errorMessage =
+        typeof converterResult.error === 'string'
+          ? converterResult.error
+          : converterResult.error?.message || 'Unknown error';
+
+      const isFormatError =
+        errorMessage.includes('Input: "x unit to unit"') ||
+        errorMessage.includes('Invalid conversion format') ||
+        errorMessage.includes('Invalid number format') ||
+        errorMessage.includes('cannot be empty') ||
+        errorMessage.includes('Source and target units cannot be the same');
+
       return {
         id: `error-${lineIndex}`,
         input: originalInput,
-        error:
-          typeof converterResult.error === 'string'
-            ? converterResult.error
-            : converterResult.error?.message || 'Unknown error',
+        error: errorMessage,
         success: false,
+        state: isFormatError ? 'format' : 'error',
       };
     }
   };
@@ -106,6 +119,7 @@ function App() {
               input: '',
               output: '',
               success: true,
+              state: 'success',
             });
             continue;
           }
@@ -147,6 +161,7 @@ function App() {
               input: trimmedLine,
               error: error instanceof Error ? error.message : 'Parse error',
               success: false,
+              state: 'error',
             });
           }
         }

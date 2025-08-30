@@ -7,6 +7,7 @@ interface ConversionResult {
   output?: string;
   error?: string;
   success: boolean;
+  state: 'success' | 'error' | 'format';
 }
 
 interface ConversionOutputProps {
@@ -137,7 +138,7 @@ export const ConversionOutput: React.FC<ConversionOutputProps> = ({
           return (
             <div
               key={result.id}
-              className={`conversion-output__result ${result.success ? 'success' : 'error'} ${
+              className={`conversion-output__result ${result.state} ${
                 copiedId === result.id ? 'copied' : ''
               }`}
               data-line={index + 1}
@@ -155,6 +156,23 @@ export const ConversionOutput: React.FC<ConversionOutputProps> = ({
                     {result.output}
                   </span>
                 </button>
+              ) : result.state === 'format' ? (
+                <div className="conversion-output__format-help">
+                  <span
+                    className="conversion-output__format-icon"
+                    aria-hidden="true"
+                  >
+                    💡
+                  </span>
+                  <div className="conversion-output__format-text">
+                    <div className="conversion-output__format-message">
+                      Try: "5 meters to feet" or "2.5 inches as mm"
+                    </div>
+                    <div className="conversion-output__format-hint">
+                      Format: NUMBER UNIT to/as UNIT
+                    </div>
+                  </div>
+                </div>
               ) : (
                 <div className="conversion-output__error" role="alert">
                   <span

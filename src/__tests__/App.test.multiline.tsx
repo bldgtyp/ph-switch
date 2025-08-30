@@ -89,7 +89,7 @@ describe('App - Multi-line Input System', () => {
     await screen.findByText(/16.4042 feet/, undefined, { timeout: 1000 });
     await screen.findByText(/25.4 cm/, undefined, { timeout: 1000 });
     await screen.findByText(
-      /Input: "x unit to unit" or "x unit as unit"/,
+      /Try: "5 meters to feet" or "2.5 inches as mm"/,
       undefined,
       {
         timeout: 1000,
@@ -190,12 +190,12 @@ describe('App - Multi-line Input System', () => {
     // Check that conversions are working
     await screen.findByText(/16.4042 feet/, undefined, { timeout: 1000 });
     await screen.findByText(/25.4 cm/, undefined, { timeout: 1000 });
-    const errorMessages = await screen.findAllByText(
-      /Input: "x unit to unit" or "x unit as unit"/,
+    const formatHelpers = await screen.findAllByText(
+      /Try: "5 meters to feet" or "2.5 inches as mm"/,
       undefined,
       { timeout: 1000 }
     );
-    expect(errorMessages).toHaveLength(2); // Should have 2 error messages for the 2 invalid inputs
+    expect(formatHelpers).toHaveLength(2); // Should have 2 format helpers for the 2 invalid inputs
     // Note: Summary count feature may not be implemented yet
     // await screen.findByText(/2 of 4 converted/, undefined, { timeout: 1000 });
   });

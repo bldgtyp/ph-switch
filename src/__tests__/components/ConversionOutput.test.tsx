@@ -20,18 +20,28 @@ describe('ConversionOutput', () => {
       input: '5 meters to feet',
       output: '16.404 feet',
       success: true,
+      state: 'success' as const,
     },
     {
       id: '2',
       input: '10 inches to cm',
       output: '25.400 cm',
       success: true,
+      state: 'success' as const,
     },
     {
       id: '3',
       input: 'invalid input',
       error: 'Invalid format. Use "X unit as/to Y unit"',
       success: false,
+      state: 'format' as const,
+    },
+    {
+      id: '4',
+      input: '5 meter as ft2',
+      error: 'Cannot convert between different unit categories',
+      success: false,
+      state: 'error' as const,
     },
   ];
 
@@ -72,11 +82,23 @@ describe('ConversionOutput', () => {
     });
 
     test('renders error results', () => {
-      const errorResults = mockResults.filter((r) => !r.success);
+      const errorResults = mockResults.filter((r) => r.state === 'error');
       render(<ConversionOutput results={errorResults} />);
 
       expect(
-        screen.getByText('Invalid format. Use "X unit as/to Y unit"')
+        screen.getByText('Cannot convert between different unit categories')
+      ).toBeInTheDocument();
+    });
+
+    test('renders format help results', () => {
+      const formatResults = mockResults.filter((r) => r.state === 'format');
+      render(<ConversionOutput results={formatResults} />);
+
+      expect(
+        screen.getByText('Try: "5 meters to feet" or "2.5 inches as mm"')
+      ).toBeInTheDocument();
+      expect(
+        screen.getByText('Format: NUMBER UNIT to/as UNIT')
       ).toBeInTheDocument();
     });
 
@@ -86,7 +108,10 @@ describe('ConversionOutput', () => {
       expect(screen.getByText('16.404 feet')).toBeInTheDocument();
       expect(screen.getByText('25.400 cm')).toBeInTheDocument();
       expect(
-        screen.getByText('Invalid format. Use "X unit as/to Y unit"')
+        screen.getByText('Try: "5 meters to feet" or "2.5 inches as mm"')
+      ).toBeInTheDocument();
+      expect(
+        screen.getByText('Cannot convert between different unit categories')
       ).toBeInTheDocument();
     });
   });
@@ -200,10 +225,18 @@ describe('ConversionOutput', () => {
     });
 
     test('shows error icon for failed results', () => {
-      render(<ConversionOutput results={mockResults} />);
+      const errorResults = mockResults.filter((r) => r.state === 'error');
+      render(<ConversionOutput results={errorResults} />);
 
       const errorResult = screen.getByRole('alert');
       expect(errorResult).toHaveTextContent('⚠️');
+    });
+
+    test('shows lightbulb icon for format help results', () => {
+      const formatResults = mockResults.filter((r) => r.state === 'format');
+      render(<ConversionOutput results={formatResults} />);
+
+      expect(screen.getByText('💡')).toBeInTheDocument();
     });
 
     test('applies correct CSS classes for different states', () => {
@@ -218,8 +251,13 @@ describe('ConversionOutput', () => {
       // Error result should be rendered with role='alert' and contain the error text
       const errorElement = screen.getByRole('alert');
       expect(errorElement).toHaveTextContent(
-        'Invalid format. Use "X unit as/to Y unit"'
+        'Cannot convert between different unit categories'
       );
+
+      // Format help should show helpful text without role='alert'
+      expect(
+        screen.getByText('Try: "5 meters to feet" or "2.5 inches as mm"')
+      ).toBeInTheDocument();
     });
   });
 
@@ -236,11 +274,12 @@ describe('ConversionOutput', () => {
     });
 
     test('has role="alert" for error messages', () => {
-      render(<ConversionOutput results={mockResults} />);
+      const errorResults = mockResults.filter((r) => r.state === 'error');
+      render(<ConversionOutput results={errorResults} />);
 
       const errorElement = screen.getByRole('alert');
       expect(errorElement).toHaveTextContent(
-        'Invalid format. Use "X unit as/to Y unit"'
+        'Cannot convert between different unit categories'
       );
     });
 
@@ -276,6 +315,7 @@ describe('ConversionOutput', () => {
           id: '1',
           input: 'invalid',
           success: false,
+          state: 'error' as const,
         },
       ];
 
@@ -291,6 +331,7 @@ describe('ConversionOutput', () => {
           input: 'invalid',
           error: '',
           success: false,
+          state: 'error' as const,
         },
       ];
 
