@@ -2,8 +2,8 @@
   margin: 0;
   padding: 0.25rem 0;
   list-style: none;
-  background: var(--surface, #fff);
-  border: 1px solid var(--muted, #ddd);
+  background: var(--color-background);
+  border: 1px solid var(--color-border);
   max-height: 220px;
   overflow: auto;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
@@ -12,14 +12,48 @@
   min-width: 160px;
   max-width: 520px;
   z-index: 2000;
-  border-radius: 6px;
+  border-radius: var(--border-radius);
+  color: var(--color-text);
 }
 
 .autosuggest__item {
   padding: 0.5rem 0.75rem;
   cursor: pointer;
+  color: var(--color-text);
+  transition: background-color var(--transition-duration) ease;
 }
 
 .autosuggest__item--active {
-  background: var(--highlight, #eef);
+  background: var(--color-primary-light);
+  color: var(--color-primary);
+}
+
+.autosuggest__item:hover {
+  background: var(--color-surface);
+}
+
+.autosuggest__item--active:hover {
+  background: var(--color-primary-light);
+  color: var(--color-primary);
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  .autosuggest {
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+  }
+  
+  .autosuggest__item:hover {
+    background: var(--color-surface);
+  }
+  
+  .autosuggest__item--active {
+    background: var(--color-primary);
+    color: var(--color-background);
+  }
+  
+  .autosuggest__item--active:hover {
+    background: var(--color-primary);
+    color: var(--color-background);
+  }
 }
