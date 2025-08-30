@@ -9,22 +9,12 @@
 
 ### Task:
 
-- Add a new `co2-emissions` unit type JSON file.
+- Add a new `heat-flow` unit type JSON file.
 - New unit type includes units:
-  - g-CO2/Wh
-  - kg-CO2/Wh
-  - g-CO2/kWh
-  - kg-CO2/kWh
-  - g-CO2/btu
-  - kg-CO2/btu
-  - g-CO2/kbtu
-  - kg-CO2/kbtu
-  - g-CO2/m2
-  - kg-CO2/m2
-  - g-CO2/m3
-  - kg-CO2/m3
-- Create a new `co2-emissions.json` file and add the relevant conversion factors.
+  - Btu/hr-F (Conductivity) [reference: 1 Btu/hr-F = | 0.527528 W/mk]
+  - w/K (Conductivity) [reference: 1 w/K = 1.895633976 Btu/hr-F]
+- Create a new `heat-flow.json` file and add the relevant conversion factors.
 - Ensure that the new units are loaded in `configLoader.ts` as well.
-- Add new unit tests in `co2-emissions.test.ts` to verify conversions between these units.
+- Add new unit tests in `heat-flow.test.ts` to verify conversions between these units.
 - Run Prettier formater
 - Run all tests

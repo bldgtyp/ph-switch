@@ -1,0 +1,24 @@
+{
+  "category": "heat-flow",
+  "baseUnit": "w_k",
+  "description": "Heat flow per temperature difference - thermal conductance",
+  "units": {
+    "w_k": {
+      "name": "watt per kelvin",
+      "symbol": "W/K",
+      "aliases": ["w/k", "W/K", "w_k", "watt/k", "watt/K"],
+      "description": "Thermal conductance in watts per kelvin",
+      "transform": { "toBase": "x", "fromBase": "x" }
+    },
+    "btu_hr_f": {
+      "name": "Btu per hour per degree Fahrenheit",
+      "symbol": "Btu/hr-F",
+      "aliases": ["Btu/hr-F", "btu/hr-f", "btu_hr_f"],
+      "description": "Thermal conductance in Btu per hour per degree Fahrenheit",
+      "transform": {
+        "toBase": "x * 0.527528",
+        "fromBase": "x / 0.527528"
+      }
+    }
+  }
+}

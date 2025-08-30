@@ -25,6 +25,9 @@ import fanEfficiencyConfig from '../config/fan-efficiency.json';
 import pressureConfig from '../config/pressure.json';
 import temperatureDifferenceConfig from '../config/temperature-difference.json';
 import co2EmissionsConfig from '../config/co2-emissions.json';
+import heatFlow2DConfig from '../config/heat-flow-2D.json';
+import heatFlow1DConfig from '../config/heat-flow-1D.json';
+import heatFlowConfig from '../config/heat-flow.json';
 import {
   UnitCategory,
   ConfigurationLoadResult,
@@ -407,6 +410,45 @@ export async function loadAllConfigurations(): Promise<ConfigurationLoadResult> 
       return {
         success: false,
         error: 'Failed to load co2-emissions unit configuration',
+      };
+    }
+
+    // Load heat-flow-2D configuration
+    const heatFlow2DCategory = loadUnitCategory(
+      heatFlow2DConfig,
+      'heat-flow-2D'
+    );
+    if (heatFlow2DCategory) {
+      categories['heat-flow-2D'] = heatFlow2DCategory;
+    } else {
+      return {
+        success: false,
+        error: 'Failed to load heat-flow-2D unit configuration',
+      };
+    }
+
+    // Load heat-flow-1D configuration
+    const heatFlow1DCategory = loadUnitCategory(
+      heatFlow1DConfig,
+      'heat-flow-1D'
+    );
+    if (heatFlow1DCategory) {
+      categories['heat-flow-1D'] = heatFlow1DCategory;
+    } else {
+      return {
+        success: false,
+        error: 'Failed to load heat-flow-1D unit configuration',
+      };
+    }
+
+    // Load heat-flow configuration
+    const heatFlowCategory = loadUnitCategory(heatFlowConfig, 'heat-flow');
+    if (heatFlowCategory) {
+      categories['heat-flow'] = heatFlowCategory;
+    } else {
+      return {
+        success: false,
+        error: 'Failed to load heat-flow unit configuration',
       };
     }
 

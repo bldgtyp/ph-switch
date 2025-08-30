@@ -1,0 +1,34 @@
+{
+  "category": "heat-flow-2D",
+  "baseUnit": "w_m2_k",
+  "description": "Heat flow per unit area and temperature difference - thermal transmittance and resistance",
+  "units": {
+    "w_m2_k": {
+      "name": "watt per square meter per kelvin",
+      "symbol": "W/m2-K",
+      "aliases": ["w/m2-k", "W/m2-K", "w_m2_k", "watt/m2-k", "w/m2k"],
+      "description": "Thermal transmittance in watts per square meter per kelvin",
+      "transform": { "toBase": "x", "fromBase": "x" }
+    },
+    "btu_hr_ft2_f": {
+      "name": "Btu per hour per square foot per degree Fahrenheit",
+      "symbol": "Btu/hr-ft2-F",
+      "aliases": ["Btu/hr-ft2-F", "btu/hr-ft2-f", "btu_hr_ft2_f"],
+      "description": "Thermal transmittance in Btu per hour per square foot per degree Fahrenheit",
+      "transform": {
+        "toBase": "x * 5.678264134",
+        "fromBase": "x / 5.678264134"
+      }
+    },
+    "hr_ft2_f_btu": {
+      "name": "hour square foot degree Fahrenheit per Btu",
+      "symbol": "hr-ft2-F/Btu",
+      "aliases": ["hr-ft2-F/Btu", "hr_ft2_f_btu", "hr-ft2-f/btu"],
+      "description": "Thermal resistance in hour square foot degree Fahrenheit per Btu",
+      "transform": {
+        "toBase": "5.678264134 / x",
+        "fromBase": "5.678264134 / x"
+      }
+    }
+  }
+}

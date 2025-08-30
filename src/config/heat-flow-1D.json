@@ -1,0 +1,34 @@
+{
+  "category": "heat-flow-1D",
+  "baseUnit": "w_m_k",
+  "description": "Heat flow per unit length and temperature difference - thermal conductivity and resistivity",
+  "units": {
+    "w_m_k": {
+      "name": "watt per meter per kelvin",
+      "symbol": "W/m-K",
+      "aliases": ["w/m-k", "W/m-K", "w_m_k", "watt/m-k", "w/mk"],
+      "description": "Thermal conductivity in watts per meter per kelvin",
+      "transform": { "toBase": "x", "fromBase": "x" }
+    },
+    "btu_hr_ft_f": {
+      "name": "Btu per hour per foot per degree Fahrenheit",
+      "symbol": "Btu/hr-ft-F",
+      "aliases": ["Btu/hr-ft-F", "btu/hr-ft-f", "btu_hr_ft_f"],
+      "description": "Thermal conductivity in Btu per hour per foot per degree Fahrenheit",
+      "transform": {
+        "toBase": "x * 1.730734908",
+        "fromBase": "x / 1.730734908"
+      }
+    },
+    "hr_ft2_f_btu_in": {
+      "name": "hour square foot degree Fahrenheit per Btu per inch",
+      "symbol": "hr-ft2-F/Btu-in",
+      "aliases": ["hr-ft2-F/Btu-in", "hr_ft2_f_btu_in", "hr-ft2-f/btu-in"],
+      "description": "Thermal resistivity in hour square foot degree Fahrenheit per Btu per inch",
+      "transform": {
+        "toBase": "(1/ (x * 12) * 1.730734908)",
+        "fromBase": "1 / ((x * 0.577789236) * 12)"
+      }
+    }
+  }
+}
