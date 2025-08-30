@@ -99,7 +99,7 @@ describe('App - Multi-line Input System', () => {
 
     // Check line alignment using data-line attributes
     const results = await screen.findAllByRole('button', {
-      name: /Copy result/,
+      name: /Copy numeric value/,
     });
     expect(results).toHaveLength(2); // Two successful conversions
   });

@@ -30,79 +30,60 @@ export const ConversionOutput: React.FC<ConversionOutputProps> = ({
   isProcessing = false,
 }) => {
   const [copiedId, setCopiedId] = useState<string | null>(null);
-  const [copyTimeout, setCopyTimeout] = useState<NodeJS.Timeout | null>(null);
 
   const handleCopy = useCallback(
     async (text: string, resultId: string) => {
       try {
-        await navigator.clipboard.writeText(text);
+        // Extract only the numeric part from the text (remove unit)
+        const numericValue = text.split(' ')[0];
 
-        // Visual feedback for successful copy
+        await navigator.clipboard.writeText(numericValue);
         setCopiedId(resultId);
+        setTimeout(() => setCopiedId(null), 2000);
 
-        // Clear previous timeout
-        if (copyTimeout) {
-          clearTimeout(copyTimeout);
+        // Call the onCopy callback with the original full text for external handlers
+        if (onCopy) {
+          onCopy(text, resultId);
+        }
+      } catch (err) {
+        console.error('Failed to copy text: ', err);
+        // Fallback for browsers that don't support clipboard API
+        // Extract only the numeric part from the text (remove unit)
+        const numericValue = text.split(' ')[0];
+
+        const textArea = document.createElement('textarea');
+        textArea.value = numericValue;
+        textArea.style.position = 'absolute';
+        textArea.style.left = '-9999px';
+        textArea.style.top = '-9999px';
+        textArea.setAttribute('readonly', '');
+        document.body.appendChild(textArea);
+        textArea.select();
+
+        try {
+          const successful =
+            document.execCommand && document.execCommand('copy');
+          if (!successful) {
+            throw new Error('execCommand copy failed');
+          }
+        } catch (fallbackError) {
+          // In test environments or browsers without execCommand, just log
+          console.info('Text selected for manual copy:', numericValue);
         }
 
-        // Auto-clear copy feedback after 2 seconds
-        const timeout = setTimeout(() => {
-          setCopiedId(null);
-        }, 2000);
-        setCopyTimeout(timeout);
+        document.body.removeChild(textArea);
 
-        // Call optional callback
-        onCopy?.(text, resultId);
-      } catch (error) {
-        if (process.env.NODE_ENV !== 'test') {
-          console.warn('Failed to copy to clipboard:', error);
-        }
-        // Fallback: select text for manual copy
-        selectTextFallback(text);
-
-        // Show brief feedback that manual copy is needed
         setCopiedId(resultId);
-        const timeout = setTimeout(() => {
-          setCopiedId(null);
-        }, 1000);
-        setCopyTimeout(timeout);
+        setTimeout(() => setCopiedId(null), 2000);
+
+        // Call the onCopy callback with the original full text for external handlers
+        if (onCopy) {
+          onCopy(text, resultId);
+        }
       }
     },
-    [onCopy, copyTimeout]
+    [onCopy]
   );
-
-  const selectTextFallback = (text: string) => {
-    // Create temporary textarea for fallback text selection
-    const textarea = document.createElement('textarea');
-    textarea.value = text;
-    textarea.style.position = 'absolute';
-    textarea.style.left = '-9999px';
-    textarea.style.top = '-9999px';
-    textarea.setAttribute('readonly', '');
-    document.body.appendChild(textarea);
-
-    try {
-      textarea.select();
-      textarea.setSelectionRange(0, 99999); // For mobile devices
-
-      // Show user that text is selected for manual copy
-      console.info('Text selected for manual copy:', text);
-
-      // Remove the element after a brief delay to allow selection
-      setTimeout(() => {
-        if (document.body.contains(textarea)) {
-          document.body.removeChild(textarea);
-        }
-      }, 100);
-    } catch (error) {
-      if (process.env.NODE_ENV !== 'test') {
-        console.warn('Text selection fallback failed:', error);
-      }
-      if (document.body.contains(textarea)) {
-        document.body.removeChild(textarea);
-      }
-    }
-  };
 
   const handleKeyDown = useCallback(
     (event: React.KeyboardEvent, text: string, resultId: string) => {
@@ -113,15 +94,6 @@ export const ConversionOutput: React.FC<ConversionOutputProps> = ({
     },
     [handleCopy]
   );
-
-  // Cleanup timeout on unmount
-  React.useEffect(() => {
-    return () => {
-      if (copyTimeout) {
-        clearTimeout(copyTimeout);
-      }
-    };
-  }, [copyTimeout]);
 
   if (results.length === 0) {
     return (
@@ -175,8 +147,8 @@ export const ConversionOutput: React.FC<ConversionOutputProps> = ({
                   className="conversion-output__value"
                   onClick={() => handleCopy(result.output!, result.id)}
                   onKeyDown={(e) => handleKeyDown(e, result.output!, result.id)}
-                  aria-label={`Copy result: ${result.output}`}
-                  title="Click to copy to clipboard"
+                  aria-label={`Copy numeric value: ${result.output!.split(' ')[0]}`}
+                  title="Click to copy numeric value to clipboard"
                   type="button"
                 >
                   <span className="conversion-output__text">

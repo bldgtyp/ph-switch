@@ -92,24 +92,24 @@ describe('ConversionOutput', () => {
   });
 
   describe('Copy to Clipboard Functionality', () => {
-    test('copies result to clipboard when clicked', async () => {
+    test('copies numeric value to clipboard when clicked', async () => {
       const onCopy = jest.fn();
       render(<ConversionOutput results={mockResults} onCopy={onCopy} />);
 
-      const copyButton = screen.getByLabelText('Copy result: 16.404 feet');
+      const copyButton = screen.getByLabelText('Copy numeric value: 16.404');
 
       await userEvent.click(copyButton);
       // wait for visual feedback to ensure state updates finished
       await screen.findByText('Copied!');
 
-      expect(navigator.clipboard.writeText).toHaveBeenCalledWith('16.404 feet');
+      expect(navigator.clipboard.writeText).toHaveBeenCalledWith('16.404');
       expect(onCopy).toHaveBeenCalledWith('16.404 feet', '1');
     });
 
     test('shows copy feedback after successful copy', async () => {
       render(<ConversionOutput results={mockResults} />);
 
-      const copyButton = screen.getByLabelText('Copy result: 16.404 feet');
+      const copyButton = screen.getByLabelText('Copy numeric value: 16.404');
 
       await userEvent.click(copyButton);
       await screen.findByText('Copied!');
@@ -119,12 +119,12 @@ describe('ConversionOutput', () => {
       const onCopy = jest.fn();
       render(<ConversionOutput results={mockResults} onCopy={onCopy} />);
 
-      const copyButton = screen.getByLabelText('Copy result: 16.404 feet');
+      const copyButton = screen.getByLabelText('Copy numeric value: 16.404');
       copyButton.focus();
       fireEvent.keyDown(copyButton, { key: 'Enter' });
 
       await screen.findByText('Copied!');
-      expect(navigator.clipboard.writeText).toHaveBeenCalledWith('16.404 feet');
+      expect(navigator.clipboard.writeText).toHaveBeenCalledWith('16.404');
       expect(onCopy).toHaveBeenCalledWith('16.404 feet', '1');
     });
 
@@ -132,12 +132,12 @@ describe('ConversionOutput', () => {
       const onCopy = jest.fn();
       render(<ConversionOutput results={mockResults} onCopy={onCopy} />);
 
-      const copyButton = screen.getByLabelText('Copy result: 16.404 feet');
+      const copyButton = screen.getByLabelText('Copy numeric value: 16.404');
       copyButton.focus();
       fireEvent.keyDown(copyButton, { key: ' ' });
 
       await screen.findByText('Copied!');
-      expect(navigator.clipboard.writeText).toHaveBeenCalledWith('16.404 feet');
+      expect(navigator.clipboard.writeText).toHaveBeenCalledWith('16.404');
       expect(onCopy).toHaveBeenCalledWith('16.404 feet', '1');
     });
 
@@ -151,7 +151,7 @@ describe('ConversionOutput', () => {
 
       render(<ConversionOutput results={mockResults} />);
 
-      const copyButton = screen.getByLabelText('Copy result: 16.404 feet');
+      const copyButton = screen.getByLabelText('Copy numeric value: 16.404');
 
       await userEvent.click(copyButton);
       await screen.findByText('Copied!');
@@ -159,7 +159,7 @@ describe('ConversionOutput', () => {
       // Verify that the fallback text selection was triggered
       expect(consoleSpy).toHaveBeenCalledWith(
         'Text selected for manual copy:',
-        '16.404 feet'
+        '16.404'
       );
 
       consoleSpy.mockRestore();
@@ -175,10 +175,10 @@ describe('ConversionOutput', () => {
 
       // Verify buttons have proper aria-labels for copy functionality
       expect(
-        screen.getByLabelText('Copy result: 16.404 feet')
+        screen.getByLabelText('Copy numeric value: 16.404')
       ).toBeInTheDocument();
       expect(
-        screen.getByLabelText('Copy result: 25.400 cm')
+        screen.getByLabelText('Copy numeric value: 25.400')
       ).toBeInTheDocument();
     });
 
@@ -192,11 +192,11 @@ describe('ConversionOutput', () => {
 
       render(<ConversionOutput results={mockResults} />);
 
-      const copyButton = screen.getByLabelText('Copy result: 16.404 feet');
+      const copyButton = screen.getByLabelText('Copy numeric value: 16.404');
 
       await userEvent.click(copyButton);
       await screen.findByText('Copied!');
-      expect(navigator.clipboard.writeText).toHaveBeenCalledWith('16.404 feet');
+      expect(navigator.clipboard.writeText).toHaveBeenCalledWith('16.404');
     });
 
     test('shows error icon for failed results', () => {
@@ -228,10 +228,10 @@ describe('ConversionOutput', () => {
       render(<ConversionOutput results={mockResults} />);
 
       expect(
-        screen.getByLabelText('Copy result: 16.404 feet')
+        screen.getByLabelText('Copy numeric value: 16.404')
       ).toBeInTheDocument();
       expect(
-        screen.getByLabelText('Copy result: 25.400 cm')
+        screen.getByLabelText('Copy numeric value: 25.400')
       ).toBeInTheDocument();
     });
 
@@ -247,7 +247,7 @@ describe('ConversionOutput', () => {
     test('has aria-live region for copy feedback', async () => {
       render(<ConversionOutput results={mockResults} />);
 
-      const copyButton = screen.getByLabelText('Copy result: 16.404 feet');
+      const copyButton = screen.getByLabelText('Copy numeric value: 16.404');
 
       await userEvent.click(copyButton);
 
@@ -304,7 +304,7 @@ describe('ConversionOutput', () => {
     test('clears copy feedback timeout on unmount', async () => {
       const { unmount } = render(<ConversionOutput results={mockResults} />);
 
-      const copyButton = screen.getByLabelText('Copy result: 16.404 feet');
+      const copyButton = screen.getByLabelText('Copy numeric value: 16.404');
       await userEvent.click(copyButton);
 
       // Unmount before timeout completes
@@ -317,13 +317,13 @@ describe('ConversionOutput', () => {
       render(<ConversionOutput results={mockResults} />);
 
       // Copy first result
-      const firstButton = screen.getByLabelText('Copy result: 16.404 feet');
+      const firstButton = screen.getByLabelText('Copy numeric value: 16.404');
       await userEvent.click(firstButton);
 
       await screen.findByText('Copied!');
 
       // Copy second result
-      const secondButton = screen.getByLabelText('Copy result: 25.400 cm');
+      const secondButton = screen.getByLabelText('Copy numeric value: 25.400');
       await userEvent.click(secondButton);
 
       // Should still show feedback for the second result
