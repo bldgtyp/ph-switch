@@ -87,7 +87,7 @@ export function createFormatError(
 ): ErrorDetails {
   return {
     type: 'INVALID_FORMAT',
-    message: 'Invalid conversion format',
+    message: 'Input: "x unit to unit" or "x unit as unit"',
     context:
       context ||
       'Please use the format: "NUMBER UNIT to UNIT" or "NUMBER UNIT as UNIT"',

@@ -88,9 +88,13 @@ describe('App - Multi-line Input System', () => {
 
     await screen.findByText(/16.4042 feet/, undefined, { timeout: 1000 });
     await screen.findByText(/25.4 cm/, undefined, { timeout: 1000 });
-    await screen.findByText(/Invalid conversion format/, undefined, {
-      timeout: 1000,
-    });
+    await screen.findByText(
+      /Input: "x unit to unit" or "x unit as unit"/,
+      undefined,
+      {
+        timeout: 1000,
+      }
+    );
   });
 
   test('updates results in real-time as user types', async () => {
@@ -187,7 +191,7 @@ describe('App - Multi-line Input System', () => {
     await screen.findByText(/16.4042 feet/, undefined, { timeout: 1000 });
     await screen.findByText(/25.4 cm/, undefined, { timeout: 1000 });
     const errorMessages = await screen.findAllByText(
-      /Invalid conversion format/,
+      /Input: "x unit to unit" or "x unit as unit"/,
       undefined,
       { timeout: 1000 }
     );

@@ -143,7 +143,7 @@ export function parseConversionInput(
   // No pattern matched - provide helpful error message
   return {
     type: 'INVALID_FORMAT',
-    message: 'Invalid conversion format',
+    message: 'Input: "x unit to unit" or "x unit as unit"',
     context:
       'Please use the format: "NUMBER UNIT to UNIT" or "NUMBER UNIT as UNIT". Examples: "5 meters to feet", "2.5 inches as millimeters", "1/2 foot to cm"',
     suggestions: [

@@ -182,8 +182,9 @@ describe('Natural Language Parser', () => {
       const result = parseConversionInput('abc meters to feet');
       expect(isSuccessfulParse(result)).toBe(false);
       const err = result as any;
-      expect(err.type).toBe('INVALID_FORMAT');
-      expect(err.message).toContain('conversion format'); // Updated to match actual error
+  expect(err.type).toBe('INVALID_FORMAT');
+  // Accept legacy wording or the newer helpful Input message
+  expect(err.message).toMatch(/conversion format|Input:/i);
     });
 
     it('should handle case insensitive input', () => {

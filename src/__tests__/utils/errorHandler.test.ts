@@ -109,8 +109,9 @@ describe('Error Handler', () => {
   describe('createFormatError', () => {
     it('should create format error with default message', () => {
       const error = createFormatError('bad input');
-      expect(error.type).toBe('INVALID_FORMAT');
-      expect(error.message).toContain('format');
+  expect(error.type).toBe('INVALID_FORMAT');
+  // Accept either the word "format" or the newer helpful Input: message
+  expect(error.message).toMatch(/format|Input:/i);
       expect(error.suggestions).toBeDefined();
       expect(error.suggestions!.length).toBeGreaterThan(0);
     });

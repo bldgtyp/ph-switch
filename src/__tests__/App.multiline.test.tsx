@@ -93,9 +93,13 @@ describe('App - Multi-line Input System', () => {
 
     await screen.findByText(/16.4042 feet/, undefined, { timeout: 1000 });
     await screen.findByText(/25.4 cm/, undefined, { timeout: 1000 });
-    await screen.findByText(/Invalid conversion format/, undefined, {
-      timeout: 1000,
-    });
+    await screen.findByText(
+      /Input: "x unit to unit" or "x unit as unit"/,
+      undefined,
+      {
+        timeout: 1000,
+      }
+    );
 
     // Check line alignment using data-line attributes
     const results = await screen.findAllByRole('button', {
@@ -197,7 +201,9 @@ describe('App - Multi-line Input System', () => {
 
     await screen.findByText(/16.4042 feet/, undefined, { timeout: 1000 });
     await screen.findByText(/1.2427 miles/, undefined, { timeout: 1000 });
-    const errors = await screen.findAllByText(/Invalid conversion format/);
+    const errors = await screen.findAllByText(
+      /Input: "x unit to unit" or "x unit as unit"/
+    );
     expect(errors).toHaveLength(2);
   });
 });
