@@ -525,6 +525,25 @@ export function getAllUnitAliases(
 }
 
 /**
+ * Get all unit symbols (not aliases) from all categories
+ */
+export function getAllUnitSymbols(
+  categories: Record<string, UnitCategory>
+): string[] {
+  const symbols: string[] = [];
+
+  Object.entries(categories).forEach(([categoryKey, category]) => {
+    Object.entries(category.units).forEach(([unitKey, unit]) => {
+      if (unit.symbol && typeof unit.symbol === 'string') {
+        symbols.push(unit.symbol);
+      }
+    });
+  });
+
+  return Array.from(new Set(symbols)).sort(); // Remove duplicates and sort
+}
+
+/**
  * Finds a unit by alias (case-insensitive)
  */
 export function findUnitByAlias(

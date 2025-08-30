@@ -3,7 +3,7 @@ import './ConversionInput.css';
 import AutoSuggest from './AutoSuggest';
 import {
   loadAllConfigurations,
-  getAllUnitAliases,
+  getAllUnitSymbols,
 } from '../utils/configLoader';
 
 // Helper: approximate caret coordinates in textarea (relative to textarea top-left)
@@ -87,7 +87,7 @@ export const ConversionInput: React.FC<ConversionInputProps> = ({
   const [isFocused, setIsFocused] = useState(false);
 
   // Suggestion state
-  const [aliases, setAliases] = useState<string[]>([]);
+  const [symbols, setSymbols] = useState<string[]>([]);
   const [suggestions, setSuggestions] = useState<string[]>([]);
   const [suggestVisible, setSuggestVisible] = useState(false);
   const [activeIndex, setActiveIndex] = useState(-1);
@@ -95,17 +95,16 @@ export const ConversionInput: React.FC<ConversionInputProps> = ({
     React.CSSProperties | undefined
   >(undefined);
 
-  // Lazy-load aliases to avoid state updates during mount (prevents act(...) warnings in tests)
-  const ensureAliasesLoaded = () => {
-    if (aliases.length > 0) return;
+  // Lazy-load symbols to avoid state updates during mount (prevents act(...) warnings in tests)
+  const ensureSymbolsLoaded = () => {
+    if (symbols.length > 0) return;
     // Avoid performing async state updates during test runs; tests should control config loading.
     if (process.env.NODE_ENV === 'test') return;
 
     loadAllConfigurations().then((res) => {
       if (res.success && res.categories) {
-        const aliasesMap = getAllUnitAliases(res.categories);
-        const list = Object.keys(aliasesMap).sort();
-        setAliases(list);
+        const symbolsList = getAllUnitSymbols(res.categories);
+        setSymbols(symbolsList);
       }
     });
   };
@@ -118,19 +117,20 @@ export const ConversionInput: React.FC<ConversionInputProps> = ({
     const tokenMatch = currentLine.match(/(\S+)$/);
     const token = tokenMatch ? tokenMatch[1].toLowerCase() : '';
 
-    if (!token || token.length < 2) {
+    if (!token || token.length < 1) {
       setSuggestions([]);
       setSuggestVisible(false);
       setActiveIndex(-1);
       return;
     }
 
-    // Ensure alias list is available before computing suggestions
-    ensureAliasesLoaded();
+    // Ensure symbol list is available before computing suggestions
+    ensureSymbolsLoaded();
 
-    const starts = aliases.filter((a) => a.startsWith(token));
-    const contains = aliases.filter(
-      (a) => !a.startsWith(token) && a.includes(token)
+    const starts = symbols.filter((s) => s.toLowerCase().startsWith(token));
+    const contains = symbols.filter(
+      (s) =>
+        !s.toLowerCase().startsWith(token) && s.toLowerCase().includes(token)
     );
     const results = Array.from(new Set([...starts, ...contains])).slice(0, 10);
 

@@ -4,6 +4,7 @@ import {
   loadUnitCategory,
   loadAllConfigurations,
   getAllUnitAliases,
+  getAllUnitSymbols,
   findUnitByAlias,
   getConversionFactor,
 } from '../../utils/configLoader';
@@ -158,6 +159,46 @@ describe('Configuration Loader', () => {
       // All aliases should be lowercase in the map
       expect(aliases['meter']).toBeDefined();
       expect(aliases['METER']).toBeUndefined(); // Uppercase not stored
+    });
+  });
+
+  describe('getAllUnitSymbols', () => {
+    it('should return all unit symbols from categories', async () => {
+      const configResult = await loadAllConfigurations();
+      expect(configResult.success).toBe(true);
+
+      const symbols = getAllUnitSymbols(configResult.categories!);
+
+      // Should be an array of strings
+      expect(Array.isArray(symbols)).toBe(true);
+      expect(symbols.length).toBeGreaterThan(0);
+
+      // Check that some expected symbols exist
+      expect(symbols).toContain('m');     // meter symbol
+      expect(symbols).toContain('ft');    // foot symbol
+      expect(symbols).toContain('in');    // inch symbol
+
+      // Should not contain aliases, only symbols
+      expect(symbols).not.toContain('meter');   // alias, not symbol
+      expect(symbols).not.toContain('foot');    // alias, not symbol
+    });
+
+    it('should remove duplicates and sort symbols', async () => {
+      const configResult = await loadAllConfigurations();
+      const symbols = getAllUnitSymbols(configResult.categories!);
+
+      // Should be sorted
+      const sortedSymbols = [...symbols].sort();
+      expect(symbols).toEqual(sortedSymbols);
+
+      // Should have no duplicates
+      const uniqueSymbols = Array.from(new Set(symbols));
+      expect(symbols).toEqual(uniqueSymbols);
+    });
+
+    it('should handle empty categories', () => {
+      const symbols = getAllUnitSymbols({});
+      expect(symbols).toEqual([]);
     });
   });
 

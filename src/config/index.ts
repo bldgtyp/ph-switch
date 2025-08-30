@@ -4,6 +4,7 @@
 import {
   loadAllConfigurations,
   getAllUnitAliases,
+  getAllUnitSymbols,
   findUnitByAlias,
   getConversionFactor,
 } from '../utils/configLoader';
@@ -178,6 +179,14 @@ export function getAvailableCategories(): string[] {
  */
 export function isConfigurationReady(): boolean {
   return globalConfigurations !== null && globalAliases !== null;
+}
+
+/**
+ * Get all unit symbols from loaded configurations
+ */
+export function getAllSymbols(): string[] {
+  if (!globalConfigurations) return [];
+  return getAllUnitSymbols(globalConfigurations);
 }
 
 /**
