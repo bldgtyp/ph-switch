@@ -1,6 +1,7 @@
 # AI Build Files
 .github/prompts
 tasks
+context
 
 # Logs
 logs
