@@ -84,3 +84,43 @@
   /* Transitions */
   --transition-duration: 0.2s;
 }
+
+/* Dark mode support - automatically applies when user's system is set to dark mode */
+@media (prefers-color-scheme: dark) {
+  :root {
+    /* Dark mode colors */
+    --color-background: #0d1117;
+    --color-surface: #161b22;
+    --color-surface-secondary: #21262d;
+    --color-text: #f0f6fc;
+    --color-text-secondary: #8b949e;
+    --color-text-muted: #6e7681;
+    --color-text-disabled: #484f58;
+    --color-border: #30363d;
+    --color-border-focused: #58a6ff;
+    --color-primary: #58a6ff;
+    --color-primary-light: #1c2128;
+    --color-error: #f85149;
+    --color-error-light: #2d1618;
+    --color-error-dark: #da3633;
+    --color-white: #f0f6fc;
+    --color-background-disabled: #21262d;
+    --color-text-error: #f85149;
+    --color-success: #3fb950;
+
+    /* Dark mode shadows */
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
+    --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.4);
+
+    /* Dark mode scrollbars */
+    --scrollbar-thumb: #484f58;
+    --scrollbar-track: #21262d;
+    --scrollbar-thumb-hover: #6e7681;
+
+    /* Dark mode component colors */
+    --success-background: #1a2f1a;
+    --success-border: #3fb950;
+    --error-background: #2d1618;
+    --error-border: #f85149;
+  }
+}
