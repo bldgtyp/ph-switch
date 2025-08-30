@@ -121,7 +121,7 @@
 }
 
 .conversion-input.has-success {
-  border-color: var(--success-color);
+  border-color: var(--color-success);
 }
 
 /* Loading indicator for input */
