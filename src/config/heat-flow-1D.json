@@ -29,6 +29,16 @@
         "toBase": "(1/ (x * 12) * 1.730734908)",
         "fromBase": "1 / ((x * 0.577789236) * 12)"
       }
+    },
+    "btu_in_hr_ft2_in":{
+      "name": "Btu-inch per hour per square foot per degree Fahrenheit",
+      "symbol": "Btu-in/hr-ft2-F",
+      "aliases": ["Btu-in/hr-ft2-F", "btu-in/hr-ft2-f", "btu_in_hr_ft2_in"],
+      "description": "Thermal conductivity in Btu-inch per hour per square foot per degree Fahrenheit",
+      "transform": {
+        "toBase": "(1/ ((1/x) * 12) * 1.730734908)",
+        "fromBase": "(1/ (x * 12) * 1.730734908)"
+      }
     }
   }
 }

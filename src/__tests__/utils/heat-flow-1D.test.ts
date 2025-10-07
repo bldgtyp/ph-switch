@@ -56,4 +56,20 @@ describe('heat-flow-1D conversions', () => {
     const expected = wMkValue / 1.730734908;
     expect(res.value).toBeCloseTo(expected, 6);
   });
+
+  test('1 Btu-in/hr-ft2-F -> 0.048231301 W/m-K', () => {
+    const res = convertUnits(1, 'btu_in_hr_ft2_in', 'w_m_k');
+    expect(res.success).toBe(true);
+    // 1 Btu-in/hr-ft2-F = (1/ ((1/1) * 12) * 1.730734908) W/m-K
+    const expected = (1 / (1 * 12)) * 1.730734908;
+    expect(res.value).toBeCloseTo(expected, 8);
+  });
+
+  test('1 W/m-K -> 20.7865 Btu-in/hr-ft2-F', () => {
+    const res = convertUnits(1, 'w_m_k', 'btu_in_hr_ft2_in');
+    expect(res.success).toBe(true);
+    // 1 W/m-K = (1/ (x * 12) * 1.730734908) Btu-in/hr-ft2-F
+    const expected = 1 / ((1 / 1.730734908) * 12); // Rearranged to avoid division by a fraction
+    expect(res.value).toBeCloseTo(expected, 4);
+  });
 });
